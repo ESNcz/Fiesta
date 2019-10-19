@@ -1,0 +1,96 @@
+{block title}
+    plugins
+{/block}
+
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <!-- CONTENT -->
+            <section class="app-content">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="app-action-panel" id="support-action-panel">
+                            <div class="action-panel-toggle" data-toggle="class" data-target="#support-action-panel"
+                                 data-class="open">
+                                <i class="fa fa-chevron-right"></i>
+                                <i class="fa fa-chevron-left"></i>
+                            </div><!-- .app-action-panel -->
+
+                            <div class="app-actions-list scrollable-container ps-container ps-theme-default"
+                                 data-ps-id="73936dfa-a657-bb11-df56-b8b58d27888a" style="height: 461px;">
+                                <!-- mail category list -->
+                                <div class="list-group">
+                                    <a n:href="Settings:default" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-cog"></i>General</a>
+                                    <a n:href="Settings:roles" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-users"></i>Page Roles</a>
+                                    <a n:href="Settings:plugins" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-plug"></i>Plugins</a>
+                                </div><!-- .list-group -->
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                </div>
+                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;">
+                                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                </div>
+                            </div><!-- .app-actions-list -->
+                        </div><!-- .app-action-panel -->
+                    </div><!-- END column -->
+
+                    <div class="col-md-10">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <h2>Plugins</h2>
+                            </header><!-- .widget-header -->
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+
+
+                                {foreach $modules as $module}
+                                    {if $iterator->isOdd()}
+                                        <div class="row">
+                                    {/if}
+
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="widget-plugin">
+                                            <header class="widget-header">
+                                                <h4 class="widget-title float-left">{$module->name}</h4>
+                                                <a n:href="changePluginStatus! name => $module->name, moduleID => $module->presenter_id"
+                                                        class="switch-right"><input type="checkbox"
+                                                                                    class="js-switch" {in_array($module->presenter_id,$checkModules) ? "checked"}/></a>
+                                                <div class="clearfix"></div>
+                                            </header><!-- .widget-header -->
+                                            <hr class="widget-separator">
+                                            <div class="widget-body">
+                                                <p class="text-muted m-b-lg">{$module->description}</p>
+                                                <p><strong>Author:</strong>
+                                                    {ifset $module->ref(data_user,author)->name}
+                                                        {$module->ref(data_user,author)->name} {$module->ref(data_user,author)->surname}
+                                                    {else}
+                                                        Unknown
+                                                    {/ifset}
+                                                </p>
+                                            </div><!-- .widget-body -->
+                                        </div><!-- .widget -->
+                                    </div><!-- END column -->
+
+
+                                    {if $iterator->isEven()}
+                                        </div>
+                                    {/if}
+                                {/foreach}
+
+
+                            </div><!-- .widget-body -->
+                        </div><!-- .widget -->
+
+                    </div><!-- END column -->
+                </div>
+            </section><!-- .app-content -->
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

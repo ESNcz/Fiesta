@@ -1,0 +1,160 @@
+{block content}
+    <div class="wrap">
+        <section class="app-content">
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="widget">
+                        <header class="widget-header">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {if $user->isInRole("admin") || $user->isInRole("editor")}
+                                        <div class="pull-right">
+                                            <a n:href="deleteEvent!" data-confirm="modal"
+                                                                     data-confirm-text="Do you want to delete event?"
+                                                                     data-confirm-ok-text="Yes, delete event">
+                                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i>
+                                                </button>
+                                            </a>
+                                            <a n:href="EventManager:edit $event->id">
+                                                <button type="button" class="btn btn-primary"><i
+                                                            class="fas fa-edit"></i></button>
+                                            </a>
+                                            {if $event->registration_end === "yes"}
+                                                <a n:href="closeRegistration! $event->registration_end">
+                                                    <button type="button" class="btn btn-primary">Close Registration
+                                                    </button>
+                                                </a>
+                                            {else}
+                                                <a n:href="closeRegistration! $event->registration_end">
+                                                    <button type="button" class="btn btn-primary">Open Registration
+                                                    </button>
+                                                </a>
+                                            {/if}
+                                        </div>
+                                    {/if}
+                                    <h1>{$event->title}</h1>
+                                    <span class="date" style="margin-right: 0.75em;"><i class="far fa-calendar-alt"
+                                                                                        style="margin-right: 0.25em;"></i>{$event->event_date|date:'j. n. Y H:i'}</span>
+                                    <span class="place"><i class="fas fa-map-marker"
+                                                           style="margin-right: 0.25em;"></i>{$event->location}</span>
+                                </div>
+                            </div>
+                        </header><!-- .widget-header -->
+                        <hr class="widget-separator">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {$event->description|noescape}
+                                </div>
+                            </div>
+
+                            <hr class="widget-separator">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <h4>Leader of the event</h4>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <div class="avatar avatar-lg avatar-circle">
+                                                {var $filename = "images/avatar/".$event->ref("user","user_id")->signature.".jpg"}
+                                                {if file_exists($filename)}
+                                                    <img class="img-responsive" src="{$basePath}/{$filename}"
+                                                         style="width: 100px;">
+                                                {else}
+                                                    <img class="img-responsive"
+                                                         src='{$basePath}/images/avatar/empty.jpg'
+                                                         style="width: 100px;">
+                                                {/if}
+                                            </div><!-- .avatar -->
+                                        </div>
+                                        <div class="media-body">
+                                            <h5 class="media-heading">{$event->ref("data_user","user_id")->name} {$event->ref("data_user","user_id")->surname}</h5>
+                                            <small class="media-meta">{$event->ref("user","user_id")->user_id} </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    {if $event->price_with_esn === 0 && $event->price_without_esn == 0}
+                                        <h4>Event is totally free</h4>
+                                    {else}
+                                        <h4>Price</h4>
+                                        {if $event->price_with_esn !== 0}
+                                            <h5>{$event->price_with_esn} CZK with ESN Card</h5>
+                                        {/if}
+
+                                        {if $event->price_without_esn !== 0}
+                                            <h5>{$event->price_without_esn} CZK without ESN Card</h5>
+                                        {/if}
+                                    {/if}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {if $event->registration_end === "yes"}
+                                        {if $event->registration_start < date("Y-m-d")}
+                                            {snippet registrationButton}
+                                                {if $isUserRegisteredForEvent}
+                                                    <a n:href="registerForEvent!">
+                                                        <button type="button" class="btn p-v-xl btn-danger">Unregister
+                                                        </button>
+                                                    </a>
+                                                {else}
+                                                    <a n:href="registerForEvent!">
+                                                        <button type="button" class="btn p-v-xl btn-primary">Register
+                                                        </button>
+                                                    </a>
+                                                {/if}
+                                            {/snippet}
+                                        {/if}
+                                    {/if}
+                                </div>
+                            </div>
+                        </div><!-- .widget-body -->
+                    </div><!-- .widget -->
+
+                    {if $user->isInRole("admin")}
+                        <div class="widget">
+                            <div class="panel-body">
+                                <form n:name=addGuest class=form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {label guest}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-9">
+                                            {input guest}
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <div class="switch-right">
+                                                {input send}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {/if}
+
+                    <div class="widget">
+                        <div class="widget-header p-h-lg p-v-md">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2 class="widget-title">Guest List</h2>
+                                    {snippet attendCounter}
+                                        <span>{$attenders}{if $event->capacity !== 0}/{$event->capacity}{/if} attender{if $attenders > 1}s{/if}</span>
+                                    {/snippet}
+                                </div>
+                            </div>
+                        </div>
+                        {control guestList}
+                    </div>
+                </div>
+
+            </div><!-- END column -->
+    </div><!-- .row -->
+
+    </section><!-- #dash-content -->
+    </div>
+{/block}

@@ -1,0 +1,77 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+                <!-- search results -->
+                <div class="panel panel-default">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a n:href=":Admin:BuddyManagement:buddy">Home</a></li>
+
+                        {if (!$settings["show_manual"]) || ($settings["show_manual"] && $user->isAllowed("Admin:BuddyManagement","manualConnection"))}
+                            <li class="active"><a n:href=":Admin:BuddyManagement:request">Waiting Connections</a></li>
+                        {/if}
+                        {if $user->isAllowed("Admin:BuddyManagement","buddyConnection")}
+                            <li><a n:href=":Admin:BuddyManagement:buddyConnection">Paired Connections</a></li>
+                        {/if}
+                    </ul>
+                    <div class="panel-body">
+                        {snippet counter}
+                            <p>Your limit:
+                                <small class="media-meta text-primary">{$settings["limit"] - $alreadyTaken}
+                                    /{$settings["limit"]}</small>
+                                .
+                            </p>
+                            {if isset($pickupRequest)}
+                                <div class="datagrid panel panel-info">
+                                    <h3>Some of your buddies have also pickup request. Do you wanna take it?</h3>
+                                    <table class="table table-responsive table-condensed table-hover">
+                                        <thead>
+                                        <th>Description</th>
+                                        <th>Place Arrival</th>
+                                        <th>Date Arrival</th>
+                                        <th>Action</th>
+                                        </thead>
+                                        {foreach $pickupRequest as $item}
+                                            <tr>
+
+                                                <td class="text-left col-description">
+
+
+                                                    <div style="max-width: 40em;">
+                                                        <div class="media-body">
+                                                            <small class="media-meta">
+                                                                {$item["description"]}
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+
+                                                <td class="text-left col-place_arrival">
+                                                    {$item["place_arrival"]}
+                                                </td>
+
+                                                <td class="text-left col-date_arrival">
+                                                    {$item["date_arrival"]}
+                                                </td>
+                                                <td class="col-action">
+                                                    <a n:href="TakePickUp! $item['id']"
+                                                            class="btn btn-sm btn-primary ajax"
+                                                            data-datagrid-confirm="Do you really want to pick up this user?">Take</a>
+                                                </td>
+                                            </tr>
+                                        {/foreach}
+                                    </table>
+                                </div>
+                            {/if}
+                        {/snippet}
+                        {control buddySystem}
+                    </div>
+                </div>
+            </section><!-- #dash-content -->
+        </div>
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

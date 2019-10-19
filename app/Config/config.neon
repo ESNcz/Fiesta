@@ -1,0 +1,60 @@
+application:
+    errorPresenter: Admin:Error
+    mapping:
+        *: App\*\Presenters\*Presenter
+
+database:
+	dsn: "mysql:host=%database.host%;dbname=%database.dbname%"
+	user: %database.user%
+	password: %database.password%
+
+session:
+	expiration: 14 days
+	autoStart: smart
+	debugger: true
+
+extensions:
+	translation: Kdyby\Translation\DI\TranslationExtension
+
+services:
+    authenticator: App\Model\AuthenticatorFactory
+    member: App\Model\MemberRepository
+    university: App\Model\UniversityRepository
+    plugin: App\Model\PluginRepository
+    country: App\Model\CountryRepository
+    international: App\Model\InternationalRepository
+    admin: App\Model\AdminRepository
+    token: App\Model\TokenRepository
+    editor: App\Model\EditorRepository
+    user: App\Model\UserRepository
+
+    mail: App\Mailing\MailFactory
+
+    formRenderer: App\Forms\DefaultFormRenderer
+    signInForm: App\Forms\SignInFormFactory
+    signUpForm: App\Forms\SignUpFormFactory
+    uploadImage: App\Forms\UploadImageFactory
+    profileForm: App\Forms\ProfileFormFactory
+    buddyForm: App\Forms\BuddyFormFactory
+    pickUpForm: App\Forms\PickUpFormFactory
+    eventForm: App\Forms\EventFormFactory
+    resetForm: App\Forms\SignResetFormFactory
+
+
+    adminGrid: App\Grid\AdminGridFactory
+    editorGrid: App\Grid\EditorGridFactory
+    usersGrid: App\Grid\UsersGridFactory
+    eventGrid: App\Grid\EventGridFactory
+    buddyGrid: App\Grid\BuddySystemGridFactory
+    pickUpGrid: App\Grid\PickUpSystemGridFactory
+
+    authorization: App\Model\AuthorizationFactory
+    authorizator:
+        class: Nette\Security\Permission
+        factory: @authorization::create()
+
+    router: App\Router\RouterFactory::createRouter
+
+translation:
+	default: en
+	fallback: [en_GB, en]

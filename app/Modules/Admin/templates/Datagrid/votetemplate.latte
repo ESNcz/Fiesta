@@ -1,0 +1,27 @@
+{extends $original_template}
+
+{block table-class}{/block}
+{block datagrid-style}datagrid-transparent{/block}
+
+{define col-text}
+    <div class="widget">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1 col-sm-1 text-center">
+                    <i class="fas fa-heart circle"></i>
+                    <p>42</p>
+                </div>
+                <div class="col-md-11 col-sm-11">
+                    <p style="margin-bottom: 1.3em;">{$item->text}</p>
+
+                    <div class="media-body">
+                        Suggested by: <a href="javascript:void(0)">{$suggestion->status}</a>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+{/define}

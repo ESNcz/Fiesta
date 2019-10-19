@@ -1,0 +1,428 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="profile-header">
+            <div class="profile-cover">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="cover-user m-b-lg">
+                            <div class="clearfix">
+                                <div class="avatar avatar-xl avatar-circle">
+                                    <img class="img-responsive" src="{$basePath}{$urlForAvatar}" alt="avatar">
+                                </div><!-- .avatar -->
+                                <div class="text-left">
+                                    <div class="clearfix">
+                                        <h2 class="float-left">{$userData->name} {$userData->surname}</h2>
+                                        {if ($user->isAllowed("Admin:Settings","edit") && $user->isInRole("globalAdmin")) ||
+                                        ($user->isAllowed("Admin:Settings","edit") && ($user->isInRole("admin") || $user->isInRole("editor")) && ($user->getIdentity()->university == $specificUser["university"]))}
+                                            <a n:href="Settings:edit $specificUser->signature">
+                                                <button type="button"
+                                                        class="btn btn-outline mw-md btn-primary btn-profile hidden-xs">
+                                                    Edit Profile
+                                                </button>
+                                            </a>
+                                        {/if}
+                                    </div>
+                                    <div>
+                                        <small class="media-meta text-primary">
+                                            {if in_array("globalAdmin",$roles)}
+                                                GLOBAL ADMIN
+                                            {elseif in_array("admin",$roles)}
+                                                {$university->name|upper} ADMIN
+                                            {elseif in_array("editor",$roles)}
+                                                {$university->name|upper} EDITOR
+                                            {elseif in_array("international",$roles)}
+                                                {$university->name|upper} INTERNATIONAL
+                                            {elseif in_array("member",$roles)}
+                                                {$university->name|upper} ACTIVE MEMBER
+                                            {/if}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .profile-cover -->
+            <div class="wrap">
+
+
+                <section class="app-content">
+
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">Basic Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["name"] ? "Name:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userData["name"] ? $userData["name"]}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["surname"] ? "Surname"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userData["surname"] ? $userData["surname"]}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["country_id"] ? "Country:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userData["country_id"] ? $userData->ref(country, country_id)->name}</li>
+                                            </ul>
+                                        </div>
+
+                                        {if strtotime($userData["birthday"]) > 0}
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{$userData["birthday"] ? "Birthday:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["birthday"] ? $userData["birthday"]|date:'%d. %m. %Y'}</li>
+                                                </ul>
+                                            </div>
+                                        {/if}
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Gender:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>
+                                                    {switch $userData["gender"]}
+                                                        {case m}
+                                                        Male
+                                                        {case f}
+                                                        Female
+                                                        {default}
+                                                        Unknown
+                                                    {/switch}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">ESN Section Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Section:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$university->section_long}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>ESN Card:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$userData["esn_card"] ?: "No ESN Card"}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Profile Valid:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$user->getIdentity()->valid|date:'j. n. Y'}</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {if in_array("member",$roles)}
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Home University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$university->name}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{isset($userData->ref(faculty,faculty_id)->faculty) ? "Study Programme:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{isset($userData->ref(faculty,faculty_id)->faculty) ? $userData->ref(faculty,faculty_id)->faculty}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {else}
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Sending University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["home_university"] !== null ? $userData["home_university"] : "Unknow"}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Receiving University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$university->name}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{isset($userData->ref(faculty,faculty_id)->faculty) ? "Study Programme:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{isset($userData->ref(faculty,faculty_id)->faculty) ? $userData->ref(faculty,faculty_id)->faculty}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {/if}
+
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">Contact Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+
+                                        {if !$user->isInRole("international")}
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{$userData["phone_number"] ? "Phone Number:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+
+                                                    <li n:ifcontent>{$userData["phone_number"] ? $userData->phone_number}</li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{$specificUser["user_id"]  ? "Email Adress:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$specificUser["user_id"] ? $specificUser->user_id}</li>
+                                                </ul>
+                                            </div>
+                                        {/if}
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["facebook_url"] ? "Facebook:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userData["facebook_url"] ? $userData["facebook_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userData["facebook_url"] ? $userData["facebook_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["twitter_url"] ? "Twitter:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userData["twitter_url"] ? $userData["twitter_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userData["twitter_url"] ? $userData["twitter_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userData["instagram_url"] ? "Instagram:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userData["instagram_url"] ? $userData["instagram_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userData["instagram_url"] ? $userData["instagram_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">About Me</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    {$userData["description"] ? $userData["description"] : "No additional details to show."}
+                                </div>
+                            </div>
+
+                </section>
+            </div>
+
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

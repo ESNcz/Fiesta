@@ -1,0 +1,38 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <div class="col-md-12">
+                                    <h1>Your application to the Buddy system</h1>
+                                </div>
+                            </header>
+                            <!-- .widget-header -->
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+
+                                <div class="alert alert-danger" style="float: none" role="alert">For pick-up point,
+                                    please make sure to choose the city of your university's ESN section</span></div>
+                                <p>You have just arrived into the city of your study exchange, ready for the brand new
+                                    adventure. How will you find the way into your new flat? How will you carry all that
+                                    heavy luggage? Our pick up system is exactly what you need! We will do our best to
+                                    find a Buddy who will come and pick you up at the train or bus station (or even the
+                                    airport), and take you home, safe and sound.</p>
+                                {control createPickUpRequest}
+                                <!-- .widget-body -->
+                            </div>
+                            <!-- .widget -->
+                        </div>
+                        <!-- END column -->
+                    </div>
+                    <!-- .row -->
+
+            </section>
+            <!-- #dash-content -->
+        </div>
+    </main>
+{/block}

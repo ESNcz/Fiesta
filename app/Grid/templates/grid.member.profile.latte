@@ -1,0 +1,35 @@
+{var $filename = "images/avatar/".$item->ref("data_user","member")->ref("user","user_id")->signature.".jpg"}
+
+{if file_exists($filename)}
+    <div style="max-width: 40em;">
+        <a href="{plink :Admin:Profile:view $item->ref("data_user","member")->ref("user","user_id")->signature}">
+            <div class="media-left">
+                <div class="avatar avatar-xl avatar-circle">
+                    <img src="{$basePath}/{$filename}" style="width: 100px;">
+                </div>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading title-color">{$item->ref("data_user","member")->name} {$item->ref("data_user","member")->surname}</h5>
+                <small class="media-meta">
+                    {$item->ref("data_user","member")->ref("user","user_id")->user_id}
+                </small>
+            </div>
+        </a>
+    </div>
+{else}
+    <div style="max-width: 40em;">
+        <a href="{plink :Admin:Profile:view $item->ref("data_user","member")->ref("user","user_id")->signature}">
+            <div class="media-left">
+                <div class="avatar avatar-xl avatar-circle">
+                    <img src="{$basePath}/images/avatar/empty.jpg" style="width: 100px;">
+                </div>
+            </div>
+            <div class="media-body">
+                <h5 class="media-heading title-color">{$item->ref("data_user","member")->name} {$item->ref("data_user","member")->surname}</h5>
+                <small class="media-meta">
+                    {$item->ref("data_user","member")->ref("user","user_id")->user_id}
+                </small>
+            </div>
+        </a>
+    </div>
+{/if}

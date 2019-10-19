@@ -1,0 +1,33 @@
+{block title}
+    pending
+{/block}
+
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href="Sign:in">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form" style="text-align: justify">
+            <h4 class="form-title m-b-xl text-left">Thank you for your Registration!
+                <a n:href="Sign:out">
+                    <i class="fas fa-sign-out-alt fa-lg" style="float: right;"></i>
+                </a>
+            </h4>
+            <p>We're glad you're here! Before you start exploring Fiesta amazingness, we just need to confirm that you
+                are a friendly human and not an evil robot. </p>
+            <p>Your profile will be verified by our team, but don't worry - you will be notified by another email as
+                soon as this happens. </p>
+            <br>
+            <p style="text-align: right;"><strong>Fiesta Team</strong></p>
+        </div>
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

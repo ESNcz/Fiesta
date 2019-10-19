@@ -1,0 +1,29 @@
+<div class="media-left">
+    {if $settings["show_image"]}
+    <div class="avatar avatar-xl avatar-circle">
+        <img src="{$basePath}/images/avatar/empty.jpg" style="width: 100px;">
+    </div>
+</div>
+{/if}
+<div class="media-body">
+    {if $settings["show_university"] || $settings["show_gender"]}
+        <div class="media-heading title-color" style="display: inline-block">
+            {if $settings["show_university"]}
+                <h5 style="display: inline-block;margin: 4px 16px 4px 0;">Stanford University</h5>
+            {/if}
+
+            {if $settings["show_gender"]}
+                <span class="label label-danger">Female</span>
+            {/if}
+
+        </div>
+        <br>
+    {/if}
+    <small class="media-meta">
+        Daenerys of the House Targaryen, the First of Her Name, The Unburnt, Queen of the Andals, the Rhoynar and the
+        First Men, Queen of Meereen, Khaleesi of the Great Grass Sea, Protector of the Realm, Lady Regnant of the Seven
+        Kingdoms, Breaker of Chains and Mother of Dragons.
+    </small>
+</div>
+</div>
+

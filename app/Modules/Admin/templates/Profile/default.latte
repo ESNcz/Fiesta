@@ -1,0 +1,424 @@
+{block title}
+    profile
+{/block}
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="profile-header">
+            <div class="profile-cover">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="cover-user m-b-lg">
+                            <div class="clearfix">
+                                <div class="avatar avatar-xl avatar-circle">
+                                    <img class="img-responsive" src="{$basePath}{$urlAvatar}" alt="avatar">
+                                </div><!-- .avatar -->
+                                <div class="text-left">
+                                    <div class="clearfix">
+                                        <h2 class="float-left">{$userInformation->name} {$userInformation->surname}</h2>
+                                        <a n:href="Settings:default">
+                                            <button type="button"
+                                                    class="btn btn-outline mw-md btn-primary btn-profile hidden-xs">Edit
+                                                Profile
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <small class="media-meta text-primary">
+                                            {if $user->isInRole("globalAdmin")}
+                                                GLOBAL ADMIN
+                                            {elseif $user->isInRole("admin")}
+                                                {$university->name|upper} ADMIN
+                                            {elseif $user->isInRole("editor")}
+                                                {$university->name|upper} EDITOR
+                                            {elseif $user->isInRole("international")}
+                                                {$university->name|upper} INTERNATIONAL
+                                            {elseif $user->isInRole("member")}
+                                                {$university->name|upper} ACTIVE MEMBER
+                                            {/if}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .profile-cover -->
+            <div class="wrap">
+
+                <section class="app-content">
+
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">Basic Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation->name ? "Name:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userInformation->name ? $userInformation->name}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation->surname ? "Surname"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userInformation->surname ? $userInformation->surname}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation->country_id ? "Country:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userInformation->country_id ? $userInformation->ref(country, country_id)->name}</li>
+                                            </ul>
+                                        </div>
+
+                                        {if strtotime($userInformation->birthday) > 0}
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{$userInformation->birthday ? "Birthday:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation->birthday ? $userInformation->birthday|date:'%d. %m. %Y'}</li>
+                                                </ul>
+                                            </div>
+                                        {/if}
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Gender:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>
+                                                    {switch $userInformation->gender}
+                                                        {case m}
+                                                        Male
+                                                        {case f}
+                                                        Female
+                                                        {default}
+                                                        Unknown
+                                                    {/switch}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">ESN Section Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Section:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$university->section_long}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>ESN Card:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$userInformation->esn_card ?: "No ESN Card"}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li>Profile Valid:</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li>{$user->getIdentity()->valid|date:'j. n. Y'}</li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            {if $user->isInRole("member")}
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Home University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$university->name}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{isset($userInformation->ref(faculty,faculty_id)->faculty) ? "Study Programme:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{isset($userInformation->ref(faculty,faculty_id)->faculty) ? $userInformation->ref(faculty,faculty_id)->faculty}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {else}
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Sending University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation["home_university"] !== null ? $userInformation["home_university"] : "Unknow"}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h4 class="widget-title">Receiving University</h4>
+                                    </div>
+                                    <hr class="widget-separator m-0">
+                                    <div class="panel-body">
+                                        <div class="row no-gutter">
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>University name:</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{$university->name}</li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <strong>
+                                                    <ul>
+                                                        <li n:ifcontent>{isset($userInformation->ref(faculty,faculty_id)->faculty) ? "Study Programme:"}</li>
+                                                    </ul>
+                                                </strong>
+                                            </div>
+
+                                            <div class="col-sm-9">
+                                                <ul>
+                                                    <li n:ifcontent>{isset($userInformation->ref(faculty,faculty_id)->faculty) ? $userInformation->ref(faculty,faculty_id)->faculty}</li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {/if}
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">Contact Information</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    <div class="row no-gutter">
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation["phone_number"] ? "Phone Number:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$userInformation["phone_number"] ? $userInformation->phone_number}</li>
+                                            </ul>
+                                        </div>
+
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$user->getID() ? "Email Adress:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>{$user->getID() ? $user->getID()}</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation["facebook_url"] ? "Facebook:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userInformation["facebook_url"] ? $userInformation["facebook_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userInformation["facebook_url"] ? $userInformation["facebook_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation["twitter_url"] ? "Twitter:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userInformation["twitter_url"] ? $userInformation["twitter_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userInformation["twitter_url"] ? $userInformation["twitter_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <strong>
+                                                <ul>
+                                                    <li n:ifcontent>{$userInformation["instagram_url"] ? "Instagram:"}</li>
+                                                </ul>
+                                            </strong>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <ul>
+                                                <li n:ifcontent>
+                                                    <a href="{$userInformation["instagram_url"] ? $userInformation["instagram_url"]}"
+                                                       target="_blank" n:ifcontent>
+                                                        {$userInformation["instagram_url"] ? $userInformation["instagram_url"]}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h4 class="widget-title">About Me</h4>
+                                </div>
+                                <hr class="widget-separator m-0">
+                                <div class="panel-body">
+                                    {$userInformation["description"] ? $userInformation["description"] : "Write some details about yourself"}
+                                </div>
+                            </div>
+
+
+                </section>
+            </div>
+
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

@@ -1,0 +1,51 @@
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href="Sign:in">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form">
+            <h4 class="form-title m-b-xl" style="margin-left:  12px;">{_ sign.up.title}</h4>
+            <p style="margin-left:  12px;">{_ sign.up.subtitle1}<br>{_ sign.up.subtitle2}</p>
+            <br>
+            <form n:name=signUpForm class=form>
+
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    <input n:name=email id="sign-in-email" type="email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input n:name=password id="sign-in-password" type="password" class="form-control">
+                </div>
+
+                <div class="form-group m-b-xl" style="margin-left:  12px;">
+                    <p>{_ sign.up.agreeDescription} <br><a target="_blank" n:href="Sign:terms">{_ sign.up.terms}</a>.
+                    </p>
+                </div>
+
+                <input n:name=send type="submit" class="btn btn-primary" value="JOIN NOW">
+
+            </form>
+        </div><!-- #login-form -->
+
+        <div class="simple-page-footer animated fadeIn">
+            <p>
+                <small>{_ sign.up.doYouHaveAccount}</small>
+                <a n:href="Sign:in">{_ sign.setup.signIn}</a>
+            </p>
+        </div><!-- .simple-page-footer -->
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

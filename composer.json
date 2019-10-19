@@ -1,0 +1,46 @@
+{
+	"name": "thanhdolong/fiesta",
+	"description": "Fiesta Web Project for ESN",
+	"keywords": ["ESN, Erasmus student network, information system"],
+	"type": "project",
+	"license": ["MIT", "BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Thanh Do Long",
+			"email": "thanh.dolong@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">= 5.6",
+		"nette/application": "^2.4",
+		"nette/bootstrap": "^2.4.2",
+		"nette/caching": "^2.5",
+		"nette/database": "^2.4",
+		"nette/di": "^2.4",
+		"nette/finder": "^2.4",
+		"nette/forms": "^2.4",
+		"nette/http": "^2.4",
+		"nette/mail": "^2.4",
+		"nette/robot-loader": "^2.4 || ^3.0",
+		"nette/security": "^2.4",
+		"nette/utils": "^2.4",
+		"latte/latte": "^2.4",
+		"tracy/tracy": "^2.4",
+		"dg/adminer-custom": "^1.19",
+		"ublaboo/datagrid": "^5.7",
+		"firebase/php-jwt": "^5.0",
+		"sendgrid/sendgrid": "^7.3",
+		"drahak/restful": "@dev",
+		"kdyby/translation": "^2.5",
+		"adamstipak/nette-rest-route": "^4.0"
+    },
+	"require-dev": {
+		"nette/tester": "^2.0"
+	},
+	"minimum-stability": "stable",
+	"config": {
+		"platform": {
+			"php": "5.6"
+		}
+	}
+}

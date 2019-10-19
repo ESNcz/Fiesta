@@ -1,0 +1,24 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+                <!-- search results -->
+                <div class="panel panel-default">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a n:href=":Admin:PickupManagement:pickup">Home</a></li>
+                        {if (!$settings["show_manual"]) || ($settings["show_manual"] && $user->isAllowed("Admin:PickupManagement","pickupConnection"))}
+                            <li><a n:href=":Admin:PickupManagement:request">Waiting connections</a></li>
+                        {/if}
+                        {if $user->isAllowed("Admin:PickupManagement","pickupConnection")}
+                            <li class="active"><a n:href=":Admin:PickupManagement:pickupConnection">Paired
+                                    Connections</a></li>
+                        {/if}
+                    </ul>
+                    <div class="panel-body">
+                        {control viewAllPickUpConnections}
+                    </div>
+                </div>
+            </section><!-- #dash-content -->
+        </div>
+    </main>
+{/block}

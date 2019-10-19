@@ -1,0 +1,76 @@
+{var $filename = "images/avatar/".$item->ref("user","data_user")->signature.".jpg"}
+
+{if file_exists($filename)}
+    <div style="max-width: 40em;">
+        {if $settings["show_image"]}
+            <div class="media-left">
+                <div class="avatar avatar-xl avatar-circle">
+                    <img src="{$basePath}/{$filename}" style="width: 100px;">
+                </div>
+            </div>
+        {/if}
+        <div class="media-body">
+            {if $settings["show_university"] || $settings["show_gender"]}
+                <div class="media-heading title-color" style="display: inline-block">
+                    {if isset($item->ref("data_user","data_user")->home_university) && $settings["show_university"]}
+                        <h5 style="display: inline-block;margin: 4px 16px 4px 0;">{$item->ref("data_user","data_user")->home_university}
+                        </h5>
+                    {/if}
+                    {if $user->isInRole("admin") || $user->isInRole("globalAdmin")}
+                        <br> {$item->ref("data_user","data_user")->user_id}
+                    {/if}
+
+                    {if $settings["show_gender"]}
+                        {if $item->ref("data_user","data_user")->gender === "m"}
+                            <span class="label label-primary">Male</span>
+                        {else}
+                            <span class="label label-danger">Female</span>
+                        {/if}
+                    {/if}
+
+                </div>
+                <br>
+            {/if}
+            <small class="media-meta">
+                {$item->description}
+            </small>
+        </div>
+    </div>
+{else}
+    <div style="max-width: 40em;">
+        {if $settings["show_image"]}
+            <div class="media-left">
+                <div class="avatar avatar-xl avatar-circle">
+                    <img src="{$basePath}/images/avatar/empty.jpg" style="width: 100px;">
+                </div>
+            </div>
+        {/if}
+        <div class="media-body">
+            {if $settings["show_university"] || $settings["show_gender"]}
+                <div class="media-heading title-color" style="display: inline-block">
+                    {if isset($item->ref("data_user","data_user")->home_university) && $settings["show_university"]}
+                        <h5 style="display: inline-block;margin: 4px 16px 4px 0;">{$item->ref("data_user","data_user")->home_university}
+                        </h5>
+                    {/if}
+                    {if $user->isInRole("admin") || $user->isInRole("globalAdmin")}
+                        <br> {$item->ref("data_user","data_user")->user_id}
+                    {/if}
+
+
+                    {if $settings["show_gender"]}
+                        {if $item->ref("data_user","data_user")->gender === "m"}
+                            <span class="label label-primary">Male</span>
+                        {else}
+                            <span class="label label-danger">Female</span>
+                        {/if}
+                    {/if}
+
+                </div>
+                <br>
+            {/if}
+            <small class="media-meta">
+                {$item->description}
+            </small>
+        </div>
+    </div>
+{/if}

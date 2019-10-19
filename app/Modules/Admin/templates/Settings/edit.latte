@@ -1,0 +1,64 @@
+{block title}
+    edit profile
+{/block}
+
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <!-- CONTENT -->
+            <section class="app-content">
+                <div class="row">
+
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <h2>General Account Settings</h2>
+                            </header><!-- .widget-header -->
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3">
+                                        <a href="javascript:void(0)" id="upload_link">
+                                            <div class="loader hidden"></div>
+                                            {snippet avatar}
+                                                <div id="img-hide" style="position: relative;">
+                                                    <img src="{$basePath}{$urlForAvatar}" alt="avatar"
+                                                         class="avatar-settings">
+                                                    <div class="avatar-upload">
+                                                        <svg class="gridicon gridicons-cloud-upload" height="36"
+                                                             width="36" xmlns="http://www.w3.org/2000/svg"
+                                                             viewBox="0 0 24 24">
+                                                            <g>
+                                                                <path d="M18 9c-.01 0-.017.002-.025.003C17.72 5.646 14.922 3 11.5 3 7.91 3 5 5.91 5 9.5c0 .524.07 1.03.186 1.52C5.123 11.015 5.064 11 5 11c-2.21 0-4 1.79-4 4 0 1.202.54 2.267 1.38 3h18.593C22.196 17.09 23 15.643 23 14c0-2.76-2.24-5-5-5zm-5 4v3h-2v-3H8l4-5 4 5h-3z"></path>
+                                                            </g>
+                                                        </svg>
+                                                        <span class="edit-avatar-label">Click to change photo</span>
+                                                    </div>
+                                                </div>
+                                            {/snippet}
+                                        </a>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="margin-top: 3%;">
+                                        <b>Your Profile Picture</b>
+                                        <p>Choose a recent photo of yourself. This helps people see that they're getting
+                                            in touch with the right person.</p>
+                                    </div>
+                                </div>
+
+                                {control uploadImage}
+
+                                {control editProfileForm}
+
+                            </div><!-- .widget-body -->
+                        </div><!-- .widget -->
+
+                    </div><!-- END column -->
+                </div>
+            </section><!-- .app-content -->
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

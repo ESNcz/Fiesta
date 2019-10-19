@@ -1,0 +1,20 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+    {include menu}
+    <div class="page-header">
+        <h3 n:block=title>Bakalářská práce</h3>
+    </div>
+
+    {snippet flashes}
+        <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type} alert-dismissible">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {$flash->message}
+        </div>
+    {/snippet}
+{/block}
+
+{block scripts}
+    {include parent}
+    <script src="https://files.nette.org/sandbox/jush.js"></script>
+{/block}

@@ -1,0 +1,36 @@
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href="Sign:in">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form">
+            <h4 class="form-title m-b-xl">{_ sign.setPassword.title}</h4>
+            <p>{_ sign.setPassword.subtitle}</p>
+
+            <form n:name=setNewPassword class=form>
+
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    <input n:name=password>
+                </div>
+
+                <div class="form-group">
+                    <input n:name=confirmation>
+                </div>
+
+                <input n:name=send type="submit" class="btn btn-primary">
+            </form>
+
+        </div><!-- #login-form -->
+    </div><!-- .simple-page-wrap -->
+{/block}

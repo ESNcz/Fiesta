@@ -1,0 +1,81 @@
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href="Sign:in">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form">
+            <h4 class="form-title m-b-xl text-left">Tell us more about yourself
+                <a n:href="Sign:out">
+                    <i class="fas fa-sign-out-alt fa-lg" style="float: right;"></i>
+                </a>
+            </h4>
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <a href="javascript:void(0)" id="upload_link">
+                        <div class="loader hidden"></div>
+                        {snippet avatar}
+                            <div id="img-hide" style="position: relative;">
+                                <img src="{$basePath}{$urlAvatar}" alt="avatar" class="avatar-settings">
+                                <div class="avatar-upload">
+                                    <svg class="gridicon gridicons-cloud-upload" height="36" width="36"
+                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <g>
+                                            <path d="M18 9c-.01 0-.017.002-.025.003C17.72 5.646 14.922 3 11.5 3 7.91 3 5 5.91 5 9.5c0 .524.07 1.03.186 1.52C5.123 11.015 5.064 11 5 11c-2.21 0-4 1.79-4 4 0 1.202.54 2.267 1.38 3h18.593C22.196 17.09 23 15.643 23 14c0-2.76-2.24-5-5-5zm-5 4v3h-2v-3H8l4-5 4 5h-3z"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="edit-avatar-label">{_ sign.setup.changePhoto}</span>
+                                </div>
+                            </div>
+                        {/snippet}
+                    </a>
+                </div>
+                <div class="col-md-7 col-sm-7" style="margin-top: 3%;">
+                    <b>{_ sign.setup.profilePicture}</b>
+                    <p>{_ sign.setup.profilePictureDescription}</p>
+                </div>
+            </div>
+            {control uploadImage}
+            <form n:name=signContinueForm class=form>
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    {input name}
+                </div>
+                <div class="form-group">
+                    {input surname}
+                </div>
+
+                <div class="form-group">
+                    {input faculty}
+                </div>
+
+                <div class="form-group">
+                    {foreach $form[gender]->items as $key => $label}
+                        <div class="radio-inline" style="margin-left: 12px;">
+                            <label n:name="gender:$key">
+                                {input gender:$key} {$label}
+                            </label>
+                        </div>
+                    {/foreach}
+                </div>
+                <input n:name=send>
+            </form>
+        </div><!-- #login-form -->
+
+        <div class="simple-page-footer">
+
+        </div><!-- .simple-page-footer -->
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

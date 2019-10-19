@@ -1,0 +1,66 @@
+{import ../Components/dashboard.latte}
+
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+
+                <div class="row">
+                    <div class="col-md-12" n:ifcontent>
+                        {if $user->isInRole("admin") || $user->isInRole("globalAdmin")}
+                            <div class="switch-right">
+                                <a n:href="Homepage:edit" n:if="$user->isAllowed('Admin:Homepage','edit')">
+                                    <button type="button" class="btn btn-primary">Update Dashboard</button>
+                                </a>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="widget p-md clearfix">
+                            <div class="pull-left">
+                                <h3 class="widget-title">
+                                    Howdy, {$userInformation->name} {$userInformation->surname}</h3>
+                                <small class="text-color">Welcome to Fiesta</small>
+                            </div>
+                        </div><!-- .widget -->
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <div class="widget p-md clearfix" n:ifcontent>
+                            <h3 class="widget-title">Profile Strength</h3>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100"
+                                     style="width: {$profileStrength['complete']}%;">
+                                    Your profile is {$profileStrength['complete']}% complete
+                                </div>
+                            </div>
+                            {foreach $profileStrength['missing'] as $key => $value}
+                                <p><i class="zmdi zmdi-plus-circle"></i> {$value}</p>
+                            {/foreach}
+                        </div><!-- .widget -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="widget p-md clearfix" n:ifcontent>
+                            {if isset($dashboardInfo["dashboard"])}
+                                {$dashboardInfo["dashboard"]|noescape}
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+
+            </section><!-- #dash-content -->
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

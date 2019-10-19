@@ -1,0 +1,33 @@
+{block title}
+    reactivation
+{/block}
+
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href="Sign:in">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form" style="text-align: justify">
+            <h4 class="form-title m-b-xl text-left">Your profile is now deactivated.
+                <a n:href="Sign:out">
+                    <i class="fas fa-sign-out-alt fa-lg" style="float: right;"></i>
+                </a>
+            </h4>
+            <p> We are so glad to have you back! Unfortunately, your profile is now deactivated.</p>
+            <p> If you don't want to reactivate, you can just ignore ths status.</p>
+            <p style="text-align: right;"><strong>Fiesta Team</strong></p>
+            <a n:href="ReactivateProfile!">
+                <button class="btn btn-primary"> REACTIVATE PROFILE</button>
+            </a>
+        </div>
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

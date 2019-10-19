@@ -1,0 +1,27 @@
+{import ../Components/dashboard.latte}
+
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+
+                <div class="widget">
+                    <header class="widget-header">
+                        <div class="col-md-12">
+                            <h1>Update Dashboard</h1>
+                        </div>
+                    </header><!-- .widget-header -->
+                    <hr class="widget-separator">
+                    <div class="widget-body">
+                        {control updateDashboard}
+                    </div>
+                </div>
+
+            </section><!-- #dash-content -->
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

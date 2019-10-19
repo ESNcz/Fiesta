@@ -1,0 +1,49 @@
+{block head}
+    <link rel="stylesheet" href="{$basePath}/css/sign.css">
+{/block}
+
+{block content}
+    <div class="simple-page-wrap">
+        <div class="simple-page-logo animated fadeIn">
+            <a n:href=":Front:Docs:default">
+                <span><i class="fab fa-connectdevelop"></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class="simple-page-form animated fadeIn" id="login-form">
+            <h4 class="form-title m-b-xl text-center">{_ sign.in.title}</h4>
+            <form n:name=signInForm class=form>
+
+                <ul class="errors" n:if="$form->hasErrors()">
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </ul>
+
+                <div class="form-group">
+                    <input n:name=email id="sign-in-email" type="email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input n:name=password id="sign-in-password" type="password" class="form-control">
+                </div>
+
+                <div class="form-group m-b-xl">
+                    <div class="checkbox checkbox-primary">
+                        <input n:name=remember type="checkbox" id="keep_me_logged_in"/>
+                        <label for="keep_me_logged_in">{_ sign.in.keepMeSignedIn}</label>
+                    </div>
+                </div>
+                <input n:name=send type="submit" class="btn btn-primary" value="{_ sign.in.login}">
+            </form>
+        </div><!-- #login-form -->
+
+        <div class="simple-page-footer animated fadeIn">
+            <p><a n:href="Sign:forgot">{_ sign.in.forgotPassword}</a></p>
+            <p>
+                <small>{_ sign.in.noAccount}</small>
+                <a n:href="Sign:setup">{_ sign.in.createAccount}</a>
+            </p>
+        </div><!-- .simple-page-footer -->
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

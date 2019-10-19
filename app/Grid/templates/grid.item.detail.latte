@@ -1,0 +1,19 @@
+{block detail}
+
+    {formContainer items_detail_form-$item->id}
+        <div class="row">
+            <div class="form-group col-md-12">
+                <h3>Chose ESN Member</h3>
+            </div>
+            {input id, value => $item->id}
+            <div class="form-group col-md-9">
+                {input member}
+            </div>
+            <div class="form-group col-md-3">
+                <div class="switch-right">
+                    <input n:name=save type="submit" class="btn btn-primary">
+                </div>
+            </div>
+        </div>
+    {/formContainer}
+{/block}

@@ -1,0 +1,13 @@
+in:
+    title: "Přihlásit se svojím účtem"
+    forgotpassword: "ZAPOMNĚLI JSTE HESLO ?"
+    noaccount: "Stále nemáte účet ?"
+    createaccount: "ZALOŽIT NOVÝ ÚČET"
+    keepmeloggedin: "Pamatovat si mě"
+    login: "PŘIHLÁSIT"
+
+SignInForm:
+    Email: "Email"
+    Password: "Heslo"
+    login: %in.login%
+    wrongLogin: "Oops, chybně zadané heslo nebo uživatelské jméno. Zkus to znova!"

@@ -1,0 +1,25 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+                <!-- search results -->
+                <div class="panel panel-default">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a n:href=":Admin:BuddyManagement:buddy">Home</a></li>
+
+                        {if (!$settings["show_manual"]) || ($settings["show_manual"] && $user->isAllowed("Admin:BuddyManagement","manualConnection"))}
+                            <li><a n:href=":Admin:BuddyManagement:request">Waiting Connections</a></li>
+                        {/if}
+                        {if $user->isAllowed("Admin:BuddyManagement","buddyConnection")}
+                            <li class="active"><a n:href=":Admin:BuddyManagement:buddyConnection">Paired Connections</a>
+                            </li>
+                        {/if}
+                    </ul>
+                    <div class="panel-body">
+                        {control viewAllBuddyConnections}
+                    </div>
+                </div>
+            </section><!-- #dash-content -->
+        </div>
+    </main>
+{/block}

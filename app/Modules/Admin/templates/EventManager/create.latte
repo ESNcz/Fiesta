@@ -1,0 +1,62 @@
+{block content}
+    <div class="wrap">
+        <section class="app-content">
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="widget">
+                        <header class="widget-header">
+                            <div class="col-md-12">
+                                <h1>Create Event</h1>
+                                <h4>Let people know what type of event you're hosting and what to expect</h4>
+                            </div>
+                        </header><!-- .widget-header -->
+                        <hr class="widget-separator">
+                        <div class="widget-body">
+
+                            <form n:name=newEvent class=form>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        {label title} {input title}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {label leader} {input leader}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {label location} {input location}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {label event} {input event}
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            {label priceESN} {input priceESN}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {label price} {input price}
+                                        </div>
+                                        <div class="col-md-4">
+                                            {label capacity} {input capacity}
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {label start} {input start}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        {label text} {input text}
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="switch-right">
+                                            <input n:name=send>
+                                        </div>
+                                    </div>
+                            </form>
+
+                        </div><!-- .widget-body -->
+                    </div><!-- .widget -->
+                </div><!-- END column -->
+            </div><!-- .row -->
+
+        </section><!-- #dash-content -->
+    </div>
+{/block}

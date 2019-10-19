@@ -1,0 +1,29 @@
+{if $user->isInRole("member")}
+    {if isset($item->ref("data_user","international")->ref("country","country_id")->code_id)}
+        {var $state = strtolower($item->ref("data_user","international")->ref("country","country_id")->code_id)}
+
+        {var $filename = "images/flags/".$state.".svg"}
+
+        {if file_exists($filename)}
+            <img src="{$basePath}/{$filename}" style="height: 35px;" data-toggle="tooltip" data-placement="right"
+                 title="{$item->ref("data_user","international")->ref("country","country_id")->name}">
+        {/if}
+    {else}
+        <img src="{$basePath}/images/flags/unknown.svg" style="height: 35px;" data-toggle="tooltip"
+             data-placement="right" title="Unknown State">
+    {/if}
+{elseif $user->isInRole("international")}
+    {if isset($item->ref("data_user","member")->ref("country","country_id")->code_id)}
+        {var $state = strtolower($item->ref("data_user","member")->ref("country","country_id")->code_id)}
+
+        {var $filename = "images/flags/".$state.".svg"}
+
+        {if file_exists($filename)}
+            <img src="{$basePath}/{$filename}" style="height: 35px;" data-toggle="tooltip" data-placement="right"
+                 title="{$item->ref("data_user","member")->ref("country","country_id")->name}">
+        {/if}
+    {else}
+        <img src="{$basePath}/images/flags/unknown.svg" style="height: 35px;" data-toggle="tooltip"
+             data-placement="right" title="Unknown State">
+    {/if}
+{/if}

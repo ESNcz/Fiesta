@@ -1,0 +1,88 @@
+{block content}
+    <div class="wrap">
+        <section class="app-content">
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel-body">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <div class="col-md-12">
+                                    <h1>Upcoming Events</h1>
+                                </div>
+                            </header><!-- .widget-header -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="active"><a n:href=":Admin:EventManager:default">Upcoming Events</a></li>
+                                <li><a n:href=":Admin:EventManager:past">Past</a></li>
+
+                            </ul>
+
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+
+                                {foreach $upcomingEvents as $upcomingEvent}
+                                    <div class="row">
+                                        <div class="col-sm-1 hidden-xs">
+                                            <label class='event-date'>
+                                                <span class='weekday'>{$upcomingEvent->event_date|date:'%a'}</span>
+                                                <span class='day'>{$upcomingEvent->event_date|date:'%d'}</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-11">
+                                            <div class="panel-grey panel-primary">
+                                                <div class="switch-right show-event">
+                                                    <a n:href="EventManager:View $upcomingEvent->id">
+                                                        <button class="btn btn-sm btn-primary p-v-xl hidden-xs">
+                                                            Details
+                                                        </button>
+                                                        <div class="visible-xs"><i class="fas fa-chevron-right"></i>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <h4 class="panel-title"
+                                                        style="margin-bottom: 0.25em;">{$upcomingEvent->title}</h4>
+                                                    <span class="date"><i
+                                                                class="far fa-calendar-alt"></i>{$upcomingEvent->event_date|date:'%d. %m. %Y %R'}</span>
+                                                    <span class="place"><i
+                                                                class="fas fa-map-marker"></i>{$upcomingEvent->location}</span>
+                                                </div>
+                                            </div>
+                                        </div><!-- END column -->
+
+                                    </div><!-- END column -->
+                                {/foreach}
+                                <nav aria-label="Page navigation" class="text-center" n:if="count($steps) > 1">
+                                    <ul class="pagination">
+                                        {if $page <= 1}
+                                            <li class="disabled"><a class="page-link">Previous</a></li>
+                                        {else}
+                                            <li><a class="page-link" n:href="this $page - 1">Previous</a></li>
+                                        {/if}
+
+                                        {foreach $steps as $step}
+                                            {if $step == $page}
+                                                <li class="page-item active"><a href="#">{$step}</a></li>
+                                            {else}
+                                                <li class="page-item hidden-xs"><a
+                                                            class="" n:href="this $step">{$step}</a></li>
+                                            {/if}
+                                        {/foreach}
+
+                                        {if $lastPage <= $page}
+                                            <li class="disabled"><a class="page-link">Next</a></li>
+                                        {else}
+                                            <li><a class="page-link" n:href="this $page + 1">Next</a></li>
+                                        {/if}
+                                    </ul>
+                                </nav>
+
+                            </div><!-- .widget-body -->
+                        </div><!-- .widget -->
+                    </div><!-- END column -->
+                </div><!-- .row -->
+
+
+        </section><!-- #dash-content -->
+    </div>
+{/block}

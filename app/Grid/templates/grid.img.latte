@@ -1,0 +1,7 @@
+{var $filename = "images/avatar/".$item->signature.".jpg"}
+
+{if file_exists($filename)}
+    <img src="{$basePath}/{$filename}" style="width: 100px;">
+{else}
+    <img src='{$basePath}/images/avatar/empty.jpg' style="width: 100px;">
+{/if}

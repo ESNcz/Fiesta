@@ -1,0 +1,91 @@
+{var $isDashboard = !($presenter->isLinkCurrent(':Admin:Status:banned') ||
+	$presenter->isLinkCurrent(':Admin:Status:pending') ||
+	$presenter->isLinkCurrent(':Admin:Status:enabled') ||
+	$presenter->isLinkCurrent(':Admin:Sign:in') ||
+	$presenter->isLinkCurrent(':Admin:Sign:up') ||
+	$presenter->isLinkCurrent(':Admin:Sign:setup') ||
+	$presenter->isLinkCurrent(':Admin:Sign:terms') ||
+	$presenter->isLinkCurrent(':Admin:Sign:out') ||
+	$presenter->isLinkCurrent(':Admin:Sign:reset') ||
+	$presenter->isLinkCurrent(':Admin:Sign:forgot') ||
+	$presenter->isLinkCurrent(':Admin:Sign:continue'))}
+
+{import Components/navbar.latte}
+{import Components/footer.latte}
+
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fiesta {ifset title}- {include title|strip|striptags}{/ifset}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="Do Long Thanh">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{$basePath}/css/style.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet"/>
+
+    {block head}{/block}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{$basePath}/js/ohsnap.min.js"></script>
+    <script src="{$basePath}/components/breakpoint.min.js"></script>
+
+
+    <script type="text/javascript">
+        Breakpoints();
+    </script>
+</head>
+{snippet flashes}
+    <div n:foreach="$flashes as $flash" id="ohsnap" class="animated pulse">
+        <script>
+            ohSnap({$flash->message}, {'duration': '2500', color: {$flash->type}});
+        </script>
+    </div>
+{/snippet}
+
+
+{if $isDashboard}
+<body class="menubar-left menubar-unfold menubar-light theme-primary">
+<!-- APP NAVBAR ==========-->
+{include navbar}
+<!--========== END app navbar -->
+<!-- APP ASIDE ==========-->
+{snippet sidemenu}
+    {import Components/sidemenu.latte}
+    {include sidemenu}
+{/snippet}
+<!--========== END app aside -->
+{else}
+<body class="simple-page">
+{/if}
+
+<!-- APP MAIN ==========-->
+{include content}
+<!--========== END app main -->
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-49681841-5"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://rawgit.com/contributte/live-form-validation/master/live-form-validation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script src="{$basePath}/js/app.min.js"></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+<script>
+    $.nette.init();
+</script>
+</body>
+</html>

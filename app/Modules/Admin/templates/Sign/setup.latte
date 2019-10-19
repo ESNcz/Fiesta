@@ -1,0 +1,56 @@
+{block head}
+    <link rel='stylesheet' href='{$basePath}/css/sign.css'>
+{/block}
+
+{block content}
+    <div class='simple-page-wrap'>
+        <div class='simple-page-logo animated fadeIn'>
+            <a n:href='Sign:in'>
+                <span><i class='fab fa-connectdevelop'></i></span>
+                <span>Fiesta</span>
+            </a>
+        </div><!-- logo -->
+        <div class='simple-page-form animated fadeIn' id='login-form'>
+            <h4 class='form-title m-b-xl'>{_ sign.setup.welcomeTitle}</h4>
+            <p>{_ sign.setup.welcomeSubtitle}</p>
+            <br>
+            <form n:name=signSetup class=form>
+                <ul class='errors' n:if='$form->hasErrors()'>
+                    <li n:foreach='$form->errors as $error'>{$error}</li>
+                </ul>
+
+                <div class='form-group'>
+                    <b>{label section}</b>
+                    {input section}
+                </div>
+
+                <div class='form-group'>
+                    <b>{label role}</b>
+                    {foreach $form[role]->items as $key => $label}
+                        <div class='radio'>
+                            <label n:name='role:$key'>
+                                {input role:$key} <p>{$label}</p>
+                                {if $key == 'international'}
+                                    <p style='color: #636e72;font-size: 13px;'>{_ sign.setup.descriptionInternational}</p>
+                                {else}
+                                    <p style='color: #636e72;font-size: 13px;'>{_ sign.setup.descriptionLocal}</p>
+                                {/if}
+                            </label>
+                        </div>
+                    {/foreach}
+                </div>
+                <input n:name=send>
+            </form>
+
+        </div><!-- #login-form -->
+
+        <div class='simple-page-footer animated fadeIn'>
+            <p>
+                <small>{_ sign.setup.haveAccount}</small>
+                <a n:href='Sign:in'>{_ sign.setup.signIn}</a>
+            </p>
+        </div><!-- .simple-page-footer -->
+
+
+    </div><!-- .simple-page-wrap -->
+{/block}

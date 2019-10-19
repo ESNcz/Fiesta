@@ -1,0 +1,136 @@
+{block title}
+    roles
+{/block}
+
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <!-- CONTENT -->
+            <section class="app-content">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="app-action-panel" id="support-action-panel">
+                            <div class="action-panel-toggle" data-toggle="class" data-target="#support-action-panel"
+                                 data-class="open">
+                                <i class="fa fa-chevron-right"></i>
+                                <i class="fa fa-chevron-left"></i>
+                            </div><!-- .app-action-panel -->
+
+                            <div class="app-actions-list scrollable-container ps-container ps-theme-default"
+                                 data-ps-id="73936dfa-a657-bb11-df56-b8b58d27888a" style="height: 461px;">
+                                <!-- mail category list -->
+                                <div class="list-group">
+                                    <a n:href="Settings:default" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-cog"></i>General</a>
+                                    <a n:href="Settings:roles" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-users"></i>Page Roles</a>
+                                    <a n:href="Settings:plugins" class="text-color list-group-item"><i
+                                                class="m-r-sm fa fa-plug"></i>Plugins</a>
+                                </div><!-- .list-group -->
+                                <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                                    <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                                </div>
+                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;">
+                                    <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                                </div>
+                            </div><!-- .app-actions-list -->
+                        </div><!-- .app-action-panel -->
+                    </div><!-- END column -->
+
+                    <div class="col-md-10">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <h1>Page Roles</h1>
+                                <h4>Everyone who works on Fiesta can have a different role depending on what they need
+                                    to work on.</h4>
+                            </header><!-- .widget-header -->
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+
+                                <div class="panel-group accordion" id="accordion" role="tablist"
+                                     aria-multiselectable="true">
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-2">
+                                            <a class="accordion-toggle" role="button" data-toggle="collapse"
+                                               data-parent="#accordion" href="#collapse-2" aria-expanded="false"
+                                               aria-controls="collapse-2">
+                                                <h4 class="panel-title">Admins</h4>
+                                                <i class="fa acc-switch"></i>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-2" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="heading-2">
+                                            {*                                            <form n:name=addAdmin class=form>*}
+                                            {*                                                <div class="row">*}
+                                            {*                                                    <div class="col-md-12">*}
+                                            {*                                                        {label admin}*}
+                                            {*                                                    </div>*}
+                                            {*                                                </div>*}
+                                            {*                                                <div class="row">*}
+                                            {*                                                    <div class="form-group col-md-9">*}
+                                            {*                                                        {input admin}*}
+                                            {*                                                    </div>*}
+                                            {*                                                    <div class="form-group col-md-3">*}
+                                            {*                                                        <div class="switch-right">*}
+                                            {*                                                            {input send}*}
+                                            {*                                                        </div>*}
+                                            {*                                                    </div>*}
+                                            {*                                                </div>*}
+                                            {*                                            </form>*}
+                                            {control roleAdmin}
+
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="heading-3">
+                                            <a class="accordion-toggle" role="button" data-toggle="collapse"
+                                               data-parent="#accordion" href="#collapse-3" aria-expanded="false"
+                                               aria-controls="collapse-3">
+                                                <h4 class="panel-title">Editors</h4>
+                                                <i class="fa acc-switch"></i>
+                                            </a>
+                                        </div>
+                                        <div id="collapse-3" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="heading-3">
+                                            {*                                            <form n:name=addEditor class=form>*}
+                                            {*                                                <div class="row">*}
+                                            {*                                                    <div class="col-md-12">*}
+                                            {*                                                        {label editor}*}
+                                            {*                                                    </div>*}
+                                            {*                                                </div>*}
+                                            {*                                                <div class="row">*}
+                                            {*                                                    <div class="form-group col-md-9">*}
+                                            {*                                                        {input editor}*}
+                                            {*                                                    </div>*}
+                                            {*                                                    <div class="form-group col-md-3">*}
+                                            {*                                                        <div class="switch-right">*}
+                                            {*                                                            {input send}*}
+                                            {*                                                        </div>*}
+                                            {*                                                    </div>*}
+                                            {*                                                </div>*}
+                                            {*                                            </form>*}
+
+
+                                            {control roleEditor}
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div><!-- .widget-body -->
+                        </div><!-- .widget -->
+
+                    </div><!-- END column -->
+                </div>
+            </section><!-- .app-content -->
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

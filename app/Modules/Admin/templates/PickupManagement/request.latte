@@ -1,0 +1,55 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+                <!-- search results -->
+                <div class="panel panel-default">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a n:href=":Admin:PickupManagement:pickup">Home</a></li>
+                        {if (!$settings["show_manual"]) || ($settings["show_manual"] && $user->isAllowed("Admin:PickupManagement","pickupConnection"))}
+                            <li class="active"><a n:href=":Admin:PickupManagement:request">Waiting Connections</a></li>
+                        {/if}
+                        {if $user->isAllowed("Admin:PickupManagement","pickupConnection")}
+                            <li><a n:href=":Admin:PickupManagement:pickupConnection">Paired Connections</a></li>
+                        {/if}
+                    </ul>
+                    <div class="panel-body">
+                        {if isset($buddyRequest)}
+                            <div class="datagrid panel panel-info">
+                                <h3>Some of your pick ups have also buddy request. Do you wanna take it?</h3>
+                                <table class="table table-responsive table-condensed table-hover">
+                                    <thead>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                    </thead>
+                                    {foreach $buddyRequest as $item}
+                                        <tr>
+
+                                            <td class="text-left col-description">
+
+
+                                                <div style="max-width: 40em;">
+                                                    <div class="media-body">
+                                                        <small class="media-meta">
+                                                            {$item["description"]}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td class="col-action">
+                                                <a n:href="TakeBuddy! $item['id']" class="btn btn-sm btn-primary ajax"
+                                                                                   data-datagrid-confirm="Do you really want be the buddy of this user?">Take</a>
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </div>
+                        {/if}
+                        {control pickUpSystem}
+                    </div>
+                </div>
+            </section><!-- #dash-content -->
+        </div>
+    </main>
+{/block}

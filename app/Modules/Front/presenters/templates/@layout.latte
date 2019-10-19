@@ -1,0 +1,52 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{ifset title}{include title|strip|striptags}{/ifset}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="">
+    <meta name="author" content="Do Long Thanh">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="{$basePath}/components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$basePath}/css/bootstrap.css">
+    <link rel="stylesheet" href="{$basePath}/css/app.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900,300">
+    <script src="{$basePath}/components/breakpoint.min.js"></script>
+    <script type="text/javascript">
+        Breakpoints();
+    </script>
+    {block head}{/block}
+</head>
+
+<body class="simple-page">
+{include content}
+{block footer}{/block}
+
+{block scripts}
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{$basePath}/js/jquery.storageapi.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+    <script src="{$basePath}/js/nette.ajax.js"></script>
+
+    <script src="{$basePath}/js/main.js"></script>
+    <script src="{$basePath}/js/app.js"></script>
+{/block}
+<script>
+    $.nette.init();
+</script>
+</body>
+</html>
+
+{define menu}
+    <ul class="nav nav-pills pull-right">
+        <li><a n:href="Homepage:default">🏡 Home</a></li>
+        <li><a n:href=":Admin:Sign:in">ESN System</a></li>
+    </ul>
+{/define}

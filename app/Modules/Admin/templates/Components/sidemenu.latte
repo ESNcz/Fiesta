@@ -1,0 +1,169 @@
+{define sidemenu}
+    <aside id="menubar" class="menubar light {isset($sideMenuFade) ? $sideMenuFade}">
+        <div class="app-user">
+            <div class="media">
+                <div class="media-left">
+                    <a n:href=":Admin:Profile:default">
+                        <div class="avatar avatar-md img-thumbnail">
+                            <img class="img-responsive" src="{$basePath}{$urlAvatar}" alt="avatar"/>
+                        </div><!-- .avatar -->
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="foldable">
+                        <h5><a n:href=":Admin:Profile:default"
+                                    class="username">{$userInformation->name} {$userInformation->surname}</a></h5>
+                        <ul>
+                            <li class="dropdown">
+                                <a href="javascript:void(0)" class="dropdown-toggle usertitle" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    {if $user->isInRole("globalAdmin")}
+                                        <span class="label label-default">Global Admin</span>
+                                    {elseif $user->isInRole("admin")}
+                                        <span class="label label-default">Admin</span>
+                                    {elseif $user->isInRole("editor")}
+                                        <span class="label label-default">Editor</span>
+                                    {elseif $user->isInRole("international")}
+                                        <span class="label label-default">International</span>
+                                    {elseif $user->isInRole("member")}
+                                        <span class="label label-default">Member</span>
+                                    {/if}
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu animated flipInY">
+                                    <li>
+                                        <a class="text-color" n:href=":Admin:Homepage:default">
+                                            <span class="m-r-xs"><i class="fa fa-home"></i></span>
+                                            <span>Home</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-color" n:href=":Admin:Profile:default">
+                                            <span class="m-r-xs"><i class="fa fa-user"></i></span>
+                                            <span>Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="text-color" n:href=":Admin:Settings:default">
+                                            <span class="m-r-xs"><i class="fas fa-cog"></i></span>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <a class="text-color" n:href=":Admin:Sign:out">
+                                            <span class="m-r-xs"><i class="fa fa-sign-out"></i></span>
+                                            <span>Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!-- .media-body -->
+            </div><!-- .media -->
+        </div><!-- .app-user -->
+
+        <div class="menubar-scroll">
+            <div class="menubar-scroll-inner">
+                <ul class="app-menu">
+
+
+                    <li n:class="$presenter->isLinkCurrent(':Admin:Homepage:default') ? active">
+                        <a n:href=":Admin:Homepage:default">
+                            <i class="menu-icon zmdi zmdi-view-dashboard zmdi-hc-lg"></i>
+                            <span class="menu-text">Home</span>
+                        </a>
+                    </li>
+
+                    {if $user->isAllowed('Admin:User',"members")}
+                        <li class="has-submenu">
+                            <a href="javascript:void(0)" class="submenu-toggle">
+                                <i class="menu-icon zmdi zmdi-accounts zmdi-hc-lg"></i>
+                                <span class="menu-text">Users</span>
+                                <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
+                            </a>
+                            <ul class="submenu">
+                                {if $user->isAllowed('Admin:User',"members")}
+                                    <li n:class='$presenter->isLinkCurrent(":Admin:User:members") ? active'>
+                                        <a n:href=":Admin:User:members"><span class="menu-text">ESN Members</span></a>
+                                    </li>
+
+                                {/if}
+                                {if $user->isAllowed('Admin:User',"localmembers")}
+                                    <li n:class='$presenter->isLinkCurrent(":Admin:User:localmembers") ? active'>
+                                        <a n:href=":Admin:User:localmembers"><span
+                                                    class="menu-text">Local Members</span></a></li>
+                                {/if}
+                                {if $user->isAllowed('Admin:User',"internationals")}
+                                    <li n:class='$presenter->isLinkCurrent(":Admin:User:internationals") ? active'>
+                                        <a n:href=":Admin:User:internationals"><span
+                                                    class="menu-text">Internationals</span></a></li>
+                                {/if}
+                            </ul>
+                        </li>
+                    {/if}
+
+
+                    {foreach $sideMenu["menu"] as $variable}
+                        {if in_array($variable->module, $sideMenu["has_submenu"])}
+                            <li class="has-submenu">
+                            <a href="javascript:void(0)" class="submenu-toggle">
+                                <i class="menu-icon zmdi {$variable->ref("module","module")->icon} zmdi-hc-lg"></i>
+                                <span class="menu-text">{$variable->ref("module","module")->name}</span>
+                                <i class="menu-caret zmdi zmdi-hc-sm zmdi-chevron-right"></i>
+                            </a>
+
+                            <ul class="submenu">
+                                {foreach $sideMenu["submenu"][$variable->module] as $action => $title}
+                                    {if $user->isAllowed('Admin:'.$variable->module, $action)}
+                                        <li n:class='$presenter->isLinkCurrent(":Admin:".$variable->module.":".$action) ? active'>
+                                            <a n:href=":Admin:{$variable->module}:{$action}"><span
+                                                        class="menu-text">{$title}</span></a></li>
+                                    {/if}
+                                {/foreach}
+                            </ul>
+                        {else}
+
+                            {if $user->isAllowed('Admin:'.$variable->module, 'default')}
+                                <li n:class='$presenter->isLinkCurrent(":Admin:".$variable->module.":default") ? active'>
+                                <a n:href=":Admin:{$variable->module}:default">
+                                    <i class="menu-icon zmdi {$variable->ref("module","module")->icon} zmdi-hc-lg"></i>
+                                    <span class="menu-text">{$variable->ref("module","module")->name}</span>
+                                </a>
+                            {/if}
+                        {/if}
+
+                        </li>
+                    {/foreach}
+
+                    <li class="menu-separator">
+                        <hr>
+                    </li>
+
+                    {*                        <li n:class="$presenter->isLinkCurrent(':Admin:Bug:default') ? active">*}
+                    {*                            <a n:href=":Admin:Bug:default">*}
+                    {*                                <i class="menu-icon zmdi zmdi-bug zmdi-hc-lg"></i>*}
+                    {*                                <span class="menu-text">Bug Reports</span>*}
+                    {*                            </a>*}
+                    {*                        </li>*}
+
+                    {*                        <li n:class="$presenter->isLinkCurrent(':Admin:Vote:default') ? active">*}
+                    {*                            <a n:href=":Admin:Vote:default">*}
+                    {*                                <i class="menu-icon zmdi zmdi-star-circle zmdi-hc-lg"></i>*}
+                    {*                                <span class="menu-text">Feature Vote</span>*}
+                    {*                            </a>*}
+                    {*                        </li>*}
+
+                    <li n:class="$presenter->isLinkCurrent(':Admin:Settings:default') ? active">
+                        <a n:href=":Admin:Settings:default">
+                            <i class="menu-icon zmdi zmdi-settings zmdi-hc-lg"></i>
+                            <span class="menu-text">Settings</span>
+                        </a>
+                    </li>
+
+                </ul><!-- .app-menu -->
+            </div><!-- .menubar-scroll-inner -->
+        </div><!-- .menubar-scroll -->
+    </aside>
+{/define}
