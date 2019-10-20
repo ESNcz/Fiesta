@@ -1,0 +1,49 @@
+{extends $original_template}
+
+{block table-class}{/block}
+{block datagrid-style}datagrid-transparent{/block}
+
+{block filter-text}
+
+        <div class="row">
+            <div class="col-sm-9">
+                <h2 class="widget-title" style="line-height: 30px;">Suggested Feature</h2>
+            </div>
+            <div class="col-sm-3">
+                {input $input}
+            </div>
+        </div>
+        </br>
+{/block}
+
+{define col-text}
+
+    <div class="widget" >
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1 col-sm-1 text-center">
+                    <i class="fas fa-heart circle"></i>
+                    <p>42</p>
+                </div>
+                <div class="col-md-11 col-sm-11">
+                    <p style="margin-bottom: 1.3em;">{$item->text}</p>
+
+                    <div class="media-body">
+                        Suggested by: <a href="javascript:void(0)">{$item->ref("data_user","user_id")->name} {$item->ref("data_user","user_id")->surname}</a>
+                        {switch $item->status}
+                            {case working}
+                            <span class="label label-warning" style="float:  right;">{$item->status}</span>
+                        {case complete}
+                            <span class="label label-success" style="float:  right;">{$item->status}</span>
+                        {case open}
+                            <span class="label label-primary" style="float:  right;">{$item->status}</span>
+                        {/switch}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{/define}

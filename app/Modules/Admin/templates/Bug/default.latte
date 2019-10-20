@@ -1,0 +1,108 @@
+{block content}
+    <main id="app-main" class="app-main">
+
+        <div class="wrap">
+
+            <section class="app-content">
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+
+                        <div class="widget">
+                            <div class="widget-header p-h-lg p-v-md">
+                                <h2 class="widget-title">Platform Bug Reports</h2>
+                            </div>
+                            <hr class="widget-separator m-0">
+                            <div class="panel-body">
+
+                                <p>Your feedback goes a long way towards making Fiesta even better.</p>
+                                <p>With Bug Reporter, you can submit bug reports.</p>
+
+
+                            </div>
+                        </div>
+
+                        {foreach $suggestions as $suggestion}
+
+                            <div class="widget">
+                                <div class="panel-body">
+                                    <div class="row">
+
+                                        <div class="col-md-11 col-sm-11">
+                                            <p style="margin-bottom: 1.3em;">{$suggestion->text}</p>
+
+                                            <div class="media-body">
+                                                Suggested by: <a href="javascript:void(0)">{isset($suggestion->ref("data_user","user_id")->name) ? $suggestion->ref("data_user","user_id")->name : "Unknow"} {isset($suggestion->ref("data_user","user_id")->surname) ? $suggestion->ref("data_user","user_id")->surname}</a>
+                                                {switch $suggestion->status}
+                                                {case working}
+                                                    <span class="label label-warning" style="float:  right;">{$suggestion->status}</span>
+                                                {case solved}
+                                                    <span class="label label-success" style="float:  right;">{$suggestion->status}</span>
+                                                {case open}
+                                                    <span class="label label-danger" style="float:  right;">{$suggestion->status}</span>
+                                                {/switch}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        {/foreach}
+
+                        <nav aria-label="Page navigation" class="text-center" n:if="count($steps) > 1">
+                            <ul class="pagination">
+                                {if $page <= 1}
+                                    <li class="disabled"><a class="page-link">Previous</a></li>
+                                {else}
+                                    <li><a class="page-link" n:href="this $page - 1">Previous</a></li>
+                                {/if}
+
+                                {foreach $steps as $step}
+                                    {if $step == $page}
+                                        <li class="page-item active"><a href="#">{$step}</a></li>
+                                    {else}
+                                        <li class="page-item hidden-xs"><a class="" n:href="this $step">{$step}</a></li>
+                                    {/if}
+                                {/foreach}
+
+                                {if $lastPage <= $page}
+                                    <li class="disabled"><a class="page-link">Next</a></li>
+                                {else}
+                                    <li><a class="page-link" n:href="this $page + 1">Next</a></li>
+                                {/if}
+                            </ul>
+                        </nav>
+
+                        <div class="widget">
+                            <div class="widget-header p-h-lg p-v-md">
+                                <h2 class="widget-title">Tell us about a bug!</h2>
+                            </div>
+                            <hr class="widget-separator m-0">
+                            <div class="panel-body">
+
+                                {form sendBug}
+                                <div class="panel" id="status-update-panel" style="border: 1px solid #ddd;">
+                                    <div class="panel-body">
+                                        <textarea n:name=message id="status-update-content" cols="30" rows="10"></textarea>
+                                    </div>
+                                    <div class="panel-footer">
+                                            <input n:name=send role="button" class="btn btn-primary p-v-xl pull-right">
+                                    </div>
+                                </div>
+                                {/form}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}

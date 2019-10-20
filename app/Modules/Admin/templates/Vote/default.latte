@@ -1,0 +1,114 @@
+{block content}
+    <main id="app-main" class="app-main">
+
+        <div class="wrap">
+
+            <section class="app-content">
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+
+                        <div class="widget">
+                            <div class="widget-header p-h-lg p-v-md">
+                                <h2 class="widget-title">Vote for the Next Feature!</h2>
+                            </div>
+                            <hr class="widget-separator m-0">
+                            <div class="panel-body">
+
+                                <p>To build a solution around your needs, we want to know your opinion. Following list shows ideas that you have in mind.
+                                        By clicking on the vote let us know what is most important to you.</p>
+                                <p>You currently have <small class="media-meta text-primary">{5-count($user_vote)}</small> {(5-count($user_vote)) <= 1 ? "vote" : "votes"} to use.</p>
+
+
+                            </div>
+                        </div>
+
+                        {foreach $suggestions as $suggestion}
+
+                            <div class="widget">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-1 col-sm-1 text-center">
+                                            <a n:href="vote! $suggestion->id, count($user_vote)">
+                                                <i class="fas fa-heart circle {in_array($suggestion->id,$user_vote) ? "check"}"></i>
+                                                <p>{$suggestion->totalVote}</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-11 col-sm-11">
+                                            <p style="margin-bottom: 1.3em;">{$suggestion->text}</p>
+
+                                            <div class="media-body">
+                                                Suggested by: <a href="javascript:void(0)">{isset($suggestion->ref("data_user","user_id")->name) ? $suggestion->ref("data_user","user_id")->name : "Unknow"} {isset($suggestion->ref("data_user","user_id")->surname) ? $suggestion->ref("data_user","user_id")->surname}</a>
+                                                {switch $suggestion->status}
+                                                    {case working}
+                                                    <span class="label label-warning" style="float:  right;">{$suggestion->status}</span>
+                                                {case complete}
+                                                    <span class="label label-success" style="float:  right;">{$suggestion->status}</span>
+                                                {case open}
+                                                    <span class="label label-primary" style="float:  right;">{$suggestion->status}</span>
+                                                {/switch}
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        {/foreach}
+
+                        <nav aria-label="Page navigation" class="text-center" n:if="count($steps) > 1">
+                            <ul class="pagination">
+                                {if $page <= 1}
+                                    <li class="disabled"><a class="page-link">Previous</a></li>
+                                {else}
+                                    <li><a class="page-link" n:href="this $page - 1">Previous</a></li>
+                                {/if}
+
+                                {foreach $steps as $step}
+                                    {if $step == $page}
+                                        <li class="page-item active"><a href="#">{$step}</a></li>
+                                    {else}
+                                        <li class="page-item hidden-xs"><a class="" n:href="this $step">{$step}</a></li>
+                                    {/if}
+                                {/foreach}
+
+                                {if $lastPage <= $page}
+                                    <li class="disabled"><a class="page-link">Next</a></li>
+                                {else}
+                                    <li><a class="page-link" n:href="this $page + 1">Next</a></li>
+                                {/if}
+                            </ul>
+                        </nav>
+
+                        <div class="widget">
+                            <div class="widget-header p-h-lg p-v-md">
+                                <h2 class="widget-title">Cannot find the perfect feature? Tell us about your ideas!</h2>
+                            </div>
+                            <hr class="widget-separator m-0">
+                            <div class="panel-body">
+
+                                {form sendFeature}
+                                <div class="panel" id="status-update-panel" style="border: 1px solid #ddd;">
+                                    <div class="panel-body">
+                                        <textarea n:name=message id="status-update-content" cols="30" rows="10"></textarea>
+                                    </div>
+                                    <div class="panel-footer">
+                                            <input n:name=send role="button" class="btn btn-primary p-v-xl pull-right">
+                                    </div>
+                                </div>
+                                {/form}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- APP FOOTER -->
+        {include webfooter}
+        <!-- /#app-footer -->
+    </main>
+{/block}
