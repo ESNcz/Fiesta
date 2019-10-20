@@ -8,11 +8,8 @@
 
 namespace App\Api\Presenters;
 
-use App\Model\TokenRepository;
-use Firebase\JWT\JWT;
 use Nette\Application\UI\Presenter;
 use Nette\Database\Context;
-use Nette\Security\Passwords;
 
 
 class SandboxPresenter extends Presenter
@@ -28,9 +25,15 @@ class SandboxPresenter extends Presenter
         COLUMN_VALID = 'valid',
         COLUMN_LAST_LOGIN = 'last_login';
 
-    /** @var Context @inject */
     private $database;
 
+    /**
+     * AuthPresenter constructor.
+     * @param Context $database
+     */
+    public function __construct(Context $database){
+        $this->database = $database;
+    }
 
     public function actionRead($id, array $query, $data, array $associations)
     {

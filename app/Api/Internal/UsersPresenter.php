@@ -15,9 +15,15 @@ use Nette\Http\IResponse;
  */
 class UsersPresenter extends BasePresenter
 {
-
-    /** @var Context @inject */
     private $database;
+
+    /**
+     * UsersPresenter constructor.
+     * @param Context $database
+     */
+    public function __construct(Context $database) {
+        $this->database = $database;
+    }
 
     /**
      * @GET Get specific user with role from system Fiesta
@@ -30,6 +36,7 @@ class UsersPresenter extends BasePresenter
 
         $name = isset($query['input']) ? $query['input'] : null;
         $type = isset($query['type']) ? $query['type'] : null;
+
         if (is_null($name) || is_null($type)) {
             return $this->sendSpecific400Error("name or input");
         }

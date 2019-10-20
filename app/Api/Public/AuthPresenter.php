@@ -28,8 +28,15 @@ class AuthPresenter extends Presenter
         COLUMN_VALID = 'valid',
         COLUMN_LAST_LOGIN = 'last_login';
 
-    /** @var Context @inject */
     private $database;
+
+    /**
+     * AuthPresenter constructor.
+     * @param Context $database
+     */
+    public function __construct(Context $database){
+        $this->database = $database;
+    }
 
     public function actionReadAll()
     {
