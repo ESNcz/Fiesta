@@ -144,14 +144,17 @@ class PluginRepository extends Repository
         $this->database->table("buddy_request")->where("id", $id)->delete();
     }
 
-    public function deleteBuddyMatch($user)
+    public function deleteBuddyMatch($id)
     {
-        $this->database->table("buddy_match")
-            ->where("international", $user)->delete();
+        $request = $this->database->table("buddy_match")
+            ->where("id", $id)->fetch();
 
-        $this->database->table("buddy_request")->where("data_user", $user)->update([
+
+        $this->database->table("buddy_request")->where("data_user", $request["international"])->update([
             'take' => false
         ]);
+
+        $request->delete();
     }
 
     public function getUserLimit($member)
@@ -289,14 +292,17 @@ class PluginRepository extends Repository
         $this->database->table("pickup_request")->where("id", $id)->delete();
     }
 
-    public function deletePickUpMatch($user)
+    public function deletePickUpMatch($id)
     {
-        $this->database->table("pickup_match")
-            ->where("international", $user)->delete();
+        $request = $this->database->table("pickup_match")
+            ->where("id", $id)->fetch();
 
-        $this->database->table("pickup_request")->where("data_user", $user)->update([
+
+        $this->database->table("pickup_request")->where("data_user", $request["international"])->update([
             'take' => false
         ]);
+
+        $request->delete();
     }
 
     public function takePickUpRequest($member, $international, $university)
