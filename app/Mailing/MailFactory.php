@@ -3,6 +3,7 @@
 namespace App\Mailing;
 
 use App\Model\TokenRepository;
+use Exception;
 use Nette\Application\UI\Presenter;
 use Nette\Bridges\ApplicationLatte\ILatteFactory;
 use SendGrid;
@@ -28,12 +29,16 @@ class MailFactory extends Presenter
 
     private function sendEmail($message)
     {
-        $sendGrid = new SendGrid($this->context->parameters['sendGridApiKey']);
-        $response = $sendGrid->send($message);
+        try {
+            $sendGrid = new SendGrid($this->context->parameters['sendGridApiKey']);
+            $response = $sendGrid->send($message);
 
-        bdump($response->statusCode(), "Status code");
-        bdump($response->headers(), "Header");
-        bdump($response->body(), "Body");
+            bdump($response->statusCode(), "Status code");
+            bdump($response->headers(), "Header");
+            bdump($response->body(), "Body");
+        } catch (Exception $e) {
+            bdump('Caught exception: '. $e->getMessage());
+        }
     }
 
     /**
