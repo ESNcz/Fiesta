@@ -1,6 +1,7 @@
 /app/config/config.prod.neon
 /www/google*.html
 /www/images/avatar/*
+/www/source/*
 !/www/images/avatar/empty.jpg
 /vendor
 /composer.lock

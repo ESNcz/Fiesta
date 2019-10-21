@@ -354,4 +354,11 @@ class UserRepository extends User
             "password" => Passwords::hash($password)
         ]);
     }
+
+    public function transferUser($values) {
+        $user = $this->database->table("user")->get($values["email"]);
+        $user->update([
+            "university" => $values["section"]
+        ]);
+    }
 }

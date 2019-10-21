@@ -100,6 +100,11 @@
                                         <a n:href=":Admin:User:internationals"><span
                                                     class="menu-text">Internationals</span></a></li>
                                 {/if}
+                                {if $user->isAllowed('Admin:User',"transfer")}
+                                    <li n:class='$presenter->isLinkCurrent(":Admin:User:transfer") ? active'>
+                                        <a n:href=":Admin:User:transfer"><span
+                                        class="menu-text">Transfer user</span></a></li>
+                                {/if}
                             </ul>
                         </li>
                     {/if}
@@ -115,6 +120,17 @@
                             </a>
 
                             <ul class="submenu">
+                                {if $variable["module"] == "ExternalLink"}
+                                    {dump $externalLinks}
+                                    {foreach $externalLinks as $externalLink}
+                                        <li>
+                                            <a href="{$externalLink["url"]}" target="_blank">
+                                                <span class="menu-text">{$externalLink["title"]}</span>
+                                            </a>
+                                        </li>
+
+                                    {/foreach}
+                                {/if}
                                 {foreach $sideMenu["submenu"][$variable->module] as $action => $title}
                                     {if $user->isAllowed('Admin:'.$variable->module, $action)}
                                         <li n:class='$presenter->isLinkCurrent(":Admin:".$variable->module.":".$action) ? active'>

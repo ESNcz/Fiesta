@@ -43,7 +43,7 @@ class EventFormFactory
 
         $form->addSelect('leader', 'Event Leader:')
             ->setPrompt("Leader")
-            ->setAttribute('class', "section-autocomplete");
+            ->setAttribute('class', "member-autocomplete");
 
         $form->addText('location', 'Location:')
             ->setRequired("A specific location helps guests know where to go.");

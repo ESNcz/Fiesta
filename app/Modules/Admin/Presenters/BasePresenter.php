@@ -96,7 +96,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         if ($this->getUser()->isLoggedIn() && isset($this->getUser()->getIdentity()->signature)) {
 
             if (!$this->onSignPage() && !$this->onStatusPage()) {
+                bdump($this->module->getExternalLinks($this->userRepository->university),"meh");
                 $this->template->userInformation = $this->userRepository->getData();
+                $this->template->externalLinks = $this->module->getExternalLinks($this->userRepository->university);
                 $this->template->sideMenu = $this->module->getActivePluginsForSideMenu($this->userRepository->university);
             }
 

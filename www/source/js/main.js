@@ -94,7 +94,7 @@ $(document).ready(function() {
         templateSelection: formatRepoSelection
     });
 
-    $(".section-autocomplete").select2({
+    $(".international-autocomplete").select2({
         ajax: {
             url: "/internal/users",
             dataType: 'json',
@@ -102,7 +102,7 @@ $(document).ready(function() {
             data: function (params) {
                 return {
                     input: params.term, // search term
-                    type: 'section'
+                    type: 'internationals'
                 };
             },
             processResults: function (data, params) {

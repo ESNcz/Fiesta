@@ -640,4 +640,25 @@ class PluginRepository extends Repository
     {
         $this->getEvent($id)->delete();
     }
+
+    /**
+     * @param $university
+     * @return Selection
+     */
+    public function getExternalLinks($university)
+    {
+        return $this->database
+            ->table("links")
+            ->where("university", $university)
+            ->select("url, title");
+    }
+
+    public function removeExternalLink($url, $university)
+    {
+        $this->database
+            ->table("links")
+            ->where("url",$url)
+            ->where("university", $university)
+            ->delete();
+    }
 }

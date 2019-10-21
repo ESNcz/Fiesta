@@ -139,12 +139,18 @@ class AuthorizationFactory
         $permission->allow("editor", "Admin:HRmanager", "default");
 
         /*
+         * External Links
+         */
+        $permission->allow("authenticated", "Admin:ExternalLink");
+        $permission->allow("editor", "Admin:ExternalLink", "create");
+
+        /*
          * See profiles (users)
          */
         $permission->allow('member', "Admin:User", "members");
         $permission->allow('editor', "Admin:User", "internationals");
+        $permission->allow('editor', "Admin:User", "transfer");
         $permission->allow('authenticated', "Admin:User", "localmembers");
-
 
         /*
          * Sandbox

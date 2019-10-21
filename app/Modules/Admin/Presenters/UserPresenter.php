@@ -8,7 +8,11 @@
 
 namespace App\Admin\Presenters;
 
+use App\Forms\DefaultFormRenderer;
 use App\Grid\UsersGridFactory;
+use App\Model\UniversityRepository;
+use Kdyby\Translation\Translator;
+use Nette\Forms\Form;
 
 /**
  * Class UsersPresenter
@@ -20,15 +24,29 @@ class UserPresenter extends BasePresenter
      * @var UsersGridFactory
      */
     private $usersGridFactory;
+    /**
+     * @var UniversityRepository
+     */
+    private $universityRepository;
+    /**
+     * @var Translator
+     */
+    private $translator;
 
     /**
      * UserPresenter constructor.
      * @param UsersGridFactory $usersGridFactory
+     * @param Translator $translator
+     * @param UniversityRepository $universityRepository
      */
-    public function __construct(UsersGridFactory $usersGridFactory)
+    public function __construct(UsersGridFactory $usersGridFactory,
+                                Translator $translator,
+                                UniversityRepository $universityRepository)
     {
 
         $this->usersGridFactory = $usersGridFactory;
+        $this->universityRepository = $universityRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -81,6 +99,63 @@ class UserPresenter extends BasePresenter
             $this->redirect('this');
         });
         $this->addComponent($grid, $name);
+    }
+
+    public function createComponentTransferInternational()
+    {
+        $university = $this->universityRepository->getAllUniversities();
+
+        $form = new DefaultFormRenderer();
+        $form = $form->create();
+
+        $form->addProtection();
+
+
+        $form->addSelect('international', 'Transfer international:')
+            ->setAttribute('class', "international-autocomplete");
+
+        $form->addSelect('section', "Which university you want to send to?", $university)
+            ->setPrompt("University")
+            ->setRequired("Don't forget to choose ESN section");
+
+
+        $form->addSubmit('send', "TRANSFER");
+        $form->onSuccess[] = function (Form $form, $values) {
+            $values["email"] = $form->getHttpData($form::DATA_LINE, 'international');
+            $this->userRepository->transferUser($values);
+            $this->flashMessage("Your transfer user.", "info");
+            $this->redirect("this");
+        };
+
+        return $form;
+    }
+
+    public function createComponentTransferMember()
+    {
+        $university = $this->universityRepository->getAllUniversities();
+
+        $form = new DefaultFormRenderer();
+        $form = $form->create();
+
+        $form->addProtection();
+
+        $form->addSelect('member', 'Transfer member:')
+            ->setAttribute('class', "member-autocomplete");
+
+        $form->addSelect('section', "Which university you want to send to?", $university)
+            ->setPrompt("University")
+            ->setRequired("Don't forget to choose ESN section");
+
+
+        $form->addSubmit('send', "TRANSFER");
+        $form->onSuccess[] = function (Form $form, $values) {
+            $values["email"] = $form->getHttpData($form::DATA_LINE, 'member');
+            $this->userRepository->transferUser($values);
+            $this->flashMessage("Your transfer user.", "info");
+            $this->redirect("this");
+        };
+
+        return $form;
     }
 
     function renderInternationals()

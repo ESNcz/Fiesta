@@ -53,16 +53,17 @@ class UsersPresenter extends BasePresenter
 
     private function prepareJsonToGetSpecificUsers($name, $type)
     {
-        $users = $this->database->table("role_assignment")->where("user.user_id.university", $this->userRepository->university);
+        $users = $this->database->table("role_assignment");
 
         switch ($type) {
             case "members":
                 $users->where("role", "member");
                 break;
-            case "section":
-                $users->whereOr([
-                    "role" => ["admin", "member", "globalAdmin"]
-                ]);
+            case "internationals":
+                $users->where("role", "international");
+                break;
+            case "users":
+                $users->where("user.user_id.university", $this->userRepository->university);
                 break;
         }
 

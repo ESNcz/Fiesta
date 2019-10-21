@@ -1,0 +1,77 @@
+{block content}
+    <main id="app-main" class="app-main">
+        <div class="wrap">
+            <section class="app-content">
+
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="widget">
+                            <header class="widget-header">
+                                <div class="col-md-12">
+                                    <h1>Transfer User</h1>
+                                </div>
+                            </header>
+                            <!-- .widget-header -->
+                            <hr class="widget-separator">
+                            <div class="widget-body">
+
+                                    <header class="widget-header">
+                                        <p class="widget-title float-left">You can transfer users between universities. For security and privacy reasons, user history will be reset a therefore not transferred with your uni. <br>
+                                            When you transfer a user, please try to inform the receiving university about that.</p>
+                                    </header>
+                                    <!-- .widget-header -->
+                                    <div class="widget-body">
+                                        <div class="row">
+
+
+                                            <div class="widget">
+                                                <div class="panel-body">
+                                                    <form n:name=transferInternational class=form>
+                                                        <div class="form-group">
+                                                            {label international}
+                                                            {input international}
+                                                        </div>
+                                                        <div class='form-group'>
+                                                            <b>{label section}</b>
+                                                            {input section}
+                                                        </div>
+                                                        {input send}
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                            <div class="widget">
+                                                <div class="panel-body">
+                                                    <form n:name=transferMember class=form>
+                                                        <div class="form-group">
+                                                            {label member}
+                                                            {input member}
+                                                        </div>
+                                                        <div class='form-group'>
+                                                            <b>{label section}</b>
+                                                            {input section}
+                                                        </div>
+                                                        {input send}
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                            <!-- .widget -->
+                        </div>
+                        <!-- END column -->
+                    </div>
+                    <!-- .row -->
+
+            </section>
+            <!-- #dash-content -->
+        </div>
+    </main>
+{/block}
