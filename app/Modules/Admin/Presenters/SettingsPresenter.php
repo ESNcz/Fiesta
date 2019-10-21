@@ -2,11 +2,13 @@
 
 namespace App\Admin\Presenters;
 
+use App\Forms\DefaultFormRenderer;
 use App\Forms\ProfileFormFactory;
 use App\Forms\UploadImageFactory;
 use App\Grid\AdminGridFactory;
 use App\Grid\EditorGridFactory;
 use App\Model\AdminRepository;
+use App\Model\DuplicateException;
 use App\Model\EditorRepository;
 use App\Model\PluginRepository;
 use Exception;
@@ -80,19 +82,31 @@ class SettingsPresenter extends BasePresenter
      */
     public function createComponentAddAdmin()
     {
-        //TODO: rewrite
-//        return $this->formFactory->createAddAdmin(function ($id) {
-//            try {
-//                $this->facade->addRole($id, "admin");
-//            } catch (DuplicateException $e) {
-//                $this->flashMessage("This user is already admin.", "red");
-//                return;
-//            }
-//
-//            $this->flashMessage("New admin was added.", "info");
-//
-//            $this->redirect("this");
-//        });
+        $form = new DefaultFormRenderer();
+        $form = $form->create();
+
+        $form->addSelect('admin', 'Assign an Admin Role:')
+            ->setAttribute('class', "member-autocomplete");
+
+
+        $form->addSubmit('send', "Add");
+
+        $form->onSuccess[] = function (Form $form, $values) {
+            $id = $form->getHttpData($form::DATA_LINE, 'admin');
+
+            try {
+                $this->userRepository->setNewRole($id, "admin");
+            } catch (DuplicateException $e) {
+                $this->flashMessage("This user is already admin.", "red");
+                return;
+            }
+
+            $this->flashMessage("New admin was added.", "info");
+
+            $this->redirect("this");
+        };
+
+        return $form;
     }
 
     /**
@@ -102,6 +116,7 @@ class SettingsPresenter extends BasePresenter
      */
     public function handleDeleteAdmin($data_user)
     {
+
         $this->adminRepository->deleteAdmin($data_user);
         $this->flashMessage("User was removed from admin role", 'info');
 
@@ -136,18 +151,31 @@ class SettingsPresenter extends BasePresenter
      */
     public function createComponentAddEditor()
     {
-//        return $this->formFactory->createAddEditor(function ($id) {
-//            try {
-//                $this->facade->addRole($id, "editor");
-//            } catch (DuplicateException $e) {
-//                $this->flashMessage("This user is already editor.", "red");
-//                return;
-//            }
-//
-//            $this->flashMessage("New editor was added.", "info");
-//
-//            $this->redirect("this");
-//        });
+        $form = new DefaultFormRenderer();
+        $form = $form->create();
+
+        $form->addSelect('editor', 'Assign an Editor Role:')
+            ->setAttribute('class', "member-autocomplete");
+
+
+        $form->addSubmit('send', "Add");
+
+        $form->onSuccess[] = function (Form $form, $values) {
+            $id = $form->getHttpData($form::DATA_LINE, 'editor');
+
+            try {
+                $this->userRepository->setNewRole($id, "editor");
+            } catch (DuplicateException $e) {
+                $this->flashMessage("This user is already editor.", "red");
+                return;
+            }
+
+            $this->flashMessage("New editor was added.", "info");
+
+            $this->redirect("this");
+        };
+
+        return $form;
     }
 
     /**
@@ -213,10 +241,7 @@ class SettingsPresenter extends BasePresenter
         }
     }
 
-    function renderDefault()
-    {
-    }
-
+    function renderDefault() {}
     /**
      * Create component for edit profile - logged user (form)
      * @return Form

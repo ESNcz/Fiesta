@@ -361,4 +361,21 @@ class UserRepository extends User
             "university" => $values["section"]
         ]);
     }
+    /**
+     * Set new role
+     *
+     * @param $id
+     * @param $role
+     *
+     * @throws DuplicateException
+     */
+    public function setNewRole($id, $role) {
+        try {
+            $this->database->table("role_assignment")->insert([
+                "data_user" => $id,
+                "role" => $role]);
+        } catch (ConstraintViolationException $e) {
+            throw new DuplicateException;
+        }
+    }
 }

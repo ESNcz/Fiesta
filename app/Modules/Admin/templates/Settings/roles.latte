@@ -61,6 +61,24 @@
                                         </div>
                                         <div id="collapse-2" class="panel-collapse collapse" role="tabpanel"
                                              aria-labelledby="heading-2">
+                                            <form n:name=addAdmin class=form>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {label admin}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-9">
+                                                        {input admin}
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <div class="switch-right">
+                                                            {input send}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
                                             {control roleAdmin}
 
                                         </div>
@@ -77,6 +95,23 @@
                                         </div>
                                         <div id="collapse-3" class="panel-collapse collapse" role="tabpanel"
                                              aria-labelledby="heading-3">
+                                            <form n:name=addEditor class=form>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        {label editor}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group col-md-9">
+                                                        {input editor}
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <div class="switch-right">
+                                                            {input send}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
 
                                             {control roleEditor}
 
