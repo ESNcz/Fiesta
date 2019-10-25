@@ -1,6 +1,8 @@
 # Fiesta system
 The goal of this project is to develop a new information system for the non-profit organization called Erasmus Student Network (ESN). ESN is a Europe-wide international student organization coordinating student exchange programs. It implements solutions that encourage the higher level integration of new international students. 
 
+![Screenshot](https://i.imgur.com/8OheiMU.png)
+
 ## Instalation
 
 The best way to install this project is using Composer. If you don't have Composer yet, download it following [the instructions](https://doc.nette.org/composer). Then use command:
@@ -8,7 +10,7 @@ The best way to install this project is using Composer. If you don't have Compos
 ### Stable version
 
 ```bash
-git https://github.com/thanhdolong/Fiesta.git
+git https://github.com/thanhdolong/FiestaSystem.git
 cd Fiesta/
 composer install
 ```
@@ -73,11 +75,10 @@ The actual version of the system implements several modules: buddy system module
 
  If you find an issue, just [open a ticket](https://github.com/thanhdolong/Fiesta/issues/new/choose). Pull requests are warmly welcome as well.
 
-### 👨‍💻 Author
+### Author
 
-Thành Đỗ Long, thanh.dolong@gmail.com
+[Thành Đỗ Long](https://github.com/thanhdolong), thanh.dolong@gmail.com
 
 ### License
 
 Fiesta system is released under the AGPL-3.0 license. See LICENSE for details.
-
