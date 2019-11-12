@@ -120,11 +120,13 @@ class UserRepository extends User
      * Get on what university user study
      *
      * @param $id
-     * @return ActiveRow|FALSE
+     * @return ActiveRow|nil
      */
     public function getUniversityById($id)
     {
         $user = $this->getUserById($id);
+        if ($user == false) { return null; }
+
         $result = $user->ref("university", "university");
         return $result;
     }
