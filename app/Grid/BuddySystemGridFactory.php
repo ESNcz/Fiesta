@@ -50,7 +50,7 @@ class BuddySystemGridFactory extends Grid
         $this->showBuddyRequest($grid, $buddySettings);
 
         if ($buddySettings["show_faculty"]) {
-            $grid->showFaculty($this->universityRepository->getFaculties($university));
+            $grid->showFaculty($this->universityRepository->getAllFaculties($university));
         }
 
         if ($buddySettings["show_state"]) {
@@ -74,7 +74,7 @@ class BuddySystemGridFactory extends Grid
             $university = $this->userRepository->university;
 
             try {
-                $this->pluginRepository->takeBuddyRequest($this->userRepository->getId(), $international, $university);
+                $this->pluginRepository->takeBuddyRequestWithLimit($this->userRepository->getId(), $international, $university);
             } catch (DuplicateException $e) {
                 $onSuccess("This buddy request is already taken.", "red", $internationalEmail);
                 return;
@@ -193,7 +193,7 @@ class BuddySystemGridFactory extends Grid
         $university = $this->userRepository->university;
         $connections = $this->pluginRepository->getAllBuddyConnections($university)->where("member", $this->userRepository->getId());
 
-        $faculties = $this->universityRepository->getFaculties($university);
+        $faculties = $this->universityRepository->getAllFaculties($university);
         $faculties["multiselect"] = $faculties["short"];
         $faculties["short"][""] = "Unknown";
 
@@ -230,7 +230,7 @@ class BuddySystemGridFactory extends Grid
         $university = $this->userRepository->university;
         $connections = $this->pluginRepository->getAllBuddyConnections($university)->where("international", $this->userRepository->getId());
 
-        $faculties = $this->universityRepository->getFaculties($university);
+        $faculties = $this->universityRepository->getAllFaculties($university);
         $faculties["multiselect"] = $faculties["short"];
         $faculties["short"][""] = "Unknown";
 

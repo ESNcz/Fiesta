@@ -59,7 +59,7 @@ class PickUpSystemGridFactory extends Grid
             ->setAlign("left");
 
         if ($pickUpSettings["show_faculty"]) {
-            $grid->showFaculty($this->universityRepository->getFaculties($university));
+            $grid->showFaculty($this->universityRepository->getAllFaculties($university));
         }
 
         if ($pickUpSettings["show_state"]) {
@@ -123,7 +123,7 @@ class PickUpSystemGridFactory extends Grid
     public function createPickUpScoreboardGrid()
     {
         $university = $this->userRepository->university;
-        $scoreboard = $this->database->table("pickUp_match")->select("member AS data_user")
+        $scoreboard = $this->database->table("pickup_match")->select("member AS data_user")
             ->where("university", $university)
             ->select('COUNT(member) AS count_member, member')
             ->group("member")
@@ -198,7 +198,7 @@ class PickUpSystemGridFactory extends Grid
         $university = $this->userRepository->university;
         $connections = $this->pluginRepository->getAllPickUpConnections($university)->where("member", $this->userRepository->getId());
 
-        $faculties = $this->universityRepository->getFaculties($university);
+        $faculties = $this->universityRepository->getAllFaculties($university);
         $faculties["multiselect"] = $faculties["short"];
         $faculties["short"][""] = "Unknown";
 
@@ -245,7 +245,7 @@ class PickUpSystemGridFactory extends Grid
         $university = $this->userRepository->university;
         $connections = $this->pluginRepository->getAllPickUpConnections($university)->where("international", $this->userRepository->getId());
 
-        $faculties = $this->universityRepository->getFaculties($university);
+        $faculties = $this->universityRepository->getAllFaculties($university);
         $faculties["multiselect"] = $faculties["short"];
         $faculties["short"][""] = "Unknown";
 

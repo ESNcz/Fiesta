@@ -56,6 +56,13 @@ class MyDataGrid extends DataGrid
             ->setFilterText('data_user.country_id.name');
     }
 
+    function showRegisteredDate()
+    {
+        $this->addColumnDateTime('registered', 'Registered', "data_user.registered")
+            ->setSortable()
+            ->setFilterDateRange();
+    }
+
     function showHomeUniversity()
     {
         $this->addColumnText('university', 'Home University')
@@ -82,16 +89,20 @@ class MyDataGrid extends DataGrid
         $column_name = new ColumnText($this, 'name', 'data_user.name', 'Name');
         $column_surname = (new ColumnText($this, 'surname', 'data_user.surname', 'Surname'));
         $column_birthday = (new ColumnText($this, 'birthday', 'data_user.birthday', 'Birthday'));
-        $column_email = (new ColumnText($this, 'surname', 'user.user_id', 'Email'));
+        $column_country = (new ColumnText($this, 'country', 'data_user.country_id', 'Country'));
+        $column_email = (new ColumnText($this, 'email', 'user.user_id', 'Email'));
+        $column_registered = (new ColumnText($this, 'registered', 'data_user.registered', 'Registered'));
 
 
-        $this->addExportCsvFiltered('Csv export', "local-members.csv", "UTF-8", ";", true)
+        $this->addExportCsvFiltered('Csv export', "fiesta.csv", "UTF-8", ";", true)
             ->setTitle('Csv export')
             ->setColumns([
                 $column_name,
                 $column_surname,
                 $column_birthday,
-                $column_email
+                $column_email,
+                $column_country,
+                $column_registered
             ]);
     }
 
