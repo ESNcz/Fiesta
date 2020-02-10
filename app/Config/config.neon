@@ -4,9 +4,11 @@ application:
         *: App\*\Presenters\*Presenter
 
 database:
-	dsn: "mysql:host=%database.host%;dbname=%database.dbname%"
+	dsn: %database.dns%
 	user: %database.user%
 	password: %database.password%
+	options:
+		lazy: yes
 
 session:
 	expiration: 14 days
