@@ -64,7 +64,7 @@ class ProfileFormFactory
             'f' => 'Female',
         ];
 
-        $faculties = $this->universityRepository->getFaculties($this->userRepository->university);
+        $faculties = $this->universityRepository->getAllFaculties($this->userRepository->university);
         $countries = $this->countryRepository->getAllCountries();
 
         $user = $this->userRepository->getData();
@@ -162,6 +162,122 @@ class ProfileFormFactory
             if (isset($values["new_email"])) {
                 $this->userRepository->setUser($values);
             }
+            $onSuccess($values);
+        };
+
+        return $form;
+    }
+
+    /**
+     * Edit profile (anyone)
+     *
+     * @param          $id
+     * @param callable $onSuccess
+     *
+     * @return Form
+     */
+    public function createEditProfile($id, callable $onSuccess)
+    {
+
+        $sex = [
+            'm' => 'Male',
+            'f' => 'Female',
+        ];
+
+        $university = $this->universityRepository->getUniversity($id);
+        $faculties = $this->universityRepository->getAllFaculties($university);
+        $countries = $this->countryRepository->getAllCountries();
+
+        $user = $this->userRepository->getDataById($id);
+
+        $form = $this->renderer->create();
+
+        if ($this->userRepository->isInRole("admin") || $this->userRepository->isInRole("globalAdmin")) {
+            $form->addHidden("id")->setDefaultValue($id);
+
+            $form->addText("newId", "Email")
+                ->setHtmlAttribute('placeholder', 'Email')
+                ->addRule(Form::EMAIL)
+                ->setDefaultValue($id)
+                ->setRequired();
+        } else {
+            $form->addHidden("id")->setDefaultValue($id);
+        }
+
+        $form->addText("name", "First name")
+            ->setHtmlAttribute('placeholder', 'First name')
+            ->setDefaultValue($user["name"])
+            ->setRequired("What's your name?");
+
+        $form->addText("surname", "Last name")
+            ->setHtmlAttribute('placeholder', "Last name")
+            ->setDefaultValue($user["surname"])
+            ->setRequired("What's your name?");
+
+        $form->addSelect('faculty', 'Faculty:', $faculties["long"])
+            ->setPrompt("Faculty")
+            ->setDefaultValue($user["faculty"])
+            ->setRequired("What's your faculty?");
+
+        $form->addSelect('gender', 'Gender:', $sex)
+            ->setPrompt("Gender")
+            ->setDefaultValue($user["gender"])
+            ->setRequired();
+
+        $form->addText("phone_number", "Phone (include country code):")
+            ->setHtmlAttribute('placeholder', "Phone (include country code)")
+            ->setDefaultValue($user["phone_number"])
+            ->addRule(Form::PATTERN, 'Please Enter a valid phone number. International numbers start with \'+\' and country code (ex. +33155555555)', $this->internationalDialRegex)
+            ->setRequired(false);
+
+        $form->addSelect("country", "Country:", $countries)
+            ->setHtmlAttribute('placeholder', "Country")
+            ->setPrompt("Country")
+            ->setDefaultValue($user["country_id"]);
+
+        $form->addText("birthday", "Birthday:")
+            ->setHtmlAttribute('placeholder', "Birthday")
+            ->setHtmlAttribute("class", 'datetimepicker')
+            ->setDefaultValue($user["birthday"]);
+
+        if ($this->userRepository->isInRole("editor") || $this->userRepository->isInRole("admin") || $this->userRepository->isInRole("globalAdmin")) {
+            $form->addText("esn_card", "ESN card:")
+                ->setHtmlAttribute('placeholder', "ESN card")
+                ->setDefaultValue($user["esn_card"]);
+        }
+
+        if ($this->userRepository->isInRole("international")) {
+            $form->addText("home_university", "Home University:")
+                ->setHtmlAttribute('placeholder', "Home University")
+                ->setDefaultValue($user["home_university"]);
+        }
+
+        $form->addText("facebook", "Facebook URL:")
+            ->setHtmlAttribute('placeholder', "Facebook URL")
+            ->setDefaultValue($user["facebook_url"]);
+
+        $form->addText("instagram", "Instagram URL:")
+            ->setHtmlAttribute('placeholder', "Instagram URL")
+            ->setDefaultValue($user["instagram_url"]);
+
+        $form->addText("twitter", "Twitter URL:")
+            ->setHtmlAttribute('placeholder', "Twitter URL")
+            ->setDefaultValue($user["twitter_url"]);
+
+        $form->addTextArea("text", "About me", "30", "10")
+            ->setHtmlAttribute("placeholder", "Write some details about yourself")
+            ->addRule(Form::MAX_LENGTH, null, 500)
+            ->setDefaultValue($user["description"])
+            ->setRequired(false);
+
+        $form->addSubmit('send', "Save Changes");
+
+        $form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
+            $values["birthday"] = DateTime::createFromFormat("j. n. Y", $values["birthday"]);
+            if (!isset($values["esn_card"])) $values["esn_card"] = null;
+            if (!isset($values["home_university"])) $values["home_university"] = null;
+
+            $this->userRepository->updateInformation($values);
             $onSuccess($values);
         };
 

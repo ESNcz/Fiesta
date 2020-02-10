@@ -116,7 +116,7 @@ class BuddyManagementPresenter extends BasePresenter
                         if (isset($value["save"])) {
                             if (isset($value["member"])) {
                                 try {
-                                    $this->pluginRepository->takeBuddyRequest($value["member"], $values["id"], $this->userRepository->university);
+                                    $this->pluginRepository->takeBuddyRequestWithoutLimit($value["member"], $values["id"], $this->userRepository->university);
                                     $this->flashMessage("You just assign Buddy connection!", 'info');
                                 } catch (DuplicateException $e) {
                                     $this->database->table("buddy_match")->where("id", $values["id"])->update([

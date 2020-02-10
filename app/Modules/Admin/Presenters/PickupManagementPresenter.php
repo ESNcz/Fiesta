@@ -142,7 +142,7 @@ class PickupManagementPresenter extends BasePresenter
         $member = $this->userRepository->getId();
 
         try {
-            $this->pluginRepository->takeBuddyRequest($member, $id, $this->userRepository->university);
+            $this->pluginRepository->takeBuddyRequestWithLimit($member, $id, $this->userRepository->university);
             $this->flashMessage("You just made new buddy connection!", 'info');
 
         } catch (DuplicateException $e) {

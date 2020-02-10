@@ -26,6 +26,7 @@ class AuthenticatorFactory implements Nette\Security\IAuthenticator
         COLUMN_EMAIL = 'user_id',
         COLUMN_ROLE = 'role',
         COLUMN_UNIVERSITY = 'university',
+        COLUMN_SIGNATURE = 'signature',
         COLUMN_VALID = 'valid',
         COLUMN_LAST_LOGIN = 'last_login';
 
@@ -105,7 +106,7 @@ class AuthenticatorFactory implements Nette\Security\IAuthenticator
                     self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
                     self::COLUMN_EMAIL => $email,
                     self::COLUMN_UNIVERSITY => strtoupper($session["section"]),
-                    "signature" => Random::generate(10),
+                    self::COLUMN_SIGNATURE => Random::generate(10),
                     self::COLUMN_VALID => $date->modify("+6 months")
                 ]);
             } else {
@@ -114,13 +115,14 @@ class AuthenticatorFactory implements Nette\Security\IAuthenticator
                     self::COLUMN_EMAIL => $email,
                     self::COLUMN_STATUS => "uncompleted",
                     self::COLUMN_UNIVERSITY => strtoupper($session["section"]),
-                    "signature" => Random::generate(10),
+                    self::COLUMN_SIGNATURE => Random::generate(10),
                     self::COLUMN_VALID => $date->modify("+3 months")
                 ]);
             }
 
             $this->database->table("data_user")->insert([
-                "user_id" => $email
+                "user_id" => $email,
+                "registered" => $date
             ]);
 
             $this->database->table("role_assignment")->insert([

@@ -195,7 +195,7 @@ class PluginRepository extends Repository
         ]);
     }
 
-    public function takeBuddyRequest($member, $international, $university)
+    public function takeBuddyRequestWithLimit($member, $international, $university)
     {
         $date = DateTime::from(time());
 
@@ -233,6 +233,32 @@ class PluginRepository extends Repository
             }
 
         } else throw new MaxLimitException;
+
+        return $user;
+    }
+
+    public function takeBuddyRequestWithoutLimit($member, $international, $university)
+    {
+            try {
+                $this->database->beginTransaction();
+                $request = $this->database->table("buddy_request")->where("id", $international);
+
+                $request->update([
+                    'take' => true
+                ]);
+
+                $user = $request->select("data_user")->fetch();
+                $this->database->table("buddy_match")->insert([
+                    'member' => $member,
+                    'international' => $user["data_user"],
+                    'university' => $university,
+                ]);
+
+                $this->database->commit();
+            } catch (ConstraintViolationException $e) {
+                $this->database->rollBack();
+                throw new DuplicateException;
+            }
 
         return $user;
     }
