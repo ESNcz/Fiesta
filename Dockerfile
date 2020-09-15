@@ -4,4 +4,4 @@ COPY . /srv/
 
 WORKDIR /srv/
 
-CMD php -S 0.0.0.0:8000 -t /srv/www
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "/srv/www"]
