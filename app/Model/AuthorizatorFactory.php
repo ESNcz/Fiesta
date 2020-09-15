@@ -141,8 +141,10 @@ class AuthorizationFactory
         /*
          * External Links
          */
-        $permission->allow("authenticated", "Admin:ExternalLink");
-        $permission->allow("editor", "Admin:ExternalLink", "create");
+        if ($permission->hasResource("Admin:ExternalLink")) {
+            $permission->allow("authenticated", "Admin:ExternalLink");
+            $permission->allow("editor", "Admin:ExternalLink", "create");
+        }
 
         /*
          * See profiles (users)
