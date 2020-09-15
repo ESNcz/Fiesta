@@ -1,5 +1,7 @@
 FROM dockette/php:5.6
 
+LABEL maintainer="thejoeejoee@gmail.com"
+
 COPY . /srv/
 
 WORKDIR /srv/
