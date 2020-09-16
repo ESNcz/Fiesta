@@ -255,6 +255,20 @@ class SettingsPresenter extends BasePresenter
     }
 
     /**
+     * Create component for edit profile - anyone (form)
+     * @return Form
+     */
+    protected function createComponentEditProfileForm()
+    {
+        $id = $this->userRepository->getIdBySignature($this->getParameter('signature'));
+
+        return $this->profileFormFactory->createEditProfile($id,function () {
+            $this->flashMessage("Your information has been successfully saved.", "green");
+            $this->redirect('this');
+        });
+    }
+
+    /**
      * Create component for upload avatar - logged user
      * @return Form
      */
@@ -262,6 +276,22 @@ class SettingsPresenter extends BasePresenter
     {
         return $this->uploadImageFactory->uploadUserImage(function () {
             if (!$this->isAjax()) {
+                $this->redirect('this');
+            } else {
+                $this->redrawControl("sidemenu");
+            }
+        });
+    }
+
+    /**
+     * Create component for upload avatar - anyone
+     * @return Form
+     */
+    protected function createComponentUploadImage()
+    {
+        $signature = $this->getParameter('signature');
+        return $this->uploadImageFactory->uploadImage($signature, function () {
+            if(!$this->isAjax()){
                 $this->redirect('this');
             } else {
                 $this->redrawControl("sidemenu");

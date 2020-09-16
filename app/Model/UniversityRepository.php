@@ -24,7 +24,7 @@ class UniversityRepository extends Repository
         return $this->database->table("university")->get($university);
     }
 
-    public function getFaculties($university)
+    public function getAllFaculties($university)
     {
         $result["long"] = $this->database
             ->table("faculty")

@@ -142,7 +142,7 @@ class SignUpFormFactory
             'f' => $this->translator->translate("sign.setup.female"),
         ];
 
-        $faculties = $this->university->getFaculties($this->userRepository->university);
+        $faculties = $this->university->getAllFaculties($this->userRepository->university);
 
         $form = $this->renderer->create();
 

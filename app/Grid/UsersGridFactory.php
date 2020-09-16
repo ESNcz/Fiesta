@@ -110,7 +110,7 @@ class UsersGridFactory extends Grid
 
         $grid->showProfileColumnWithEmail();
         $grid->showCountry();
-        $grid->showFaculty($this->universityRepository->getFaculties($university));
+        $grid->showFaculty($this->universityRepository->getAllFaculties($university));
 
 
         if ($this->userRepository->isAdministrator()) {
@@ -148,7 +148,8 @@ class UsersGridFactory extends Grid
         $grid->showCountry();
         $grid->showESNCard();
         $grid->showPhoneNumber();
-        $grid->showFaculty($this->universityRepository->getFaculties($university));
+        $grid->showFaculty($this->universityRepository->getAllFaculties($university));
+        $grid->showRegisteredDate();
 
 
         if ($this->userRepository->isAdministrator()) {

@@ -4,8 +4,7 @@ parameters:
         version: 2.0
 
     database:
-        host: localhost
-        dbname: dev-fiesta
+        dns: 'mysql:host=localhost;dbname=dev-fiesta'
         user: root
         password: root
 

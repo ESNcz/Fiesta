@@ -120,11 +120,13 @@ class UserRepository extends User
      * Get on what university user study
      *
      * @param $id
-     * @return ActiveRow|FALSE
+     * @return ActiveRow|nil
      */
     public function getUniversityById($id)
     {
         $user = $this->getUserById($id);
+        if ($user == false) { return null; }
+
         $result = $user->ref("university", "university");
         return $result;
     }
@@ -262,6 +264,49 @@ class UserRepository extends User
                 };
             }
 
+            $this->database->commit();
+        } catch (ConstraintViolationException $e) {
+            $this->database->rollBack();
+            throw new DuplicateException;
+        }
+    }
+
+    /**
+     * Update logged user information
+     *
+     * @param $value
+     *
+     * @return void
+     * @throws DuplicateException
+     */
+    public function updateInformation($value)
+    {
+        try {
+            $this->database->beginTransaction();
+            $user = $this->database->table("data_user")->where("user_id",$value->id);
+            if(isset($value->newId)) {
+                if($value->id !== $value->newId) {
+                    $this->database->table("user")->where("user_id", $value->id)->update([
+                        'user_id' => $value->newId
+                    ]);
+                }
+            }
+
+            $user->update([
+                'name' => $value->name,
+                'surname' => $value->surname,
+                'phone_number' => $value->phone_number,
+                'gender' => $value->gender,
+                'country_id' => $value->country,
+                'birthday' => $value->birthday,
+                'esn_card' => $value->esn_card,
+                'faculty_id' => $value->faculty,
+                'home_university' => $value->home_university,
+                'facebook_url' => $value->facebook,
+                'twitter_url' => $value->twitter,
+                'instagram_url' => $value->instagram,
+                'description' => $value->text
+            ]);
             $this->database->commit();
         } catch (ConstraintViolationException $e) {
             $this->database->rollBack();
