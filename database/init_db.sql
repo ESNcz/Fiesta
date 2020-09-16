@@ -273,6 +273,7 @@ CREATE TABLE `data_user` (
   `twitter_url` varchar(250) DEFAULT NULL,
   `instagram_url` varchar(250) DEFAULT NULL,
   `description` text,
+  `registered` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `faculty` (`faculty_id`),
   KEY `country_id` (`country_id`),
@@ -281,19 +282,19 @@ CREATE TABLE `data_user` (
   CONSTRAINT `data_user_ibfk_4` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `data_user` (`user_id`, `name`, `surname`, `gender`, `country_id`, `home_university`, `birthday`, `esn_card`, `phone_number`, `faculty_id`, `facebook_url`, `twitter_url`, `instagram_url`, `description`) VALUES
-('admin@mendel.cz',	'Admin',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	22,	NULL,	NULL,	NULL,	NULL),
-('admin@muni.cz',	'Admin',	'Muni',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL),
-('admin@vutbr.cz',	'Admin',	'BUT',	'm',	'CZ',	'',	'1970-01-01',	'',	'',	8,	'',	'',	'',	''),
-('editor@mendel.cz',	'Editor',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	24,	NULL,	NULL,	NULL,	NULL),
-('editor@muni.cz',	'Editor',	'Muni',	'f',	'SK',	NULL,	'1970-01-01',	'',	'',	14,	'',	'',	'',	''),
-('editor@vutbr.cz',	'Editor',	'BUT',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	4,	NULL,	NULL,	NULL,	NULL),
-('international@mendel.cz',	'International',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	21,	NULL,	NULL,	NULL,	NULL),
-('international@muni.cz',	'International',	'Muni',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL),
-('international@vutbr.cz',	'International',	'BUT',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	4,	NULL,	NULL,	NULL,	NULL),
-('member@mendel.cz',	'Member',	'Mendel',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	20,	NULL,	NULL,	NULL,	NULL),
-('member@muni.cz',	'Member',	'Muni',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL),
-('member@vutbr.cz',	'Member',	'BUT',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	7,	NULL,	NULL,	NULL,	NULL);
+INSERT INTO `data_user` (`user_id`, `name`, `surname`, `gender`, `country_id`, `home_university`, `birthday`, `esn_card`, `phone_number`, `faculty_id`, `facebook_url`, `twitter_url`, `instagram_url`, `description`, `registered`) VALUES
+('admin@mendel.cz',	'Admin',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	22,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('admin@muni.cz',	'Admin',	'Muni',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('admin@vutbr.cz',	'Admin',	'BUT',	'm',	'CZ',	'',	'1970-01-01',	'',	'',	8,	'',	'',	'',	'', '2020-12-04 14:01:15'),
+('editor@mendel.cz',	'Editor',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	24,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('editor@muni.cz',	'Editor',	'Muni',	'f',	'SK',	NULL,	'1970-01-01',	'',	'',	14,	'',	'',	'',	'', '2020-12-04 14:01:15'),
+('editor@vutbr.cz',	'Editor',	'BUT',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	4,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('international@mendel.cz',	'International',	'Mendel',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	21,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('international@muni.cz',	'International',	'Muni',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('international@vutbr.cz',	'International',	'BUT',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	4,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('member@mendel.cz',	'Member',	'Mendel',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	20,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('member@muni.cz',	'Member',	'Muni',	'f',	NULL,	NULL,	NULL,	NULL,	NULL,	13,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15'),
+('member@vutbr.cz',	'Member',	'BUT',	'm',	NULL,	NULL,	NULL,	NULL,	NULL,	7,	NULL,	NULL,	NULL,	NULL, '2020-12-04 14:01:15');
 
 DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (

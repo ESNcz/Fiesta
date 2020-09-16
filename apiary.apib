@@ -1,0 +1,84 @@
+FORMAT: 1A
+HOST: https://dev-fiesta.esncz.org/api
+
+# Fiesta
+
+
+
+# Description Of Usual Server Responses:
+- 200 `OK` - the request was successful (some API calls may return 201 instead).
+- 201 `Created` - the request was successful and a resource was created.
+- 204 `No Content` - the request was successful but there is no representation to return (i.e. the response is empty).
+- 400 `Bad Request` - the request could not be understood or was missing required parameters.
+- 401 `Unauthorized` - authentication failed or user doesn't have permissions for requested operation.
+- 403 `Forbidden` - access denied.
+- 404 `Not Found` - resource was not found.
+- 405 `Method Not Allowed` - requested method is not supported for resource.
+
+# Data Structures
+## Token request (object)
++ email (required, string) - Email of user
++ password (required, string) - Password of user
+
+## Valid response (object)
++ `access_token`: `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NzIyNzg3NDMsImlzcyI6IjE4NS44LjE2NS4zNSIsIm5iZiI6MTU3MjI3ODc0MywiZXhwIjoxNTgwMjI3NTQzLCJkYXRhIjp7ImVtYWlsIjoiYWRtaW5AenVicmkuY29tIiwicm9sZXMiOlsibWVtYmVyIl0sInNpZ25hdHVyZSI6IjhwcmEzeHV4eGsiLCJ1bml2ZXJzaXR5IjoiQlVUIn19.vLO4N5Jm_gUwu4XAYDHEU1rVRHjOs7v8gWQvLYRdUdM` (string, required) - valid JWT
+
+
+# Authorization Tokens
+
+This resource represents a collection of authorization tokens granted to a Fiesta user. 
+
+## Token exchange [/auth]
+
+### Create an Authorization Token [POST]
+Create a new authorization token for an authenticated user. This authorization token may be used to access protected resources.
+
++ Request
+    + Attributes (Token request)
+    
+    + Headers
+    
+            Content-Type: application/x-www-form-urlencoded
+            
+    + Body
+    
+            email=international@esn.org&password=international
+
++ Response 200 (application/json)
+    + Attributes (Valid response)
+
++ Response 403 (application/json)
+
+        {
+            "code": "403",
+            "message": "Oops, that's not the right email or password. Please try again!"
+        }
+
++ Response 403 (application/json)
+
+        {
+            "code": "403",
+            "message": "Email or password missing"
+        }
+
+## Profile protected resource [/profile]
+### Get profile information [GET]
+
++ Request
+    + Headers
+    
+            X-Auth-Token: JWT TOKEN
+
++ Response 200 (application/json)
+
+        {
+            "firstname": "George",
+            "lastname": "Example",
+            "gender": "m",
+            "email": "international@esn.org",
+            "university": {
+                "name": "Brno University of Technology",
+                "sectionShort": "ESN VUT Brno",
+                "section_long": "Erasmus Student Network VUT Brno"
+            }
+        }
