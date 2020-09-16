@@ -75,7 +75,7 @@ class PickUpSystemGridFactory extends Grid
 
 
         $this->showPickUpTakeButton($grid, function ($international) use ($onSuccess) {
-            $internationalEmail = $this->database->table("pickUp_request")
+            $internationalEmail = $this->database->table("pickup_request")
                 ->where("id", $international)
                 ->select("data_user")->fetch();
 
