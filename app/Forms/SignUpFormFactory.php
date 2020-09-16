@@ -161,7 +161,7 @@ class SignUpFormFactory
             ->addRule(Form::PATTERN, 'Please Enter a valid phone number. International numbers start with \'+\' and country code (ex. +33155555555)', $this->internationalDialRegex)
             ->setRequired("What's your phone number?");*/
 
-        $form->addSelect('faculty', $this->translator->translate("sign.setup.faculty"), $faculties["long"])
+        $form->addSelect('faculty_id', $this->translator->translate("sign.setup.faculty"), $faculties["long"])
             ->setPrompt($this->translator->translate("sign.setup.faculty"))
             ->setRequired($this->translator->translate("sign.setup.requiredFaculty"));
 
