@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  web:
+    container_name: web
+    build: .
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/srv/
+
+  db:
+    container_name: db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'fiesta'
+      MYSQL_USER: 'fiesta'
+      MYSQL_PASSWORD: 'fiesta'
+      MYSQL_ROOT_PASSWORD: 'fiesta-root'
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - db-mysql-data:/var/lib/mysql
+
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - 8080:8080
+
+volumes:
+  db-mysql-data:
