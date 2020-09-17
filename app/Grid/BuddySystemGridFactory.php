@@ -118,7 +118,8 @@ class BuddySystemGridFactory extends Grid
     public function createBuddyScoreboardGrid()
     {
         $university = $this->userRepository->university;
-        $scoreboard = $this->database->table("buddy_match")->select("member AS data_user")
+        $scoreboard = $this->database->table("buddy_match")
+            ->select("member AS data_user")
             ->where("university", $university)
             ->select('COUNT(member) AS count_member, member')
             ->group("member")
@@ -129,7 +130,7 @@ class BuddySystemGridFactory extends Grid
         $grid->setPrimaryKey("data_user");
         $grid->setDataSource($scoreboard);
 
-        $grid->showProfileColumnWithEmail();
+        $grid->showProfileColumnWithEmail('member');
 
         $grid->addColumnText('count_member', 'Connections', "count_member")
             ->setSortable("count_member");

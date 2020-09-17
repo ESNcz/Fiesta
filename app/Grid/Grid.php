@@ -15,7 +15,8 @@ abstract class Grid
      * Grid constructor.
      * @param Context $database
      */
-    public function __construct(Context $database) {
+    public function __construct(Context $database)
+    {
         $this->database = $database;
     }
 
@@ -29,23 +30,18 @@ abstract class Grid
 
 class MyDataGrid extends DataGrid
 {
-    function showProfileColumnWithEmail()
+    function showProfileColumnWithEmail($relatedTableName = 'data_user')
     {
-        $this->addColumnText('name', 'Name')
-            ->setTemplate(__DIR__ . '/templates/grid.profile.latte')
-            ->setSortable("data_user.name")
-            ->setFilterText(['data_user.name', "data_user.surname", "user.user_id"]);
+        return $this
+            ->createProfileColumnBase($relatedTableName)
+            ->setTemplate(__DIR__ . '/templates/grid.profile.latte');
     }
 
     function showProfileColumnWithoutEmail()
     {
-        $this->addColumnText('name', 'Name')
-            ->setTemplate(__DIR__ . '/templates/grid.esnmembers.latte')
-            ->setSortable("data_user.name")
-            ->setFilterText()
-            ->setCondition(function ($fluent, $value) {
-                $fluent->where("concat_ws(' ', data_user.name, data_user.surname) LIKE ? OR user.user_id LIKE ?", ['%' . $value . '%', '%' . $value . '%']);
-            });
+        return $this
+            ->createProfileColumnBase()
+            ->setTemplate(__DIR__ . '/templates/grid.esnmembers.latte');
     }
 
     function showCountry()
@@ -175,5 +171,26 @@ class MyDataGrid extends DataGrid
             "active" => 'Active',
             "enabled" => 'Alumni'
         ]), "user.user_id.status");
+    }
+
+    /**
+     * @param string $relatedTableName customized table name for filter when `data_user` IS NOT base table of datasource
+     * @return ColumnText
+     */
+    protected function createProfileColumnBase($relatedTableName = 'data_user')
+    {
+        $col = $this
+            ->addColumnText('name', 'Name')
+            ->setSortable("$relatedTableName.name");
+
+        $col
+            ->setFilterText()
+            ->setCondition(function ($fluent, $value) use ($relatedTableName) {
+                $fluent->where(
+                    "concat_ws(' ', $relatedTableName.name, $relatedTableName.surname) LIKE ? OR $relatedTableName.user_id LIKE ?",
+                    ["%$value%", "%$value%"]
+                );
+            });
+        return $col;
     }
 }
