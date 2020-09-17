@@ -54,8 +54,6 @@ $(document).ready(function() {
     });
 });
 
-
-    $('#frm-signUpForm-faculty').select2();
     // language=JQuery-CSS
     $(".default-select2").select2();
 
