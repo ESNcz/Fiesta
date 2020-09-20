@@ -27,36 +27,33 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
             }
         }
 
-        if ($this->getUser()->isLoggedIn() == false) {
-            if ($this->onSignPage() == false) {
-                $this->redirect('Sign:in');
-            }
-        } else {
-            $this->userRepository->refreshIdentity();
-            if (!$this->onSignPage()) {
-                switch ($this->getUser()->getIdentity()->status) {
-                    case "active":
-                        if ($this->onStatusPage()) $this->redirect(":Admin:Homepage:default");
-                        break;
-                    case "pending":
-                        if (!$this->onStatusPage()) $this->redirect(":Admin:Status:pending");
-                        break;
-                    case "enabled":
-                        if (!$this->onStatusPage()) $this->redirect(":Admin:Status:enabled");
-                        break;
-                    case "banned":
-                        if (!$this->onStatusPage()) $this->redirect(":Admin:Status:banned");
-                        break;
-                    case "uncompleted":
-                        if ($this->onRegistrationComplete()) $this->redirect(":Admin:Sign:continue");
-                        break;
-                }
-            }
+        if (!$this->getUser()->isLoggedIn() && !$this->onSignPage()) {
+            $this->redirect(':Admin:Sign:in');
 
-            if (!$this->getUser()->isAllowed($this->name, $this->action)) {
-                $this->flashMessage("<b>Ops,</b> you do not have permission to view this page ", "red");
-                $this->redirect('Homepage:default');
+        }
+        $this->userRepository->refreshIdentity();
+        if (!$this->onSignPage()) {
+            $status = $this->getUser()->getIdentity()->status;
+            switch ($status) {
+                case "active":
+                    if ($this->onStatusPage()) $this->redirect(":Admin:Homepage:default");
+                    break;
+
+                case "pending":
+                case "enabled":
+                case "banned":
+                    if (!$this->onStatusPage()) $this->redirect(":Admin:Status:$status");
+                    break;
+
+                case "uncompleted":
+                    if ($this->onRegistrationComplete()) $this->redirect(":Admin:Sign:continue");
+                    break;
             }
+        }
+
+        if (!$this->getUser()->isAllowed($this->name, $this->action)) {
+            $this->flashMessage("<b>Ops,</b> you do not have permission to view this page ", "red");
+            $this->redirect('Homepage:default');
         }
     }
 
