@@ -124,8 +124,8 @@ class ProfileFormFactory
             ->setDefaultValue(date("d. m. Y", strtotime($user["birthday"])));
 
         if ($this->userRepository->isInRole("editor") || $this->userRepository->isInRole("admin") || $this->userRepository->isInRole("globalAdmin")) {
-            $form->addText("esn_card", "ESN card:")
-                ->setHtmlAttribute('placeholder', "ESN card")
+            $form->addText("esn_card", "ESNCard:")
+                ->setHtmlAttribute('placeholder', "ESNCard")
                 ->setDefaultValue($user["esn_card"]);
         }
 
@@ -241,8 +241,8 @@ class ProfileFormFactory
             ->setDefaultValue($user["birthday"]);
 
         if ($this->userRepository->isInRole("editor") || $this->userRepository->isInRole("admin") || $this->userRepository->isInRole("globalAdmin")) {
-            $form->addText("esn_card", "ESN card:")
-                ->setHtmlAttribute('placeholder', "ESN card")
+            $form->addText("esn_card", "ESNCard:")
+                ->setHtmlAttribute('placeholder', "ESNCard")
                 ->setDefaultValue($user["esn_card"]);
         }
 
