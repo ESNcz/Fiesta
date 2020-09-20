@@ -165,7 +165,7 @@ class UserRepository extends User
             "image" => "Add a profile picture",
             "phone_number" => "Add your phone number",
             "country_id" => "Add your country",
-            "esn_card" => "Get your ESN card"
+            "esn_card" => "Get your ESNCard"
         );
 
         $markup5 = array(

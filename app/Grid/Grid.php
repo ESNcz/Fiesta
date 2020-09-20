@@ -146,7 +146,7 @@ class MyDataGrid extends DataGrid
 
     function showESNCard()
     {
-        $this->addColumnText('esn', 'ESN Card', "data_user.esn_card")
+        $this->addColumnText('esn', 'ESNCard', "data_user.esn_card")
             ->setSortable("data_user.esn_card")
             ->setReplacement(['' => 'Unknown'])
             ->setFilterText('data_user.esn_card');

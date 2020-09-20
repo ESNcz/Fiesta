@@ -59,7 +59,7 @@ class EventGridFactory extends Grid
 
             $column_name = (new ColumnText($grid, 'name', 'data_user.name', 'Name'));
             $column_surname = (new ColumnText($grid, 'surname', 'data_user.surname', 'Surname'));
-            $column_esncard = (new ColumnText($grid, 'surname', 'data_user.esn_card', 'ESN Card'));
+            $column_esncard = (new ColumnText($grid, 'surname', 'data_user.esn_card', 'ESNCard'));
             $column_phone = (new ColumnText($grid, 'surname', 'data_user.phone_number', 'Phone number'));
             $column_email = (new ColumnText($grid, 'surname', 'user.user_id', 'Email'));
 
