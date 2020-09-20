@@ -90,33 +90,32 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     function beforeRender()
     {
         parent::beforeRender();
-        bdump($this->name, "Presenter");
-        bdump($this->action, "Action");
 
         if ($this->getUser()->isLoggedIn() && isset($this->getUser()->getIdentity()->signature)) {
 
             if (!$this->onSignPage() && !$this->onStatusPage()) {
-                bdump($this->module->getExternalLinks($this->userRepository->university),"meh");
                 $this->template->userInformation = $this->userRepository->getData();
                 $this->template->externalLinks = $this->module->getExternalLinks($this->userRepository->university);
                 $this->template->sideMenu = $this->module->getActivePluginsForSideMenu($this->userRepository->university);
             }
 
-            $filename = "images/avatar/{$this->getUser()->getIdentity()->signature}.jpg";
+            $avatarFilename = $this->userRepository->getProfileAvatar();
 
-            if (file_exists($filename)) {
+            if ($avatarFilename) {
                 $date = new DateTime();
                 if ($this->isAjax()) {
-                    $this->template->urlAvatar = "/{$filename}?time={$date->getTimestamp()}";
+                    $this->template->urlAvatar = "/{$avatarFilename}?time={$date->getTimestamp()}";
                     $this->template->sideMenuFade = "in";
                     $this->redrawControl("avatar");
                 } else {
-                    $this->template->urlAvatar = "/{$filename}?time={$date->getTimestamp()}";
+                    $this->template->urlAvatar = "/{$avatarFilename}?time={$date->getTimestamp()}";
                 }
                 $this->getUser()->identity->hasImage = true;
+
             } else {
                 $this->template->urlAvatar = "/images/avatar/empty.jpg";
-                if (!is_null($this->getUser()->getIdentity())) $this->getUser()->identity->hasImage = false;
+                if (!is_null($this->getUser()->getIdentity()))
+                    $this->getUser()->identity->hasImage = false;
             }
         }
 

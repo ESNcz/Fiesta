@@ -38,7 +38,7 @@ class HomepagePresenter extends BasePresenter
     function renderDefault()
     {
         $checkData = $this->userRepository->getIdentity()->data;
-        $checkData["image"] = $this->userRepository->getIdentity();
+        $checkData["image"] = $this->userRepository->getProfileAvatar();
 
         $this->template->dashboardInfo = $this->universityRepository->getUniversity($this->userRepository->university);
         $this->template->profileStrength = $this->userRepository->getProfileStrength($checkData);

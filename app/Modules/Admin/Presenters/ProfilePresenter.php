@@ -38,9 +38,10 @@ class ProfilePresenter extends BasePresenter
             $this->redirect("Homepage:default");
         }
 
-        $filename = "images/avatar/{$signature}.jpg";
-        if (file_exists($filename)) {
-            $this->template->urlForAvatar = "/" . $filename;
+        $filename = $this->userRepository->getProfileAvatar($signature);
+
+        if ($filename) {
+            $this->template->urlForAvatar = "/$filename";
         } else {
             $this->template->urlForAvatar = "/images/avatar/empty.jpg";
         }

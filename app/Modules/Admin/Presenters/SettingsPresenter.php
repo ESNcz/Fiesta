@@ -226,15 +226,16 @@ class SettingsPresenter extends BasePresenter
      */
     function renderEdit($signature)
     {
-        $filename = "images/avatar/{$signature}.jpg";
-        if (file_exists($filename)) {
+        $filename = $this->userRepository->getProfileAvatar($signature);
+
+        if ($filename) {
             if ($this->isAjax()) {
                 $date = new DateTime();
                 $this->template->urlForAvatar = "/{$filename}?time={$date->getTimestamp()}";
                 $this->template->sideMenuFade = "in";
                 $this->redrawControl("avatar");
             } else {
-                $this->template->urlForAvatar = "/" . $filename;
+                $this->template->urlForAvatar = "/$filename";
             }
         } else {
             $this->template->urlForAvatar = "/images/avatar/empty.jpg";

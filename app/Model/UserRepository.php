@@ -17,6 +17,7 @@ use Nette\SmartObject;
 class UserRepository extends User
 {
     use SmartObject;
+
     const
         TABLE_NAME = 'user',
         TABLE_MODULES = "module_assignment",
@@ -33,12 +34,13 @@ class UserRepository extends User
 
     /**
      * User constructor.
-     * @param Context $database
-     * @param IUserStorage $storage
+     * @param Context             $database
+     * @param IUserStorage        $storage
      * @param IAuthenticator|null $authenticator
-     * @param IAuthorizator|null $authorizator
+     * @param IAuthorizator|null  $authorizator
      */
-    public function __construct(Context $database, IUserStorage $storage, IAuthenticator $authenticator = NULL, IAuthorizator $authorizator = NULL)
+    public function __construct(Context $database, IUserStorage $storage,
+                                IAuthenticator $authenticator = NULL, IAuthorizator $authorizator = NULL)
     {
         parent::__construct($storage, $authenticator, $authorizator);
 
@@ -125,7 +127,9 @@ class UserRepository extends User
     public function getUniversityById($id)
     {
         $user = $this->getUserById($id);
-        if ($user == false) { return null; }
+        if ($user == false) {
+            return null;
+        }
 
         $result = $user->ref("university", "university");
         return $result;
@@ -150,7 +154,7 @@ class UserRepository extends User
         return $this->database->table("role_assignment")->where("data_user", $id)->fetchPairs(null, "role");
     }
 
-    public function getProfileStrength($userInformation)
+    public function getProfileStrength($filledData)
     {
         /*
          * image 10%
@@ -173,37 +177,35 @@ class UserRepository extends User
             "home_university" => "Add your home university"
         );
 
-
         $data["complete"] = 50;
 
         foreach ($markup10 as $key => $value) {
-            if ($userInformation[$key] != "Unknown") {
-                if (!empty($userInformation[$key])) {
-                    $data["complete"] += 10;
-                    unset($markup10[$key]);
-                }
+
+            if ($filledData[$key] && $filledData[$key] != "Unknown") {
+                $data["complete"] += 10;
+                unset($markup10[$key]);
             }
 
-            if ($key == "image" && $userInformation["image"] == true) {
+            if ($key == "image" && $filledData["image"] == true) {
                 $data["complete"] += 10;
                 unset($markup10[$key]);
             }
         }
 
         foreach ($markup5 as $key => $value) {
-            if ($key === "birthday" && strtotime($userInformation[$key]) > 0) {
+            if ($key === "birthday" && strtotime($filledData[$key]) > 0) {
                 $data["complete"] += 5;
                 unset($markup5[$key]);
                 continue;
             }
 
-            if ($key === "home_university" && $this->isInRole("member") && $userInformation[$key] != "Unknown") {
+            if ($key === "home_university" && $this->isInRole("member") && $filledData[$key] != "Unknown") {
                 $data["complete"] += 5;
                 unset($markup5[$key]);
                 continue;
             }
 
-            if (isset($userInformation[$key]) && $key !== "birthday") {
+            if (isset($filledData[$key]) && $key !== "birthday") {
                 $data["complete"] += 5;
                 unset($markup5[$key]);
             }
@@ -283,9 +285,9 @@ class UserRepository extends User
     {
         try {
             $this->database->beginTransaction();
-            $user = $this->database->table("data_user")->where("user_id",$value->id);
-            if(isset($value->newId)) {
-                if($value->id !== $value->newId) {
+            $user = $this->database->table("data_user")->where("user_id", $value->id);
+            if (isset($value->newId)) {
+                if ($value->id !== $value->newId) {
                     $this->database->table("user")->where("user_id", $value->id)->update([
                         'user_id' => $value->newId
                     ]);
@@ -400,12 +402,14 @@ class UserRepository extends User
         ]);
     }
 
-    public function transferUser($values) {
+    public function transferUser($values)
+    {
         $user = $this->database->table("user")->get($values["email"]);
         $user->update([
             "university" => $values["section"]
         ]);
     }
+
     /**
      * Set new role
      *
@@ -414,7 +418,8 @@ class UserRepository extends User
      *
      * @throws DuplicateException
      */
-    public function setNewRole($id, $role) {
+    public function setNewRole($id, $role)
+    {
         try {
             $this->database->table("role_assignment")->insert([
                 "data_user" => $id,
@@ -422,5 +427,24 @@ class UserRepository extends User
         } catch (ConstraintViolationException $e) {
             throw new DuplicateException;
         }
+    }
+
+    /**
+     * Returns filepath to avatar if file exists
+     * and NULL otherwise (non existing file/not logged user/not given signature)
+     *
+     * @param string|null $signature signature of specific user
+     * @return string|void
+     */
+    public function getProfileAvatar($signature = NULL)
+    {
+        if (!$signature && $identity = $this->getIdentity()) {
+            $signature = $identity->signature;
+        }
+        if (!$signature) return;
+
+        $path = "images/avatar/{$signature}.jpg";
+
+        return file_exists($path) ? $path : NULL;
     }
 }
