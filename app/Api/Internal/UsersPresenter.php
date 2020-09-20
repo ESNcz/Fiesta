@@ -74,13 +74,15 @@ class UsersPresenter extends BasePresenter
 
         $results = array();
         foreach ($users as $user) {
+            $avatarFilename = $this->userRepository->getProfileAvatar($user->ref("user","data_user")["signature"]);
 
-            $img = "images/avatar/{$user->ref("user","data_user")["signature"]}.jpg";
-            if (!file_exists($img)) $img = "images/avatar/empty.jpg";
+            if (!$avatarFilename)
+                $avatarFilename = "images/avatar/empty.jpg";
+
             $results[] = [
                 'id' => $user["data_user"],
                 'full_name' => $user["name"] . " " . $user["surname"],
-                'avatar_url' => $img,
+                'avatar_url' => $avatarFilename,
                 'email' => $user["data_user"],
             ];
         }

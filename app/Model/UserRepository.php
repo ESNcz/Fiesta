@@ -431,15 +431,19 @@ class UserRepository extends User
 
     /**
      * Returns filepath to avatar if file exists
-     * and NULL otherwise (non existing file/not logged user)
+     * and NULL otherwise (non existing file/not logged user/not given signature)
      *
+     * @param string|null $signature signature of specific user
      * @return string|void
      */
-    public function getProfileAvatar()
+    public function getProfileAvatar($signature = NULL)
     {
-        if (!($identity = $this->getIdentity())) return;
+        if (!$signature && $identity = $this->getIdentity()) {
+            $signature = $identity->signature;
+        }
+        if (!$signature) return;
 
-        $path = "images/avatar/{$identity->signature}.jpg";
+        $path = "images/avatar/{$signature}.jpg";
 
         return file_exists($path) ? $path : NULL;
     }
