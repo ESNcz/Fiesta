@@ -8,6 +8,8 @@ use App\Model\MemberRepository;
 use App\Model\UniversityRepository;
 use App\Model\UserRepository;
 use Nette\Database\Context;
+use Nette\Database\Table\ActiveRow;
+use Ublaboo\DataGrid\Row;
 
 class UsersGridFactory extends Grid
 {
@@ -20,11 +22,11 @@ class UsersGridFactory extends Grid
 
     /**
      * UsersGridFactory constructor.
-     * @param UserRepository $userRepository
-     * @param MemberRepository $memberRepository
+     * @param UserRepository          $userRepository
+     * @param MemberRepository        $memberRepository
      * @param InternationalRepository $internationalRepository
-     * @param MailFactory $mailFactory
-     * @param UniversityRepository $universityRepository
+     * @param MailFactory             $mailFactory
+     * @param UniversityRepository    $universityRepository
      */
     public function __construct(UserRepository $userRepository,
                                 MemberRepository $memberRepository,
@@ -78,7 +80,6 @@ class UsersGridFactory extends Grid
     {
         $this->memberRepository->changeUserStatus($id, $status);
 
-
         switch ($status) {
             case "active":
                 $this->mailFactory->profileActivated($id);
@@ -114,10 +115,15 @@ class UsersGridFactory extends Grid
 
 
         if ($this->userRepository->isAdministrator()) {
+            $this->addChangeMemberToInternationalAction($grid, function ($id) use ($onSuccess) {
+                $this->memberRepository->changeUserRole($id, 'member', 'international');
+
+                $onSuccess("Member role was changed to international.");
+            });
 
             $grid->showEditableStatus(function ($id, $status) use ($onSuccess) {
                 $this->changeStatus($id, $status);
-                $onSuccess(true, $status);
+                $onSuccess("Status was updated to $status.");
             });
 
             $grid->showExportCsv();
@@ -165,5 +171,27 @@ class UsersGridFactory extends Grid
         }
 
         return $grid;
+    }
+
+    /**
+     * Adds grid action to switch pending members (wrongly registered as members) to internationals.
+     * @param          $grid MyDataGrid instance
+     * @param callable $onSuccess called with row id after action submit
+     */
+    private function addChangeMemberToInternationalAction($grid, callable $onSuccess)
+    {
+        $grid
+            ->addActionCallback('switchToInternational', 'SWITCH TO INTERNATIONAL', function ($id) use ($onSuccess) {
+                $onSuccess($id);
+            })
+            ->setClass('btn btn-sm btn-outline ajax')
+            ->setTitle('Change role of this user to international (typically used for international students mistakenly registered as members).')
+            ->setConfirm(function () {
+                return 'Do you want to switch this user to international?';
+            });
+
+        $grid->allowRowsAction('switchToInternational', function (ActiveRow $row) {
+            return $row->ref('data_user')->ref('user', 'user_id')->status == 'pending';
+        });
     }
 }

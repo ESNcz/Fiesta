@@ -35,8 +35,8 @@ class UserPresenter extends BasePresenter
 
     /**
      * UserPresenter constructor.
-     * @param UsersGridFactory $usersGridFactory
-     * @param Translator $translator
+     * @param UsersGridFactory     $usersGridFactory
+     * @param Translator           $translator
      * @param UniversityRepository $universityRepository
      */
     public function __construct(UsersGridFactory $usersGridFactory,
@@ -73,11 +73,8 @@ class UserPresenter extends BasePresenter
      */
     public function createComponentRoleLocalMembers($name)
     {
-        $grid = $this->usersGridFactory->createAllLocalMembersGrid(function ($isSucceed, $status) {
-
-            if ($isSucceed) {
-                $this->flashMessage("Status was updated to $status.", 'success');
-            }
+        $grid = $this->usersGridFactory->createAllLocalMembersGrid(function ($message) {
+            $this->flashMessage($message, 'success');
 
             $this->redirect('this');
         });
