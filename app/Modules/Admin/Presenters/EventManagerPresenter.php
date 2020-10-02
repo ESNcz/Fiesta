@@ -92,7 +92,7 @@ class EventManagerPresenter extends BasePresenter
                 $this->flashMessage("Your join to the event.", "info");
                 break;
             case "deleted":
-                $this->flashMessage("Your leaved from the event.", "info");
+                $this->flashMessage("Your left from the event.", "info");
                 break;
             case "outOfLimit":
                 $this->flashMessage("Out of limit", "red");

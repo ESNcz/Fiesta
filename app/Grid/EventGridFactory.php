@@ -51,7 +51,7 @@ class EventGridFactory extends Grid
             }
 
             $grid->addAction('delete', '', 'deleteUser!', ["id" => "data_user", "name" => "data_user.name"])
-                ->setIcon('trash')
+                ->setIcon('times-circle')
                 ->setTitle('Delete')
                 ->setClass('btn btn-xs btn-danger ajax')
                 ->setConfirm('Do you really want to delete  %s?', 'data_user.name');
