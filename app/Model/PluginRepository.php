@@ -644,16 +644,19 @@ class PluginRepository extends Repository
     /**
      * Change status of user in guest list (paid/unpaid)
      *
-     * @param $id
-     * @param $status
+     * @param $id int event ID
+     * @param $user string user ID
+     * @param $status string new status
      *
      * @return int
      */
-    public function changeUserPaidForEvent($id, $status)
+    public function changeUserPaidForEvent($id, $user, $status)
     {
-        $result = $this->database->table("event_list")
-            ->where("data_user", $id)->update(['status' => $status]);
-        return $result;
+        return $this->database
+            ->table("event_list")
+            ->where("data_user", $user)
+            ->where("event", $id)
+            ->update(['status' => $status]);
     }
 
     /**

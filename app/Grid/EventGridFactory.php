@@ -24,7 +24,7 @@ class EventGridFactory extends Grid
         $this->pluginRepository = $pluginRepository;
     }
 
-    function createGuestListGrid($id)
+    public function createGuestListGrid($id)
     {
         $grid = $this->createDatagrid();
 
@@ -47,8 +47,7 @@ class EventGridFactory extends Grid
                     ->endOption()
                     ->addOption("unpaid", 'Unpaid')
                     ->setClass('btn-danger')
-                    ->endOption()
-                    ->onChange[] = [$this, "changeStatus"];
+                    ->endOption();
             }
 
             $grid->addAction('delete', '', 'deleteUser!', ["id" => "data_user", "name" => "data_user.name"])

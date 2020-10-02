@@ -13,6 +13,8 @@ use App\Model\PluginRepository;
 use Nette\Application\AbortException;
 use Nette\Forms\Form;
 use Nette\Utils\DateTime;
+use Ublaboo\DataGrid\Column\ColumnStatus;
+use Ublaboo\DataGrid\Exception\DataGridColumnNotFoundException;
 
 /**
  * Class EventManagerPresenter
@@ -29,9 +31,9 @@ class EventManagerPresenter extends BasePresenter
     /**
      * EventManagerPresenter constructor.
      * @param DefaultFormRenderer $renderer
-     * @param EventFormFactory $eventFormFactory
-     * @param EventGridFactory $eventGridFactory
-     * @param PluginRepository $pluginRepository
+     * @param EventFormFactory    $eventFormFactory
+     * @param EventGridFactory    $eventGridFactory
+     * @param PluginRepository    $pluginRepository
      */
     public function __construct(DefaultFormRenderer $renderer,
                                 EventFormFactory $eventFormFactory,
@@ -52,6 +54,14 @@ class EventManagerPresenter extends BasePresenter
         $id = $this->getParameter('event');
 
         $grid = $this->eventGridFactory->createGuestListGrid($id);
+
+        try {
+            /** @var ColumnStatus $status */
+            $status = $grid->getColumn('status');
+            $status->onChange[] = [$this, 'changeUserInEventStatus'];
+        } catch (DataGridColumnNotFoundException $e) {
+        }
+
         $this->addComponent($grid, $name);
     }
 
@@ -125,19 +135,6 @@ class EventManagerPresenter extends BasePresenter
         else $this->flashMessage("You close registration.", "info");
 
         $this->redirect("this");
-    }
-
-    public function changeStatus($id, $status)
-    {
-        $this->pluginRepository->changeUserPaidForEvent($id, $status);
-        $this->flashMessage("Status was updated to $status.", 'success');
-
-        if ($this->isAjax()) {
-            $this->redrawControl('flashes');
-            $this['guestList']->redrawItem($id);
-        } else {
-            $this->redirect('this');
-        }
     }
 
     public function handleDeleteEvent()
@@ -232,5 +229,20 @@ class EventManagerPresenter extends BasePresenter
             $this->flashMessage("Your event is updated.", "green");
             $this->redirect("EventManager:view", ["event" => $this->getParameter('event')]);
         });
+    }
+
+
+    public function changeUserInEventStatus($userId, $status)
+    {
+        $event = $this->getParameter('event');
+        $this->pluginRepository->changeUserPaidForEvent($event, $userId, $status);
+        $this->flashMessage("Status was updated to $status.", 'success');
+
+        if ($this->isAjax()) {
+            $this->redrawControl('flashes');
+            $this['guestList']->redrawItem($userId);
+        } else {
+            $this->redirect('this');
+        }
     }
 }
