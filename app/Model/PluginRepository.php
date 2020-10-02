@@ -416,8 +416,7 @@ class PluginRepository extends Repository
     public function isEventFree($event)
     {
         $event = $this->getEvent($event);
-        if ($event["price_with_esn"] === 0 && $event["price_without_esn"] === 0) return TRUE;
-        return FALSE;
+        return $event["price_with_esn"] === 0 && $event["price_without_esn"] === 0;
     }
 
     /**
