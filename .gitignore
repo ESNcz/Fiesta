@@ -4,5 +4,4 @@
 /www/source/*
 !/www/images/avatar/empty.jpg
 /vendor
-/composer.lock
 .idea

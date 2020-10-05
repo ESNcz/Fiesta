@@ -4,9 +4,9 @@ parameters:
         version: 2.0
 
     database:
-        dns: 'mysql:host=localhost;dbname=dev-fiesta'
-        user: root
-        password: root
+        dns: 'mysql:host=db;dbname=fiesta'
+        user: fiesta
+        password: fiesta
 
     sendGridApiKey: INSERT SENDGRID API KEY
     JWTkey: INSERT JWT KEY
