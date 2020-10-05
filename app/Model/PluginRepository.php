@@ -589,17 +589,32 @@ class PluginRepository extends Repository
      */
     public function getCountAttenders($id)
     {
-        $result = $this->getGuestList($id)->count("data_user");
-        return $result;
+        return $this->getGuestList($id)->count("data_user");
     }
 
     /**
-     * @param $id
+     * Returns list of users able to attend event - with paid fee in case of paid event
+     * or all users for events for free.
+     * @param $id int
      * @return Selection
      */
     public function getGuestList($id)
     {
-        return $this->database->table("event_list")->where("event", $id);
+        if ($this->isEventFree($id)) {
+            return $this->database->table("event_list")->where("event", $id);
+        } else {
+            return $this->database->table("event_list")->where("event", $id)->where('status', 'paid');
+        }
+    }
+
+    /**
+     * Returns list of users that do not pay for event yet.
+     * @param $id int
+     * @return Selection
+     */
+    public function getRegisteredList($id)
+    {
+        return $this->database->table("event_list")->where("event", $id)->where('status', 'unpaid');
     }
 
     /**

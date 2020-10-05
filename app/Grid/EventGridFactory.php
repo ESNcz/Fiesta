@@ -5,6 +5,7 @@ namespace App\Grid;
 use App\Model\PluginRepository;
 use App\Model\UserRepository;
 use Nette\Database\Context;
+use Nette\Database\Table\Selection;
 use Ublaboo\DataGrid\Column\ColumnText;
 
 class EventGridFactory extends Grid
@@ -14,7 +15,7 @@ class EventGridFactory extends Grid
 
     /**
      * EventGridFactory constructor.
-     * @param UserRepository $userRepository
+     * @param UserRepository   $userRepository
      * @param PluginRepository $pluginRepository
      */
     public function __construct(UserRepository $userRepository,
@@ -24,16 +25,46 @@ class EventGridFactory extends Grid
         $this->pluginRepository = $pluginRepository;
     }
 
+    /**
+     * Creates grid of users with paid fee or all registered people if event is free.
+     * @param $id int
+     * @return MyDataGrid
+     */
     public function createGuestListGrid($id)
     {
         $grid = $this->createDatagrid();
 
-        $guestList = $this->pluginRepository->getGuestList($id);
+        $list = $this->pluginRepository->getGuestList($id);
 
+        return $this->setupUserGridForEvent($grid, $list, $id);
+    }
+
+    /**
+     * Creates grid of users with NOT paid fee or all registered people if event is free.
+     * @param $id int
+     * @return MyDataGrid
+     */
+    public function createRegisteredListGrid($id)
+    {
+        $grid = $this->createDatagrid();
+
+        $list = $this->pluginRepository->getRegisteredList($id);
+
+        return $this->setupUserGridForEvent($grid, $list, $id);
+    }
+
+    /**
+     * @param MyDataGrid $grid
+     * @param Selection  $dataSource
+     * @param int        $id
+     * @return MyDataGrid
+     */
+    protected function setupUserGridForEvent(MyDataGrid $grid, Selection $dataSource, $id)
+    {
         $grid->setPrimaryKey("data_user");
-        $grid->setDataSource($guestList);
+        $grid->setDataSource($dataSource);
 
-        if($this->userRepository->isAdministrator()) {
+        if ($this->userRepository->isAdministrator()) {
             $grid->showProfileColumnWithEmail();
         } else {
             $grid->showProfileColumnWithoutEmail();

@@ -46,10 +46,7 @@ class EventManagerPresenter extends BasePresenter
         $this->eventFormFactory = $eventFormFactory;
     }
 
-    /**
-     * @param $name
-     */
-    public function createComponentGuestList($name)
+    public function createComponentGuestList()
     {
         $id = $this->getParameter('event');
 
@@ -61,8 +58,22 @@ class EventManagerPresenter extends BasePresenter
             $status->onChange[] = [$this, 'changeUserInEventStatus'];
         } catch (DataGridColumnNotFoundException $e) {
         }
+        return $grid;
+    }
 
-        $this->addComponent($grid, $name);
+    public function createComponentRegisteredList()
+    {
+        $id = $this->getParameter('event');
+
+        $grid = $this->eventGridFactory->createRegisteredListGrid($id);
+
+        try {
+            /** @var ColumnStatus $status */
+            $status = $grid->getColumn('status');
+            $status->onChange[] = [$this, 'changeUserInEventStatus'];
+        } catch (DataGridColumnNotFoundException $e) {
+        }
+        return $grid;
     }
 
     /**
@@ -109,15 +120,13 @@ class EventManagerPresenter extends BasePresenter
      */
     public function handleDeleteUser($id, $name)
     {
-
         $this->pluginRepository->deleteUserFromEvent($id, $this->getParameter('event'));
         $this->flashMessage("User $name was deleted from guest list", 'info');
 
         if ($this->isAjax()) {
             $this->redrawControl('flashes');
             $this->redrawControl('registrationButton');
-            $this->redrawControl('attendCounter');
-            $this['guestList']->reload();
+            $this->redrawControl('eventLists');
         } else {
             $this->redirect('this');
         }
@@ -240,7 +249,7 @@ class EventManagerPresenter extends BasePresenter
 
         if ($this->isAjax()) {
             $this->redrawControl('flashes');
-            $this['guestList']->redrawItem($userId);
+            $this->redrawControl('eventLists');
         } else {
             $this->redirect('this');
         }

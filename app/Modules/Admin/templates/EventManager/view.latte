@@ -136,18 +136,26 @@
                         </div>
                     {/if}
 
-                    <div class="widget">
-                        <div class="widget-header p-h-lg p-v-md">
-                            <div class="row">
-                                <div class="col-md-12">
+                    <div class="row no-gutter" n:snippet="eventLists">
+                        <div class="col-md-6">
+                            <div class="widget">
+                                <div class="widget-header p-h-lg p-v-md">
                                     <h2 class="widget-title">Guest List</h2>
-                                    {snippet attendCounter}
-                                        <span>{$attenders}{if $event->capacity !== 0}/{$event->capacity}{/if} attender{if $attenders > 1}s{/if}</span>
-                                    {/snippet}
+                                        {snippet attendCounter}
+                                            <span>{$attenders}{if $event->capacity !== 0}/{$event->capacity}{/if} attender{if $attenders > 1}s{/if}</span>
+                                        {/snippet}
                                 </div>
+                                {control guestList}
                             </div>
                         </div>
-                        {control guestList}
+                        <div class="col-md-6">
+                            <div class="widget" n:if="$event->price_with_esn > 0 || $event->price_without_esn > 0">
+                                <div class="widget-header p-h-lg p-v-md">
+                                    <h2 class="widget-title">Waiting for payment</h2>
+                                </div>
+                                {control registeredList}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
