@@ -38,7 +38,7 @@ class EventFormFactory
 
         $form = $this->renderer->create();
         $form->addText('title', 'Event Title:')
-            ->addRule(Form::MAX_LENGTH, null, 20)
+            ->addRule(Form::MAX_LENGTH, null, 128)
             ->setRequired("Please provide an event name.");
 
         $form->addSelect('leader', 'Event Leader:')
