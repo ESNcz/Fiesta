@@ -180,13 +180,7 @@ class UserRepository extends User
         $data["complete"] = 50;
 
         foreach ($markup10 as $key => $value) {
-
             if ($filledData[$key] && $filledData[$key] != "Unknown") {
-                $data["complete"] += 10;
-                unset($markup10[$key]);
-            }
-
-            if ($key == "image" && $filledData["image"] == true) {
                 $data["complete"] += 10;
                 unset($markup10[$key]);
             }
