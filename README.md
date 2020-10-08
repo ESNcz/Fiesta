@@ -5,14 +5,15 @@ The goal of this project is to develop a new information system for the non-prof
 
 ## Instalation
 
-The best way to install this project is using Composer. If you don't have Composer yet, download it following [the instructions](https://doc.nette.org/composer). Then use command:
+The best way to run this project is using Docker. If you don't have Docker yet, install it following [the instructions](https://docs.docker.com/get-docker/). Then use command:
 
 ### Stable version
 
 ```bash
-git https://github.com/thanhdolong/FiestaSystem.git
-cd Fiesta/
-composer install
+git clone https://github.com/ESNcz/Fiesta.git fiesta
+cd fiesta
+make install-deps
+make up
 ```
 
 Setup configuration options for Fiesta system in `config.dev.neon` and setup database (folder `database`). Make directories `temp/` and `log/` writable.
@@ -32,20 +33,7 @@ should be ready to go.
 It is CRITICAL that whole `app/`, `log/` and `temp/` directories are not accessible directly via a web browser. See [security warning](https://nette.org/security-warning).
 
 ### Requirements
-- Core Fiesta requires at least PHP 5.6
-
-### Notice: Composer PHP version
-
-This project forces PHP 5.6 as your PHP version for Composer packages. If you have newer
-version on production server you should change it in `composer.json`:
-
-```json
-"config": {
-	"platform": {
-		"php": "7.2"
-	}
-}
-```
+- Core Fiesta requires PHP 5.6
 
 ### Learn More
 
@@ -57,7 +45,7 @@ We are working on several examples. Here is some to get you started:
 
 * [Plugin written in React](https://github.com/d-kozak/fiesta-plugin-react).
 Demo od this project can be find [here](https://fiesta-plugin-react.netlify.com/).
-* [Plugin written in React natice](https://bit.ly/2MKhzDW)
+* [Plugin written in React native](https://bit.ly/2MKhzDW)
 
 
 ## Contributing
@@ -66,14 +54,17 @@ The main purpose of this repository is to continue to evolve Fiesta core. Develo
 
 ### Future of Core Fiesta
 
-I want to keep Core Fiesta lightweight. System will primary focus on providing a simple solution for authentization of users from Fiesta and creating new modules. This system is an attempt to create a platform capable of embracing all of the specific needs of the various ESN sections.
+I want to keep Core Fiesta lightweight. System will primary focus on providing a simple solution for authentication of users from Fiesta and creating new modules. This system is an attempt to create a platform capable of embracing all the specific needs of the various ESN sections.
 
 The actual version of the system implements several modules: buddy system module, pickup system module, event manager etc.
 
-
 ### Contact
 
- If you find an issue, just [open a ticket](https://github.com/thanhdolong/Fiesta/issues/new/choose). Pull requests are warmly welcome as well.
+ If you find an issue, just [open a ticket](https://github.com/ESNcz/Fiesta/issues/new/choose). Pull requests are warmly welcome as well.
+
+### Current maintainer
+
+[Josef Kolář](https://github.com/thejoeejoee), thejoeejoee@gmail.com
 
 ### Author
 

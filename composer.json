@@ -1,5 +1,5 @@
 {
-	"name": "thanhdolong/fiesta",
+	"name": "esncz/fiesta",
 	"description": "Fiesta Web Project for ESN",
 	"keywords": ["ESN, Erasmus student network, information system"],
 	"type": "project",
@@ -8,6 +8,10 @@
 		{
 			"name": "Thanh Do Long",
 			"email": "thanh.dolong@gmail.com"
+		},
+		{
+			"name": "Josef Kolář",
+			"email": "thejoeejoee@gmail.com"
 		}
 	],
 	"require": {
@@ -34,9 +38,6 @@
 		"kdyby/translation": "^2.5",
 		"adamstipak/nette-rest-route": "^4.0"
     },
-	"require-dev": {
-		"nette/tester": "^2.0"
-	},
 	"minimum-stability": "stable",
 	"config": {
 		"platform": {
