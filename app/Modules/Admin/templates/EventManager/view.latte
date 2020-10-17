@@ -73,15 +73,15 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
-                                    {if $event->price_with_esn === 0 && $event->price_without_esn == 0}
+                                    {if $isEventForFree}
                                         <h4>Event is totally free</h4>
                                     {else}
                                         <h4>Price</h4>
-                                        {if $event->price_with_esn !== 0}
+                                        {if $event->price_with_esn}
                                             <h5>{$event->price_with_esn} CZK with ESNCard</h5>
                                         {/if}
 
-                                        {if $event->price_without_esn !== 0}
+                                        {if $event->price_without_esn}
                                             <h5>{$event->price_without_esn} CZK without ESNCard</h5>
                                         {/if}
                                     {/if}
@@ -93,11 +93,17 @@
                                     {if $event->registration_end === "yes"}
                                         {if $event->registration_start <= date("Y-m-d")}
                                             {snippet registrationButton}
-                                                {if $isUserRegisteredForEvent}
+                                                {if $eventListUserRecord && $eventListUserRecord->status == 'paid'}
+                                                    <button type="button" class="btn p-v-xl btn-success" disabled>
+                                                        Paid
+                                                    </button>
+
+                                                {elseif $eventListUserRecord}
                                                     <a n:href="registerForEvent!">
                                                         <button type="button" class="btn p-v-xl btn-danger">Unregister
                                                         </button>
                                                     </a>
+
                                                 {else}
                                                     <a n:href="registerForEvent!">
                                                         <button type="button" class="btn p-v-xl btn-primary">Register

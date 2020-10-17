@@ -99,6 +99,9 @@ class EventManagerPresenter extends BasePresenter
         $result = $this->pluginRepository->registerForEvent($this->getParameter('event'), $this->userRepository->getId());
 
         switch ($result) {
+            case "alreadyPaid":
+                $this->flashMessage("Cannot remove your registration from already paid event.", "red");
+                break;
             case "registered":
                 $this->flashMessage("Your join to the event.", "info");
                 break;
@@ -188,8 +191,9 @@ class EventManagerPresenter extends BasePresenter
      */
     function renderView($event)
     {
-        $this->template->isUserRegisteredForEvent = $this->pluginRepository->isUserRegisteredForEvent($event, $this->userRepository->getId());
-        $this->template->event = $this->pluginRepository->getEvent($event);
+        $this->template->eventListUserRecord = $this->pluginRepository->isUserRegisteredForEvent($event, $this->userRepository->getId());
+        $this->template->event = $event = $this->pluginRepository->getEvent($event);
+        $this->template->isEventForFree = $event->price_with_esn == 0 && $event->price_without_esn;
         $this->template->attenders = $this->pluginRepository->getCountAttenders($event);
     }
 

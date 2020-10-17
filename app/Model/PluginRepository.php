@@ -239,26 +239,26 @@ class PluginRepository extends Repository
 
     public function takeBuddyRequestWithoutLimit($member, $international, $university)
     {
-            try {
-                $this->database->beginTransaction();
-                $request = $this->database->table("buddy_request")->where("id", $international);
+        try {
+            $this->database->beginTransaction();
+            $request = $this->database->table("buddy_request")->where("id", $international);
 
-                $request->update([
-                    'take' => true
-                ]);
+            $request->update([
+                'take' => true
+            ]);
 
-                $user = $request->select("data_user")->fetch();
-                $this->database->table("buddy_match")->insert([
-                    'member' => $member,
-                    'international' => $user["data_user"],
-                    'university' => $university,
-                ]);
+            $user = $request->select("data_user")->fetch();
+            $this->database->table("buddy_match")->insert([
+                'member' => $member,
+                'international' => $user["data_user"],
+                'university' => $university,
+            ]);
 
-                $this->database->commit();
-            } catch (ConstraintViolationException $e) {
-                $this->database->rollBack();
-                throw new DuplicateException;
-            }
+            $this->database->commit();
+        } catch (ConstraintViolationException $e) {
+            $this->database->rollBack();
+            throw new DuplicateException;
+        }
 
         return $user;
     }
@@ -549,7 +549,9 @@ class PluginRepository extends Repository
         $attenders = $this->getCountAttenders($event);
         $capacity = $this->getCapacityOfEvent($event);
 
-        if ($result) {
+        if ($result && $result->status == 'paid') {
+            return "alreadyPaid";
+        } else if ($result) {
             $result->delete();
             return "deleted";
         } else {
@@ -700,7 +702,7 @@ class PluginRepository extends Repository
     {
         $this->database
             ->table("links")
-            ->where("url",$url)
+            ->where("url", $url)
             ->where("university", $university)
             ->delete();
     }

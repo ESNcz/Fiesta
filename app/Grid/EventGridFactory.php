@@ -76,7 +76,7 @@ class EventGridFactory extends Grid
                     ->addOption("paid", 'Paid')
                     ->setClass('btn-success')
                     ->endOption()
-                    ->addOption("unpaid", 'Unpaid')
+                    ->addOption("unpaid", 'Not paid')
                     ->setClass('btn-danger')
                     ->endOption();
             }
@@ -107,7 +107,7 @@ class EventGridFactory extends Grid
 
         $grid->addFilterMultiSelect('status', 'Status:', [
             "paid" => 'Paid',
-            "unpaid" => 'Unpaid'
+            "unpaid" => 'Not paid'
         ]);
         return $grid;
     }
