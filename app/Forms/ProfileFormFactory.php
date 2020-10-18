@@ -318,13 +318,13 @@ class ProfileFormFactory
 
         $newPassword = $f
             ->addPassword('new_password', 'New password')
-            ->addRule(Form::MIN_LENGTH, "at least %d characters", 4)
+            ->addRule(Form::MIN_LENGTH, "at least %d characters", 6)
             ->setRequired();
 
         $f
             ->addPassword('new_password_again', 'New password again')
             ->setRequired()
-            ->addRule(Form::MIN_LENGTH, "at least %d characters", 4)
+            ->addRule(Form::MIN_LENGTH, "at least %d characters", 6)
             ->addRule(Form::EQUAL, 'Passwords do not match.', $newPassword);
 
         $f->addSubmit('send', "Change password");

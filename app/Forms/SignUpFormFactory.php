@@ -17,7 +17,7 @@ class SignUpFormFactory
 
     use Nette\SmartObject;
 
-    const PASSWORD_MIN_LENGTH = 4;
+    const PASSWORD_MIN_LENGTH = 6;
 
     private $renderer;
     private $session;
