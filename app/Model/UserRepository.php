@@ -348,7 +348,7 @@ class UserRepository extends User
         }
     }
 
-    function setStatus($status, $user)
+    public function setStatus($status, $user)
     {
         $this->database->table("user")
             ->where("user_id", $user)
@@ -357,7 +357,7 @@ class UserRepository extends User
             ]);
     }
 
-    function refreshIdentity()
+    public function refreshIdentity()
     {
         $id = $this->getId();
         if ($id != false) {
@@ -440,5 +440,21 @@ class UserRepository extends User
         $path = "images/avatar/{$signature}.jpg";
 
         return file_exists($path) ? $path : NULL;
+    }
+
+    /**
+     * Changes password to user defined by id (email).
+     * @param $id string user ID to change
+     * @param $newPassword string new password
+     */
+    public function changePassword($id, $newPassword)
+    {
+        $this->database
+            ->table('user')
+            ->where('user_id', $id)
+            ->update([
+                'password' => Passwords::hash($newPassword)
+            ]);
+
     }
 }

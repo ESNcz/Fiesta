@@ -8,6 +8,9 @@ use App\Model\UserRepository;
 use Kdyby\Translation\Translator;
 use Nette;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\TextInput;
+use Nette\Security\AuthenticationException;
+use Nette\Security\IAuthenticator;
 use Nette\Utils\DateTime;
 
 
@@ -27,27 +30,31 @@ class ProfileFormFactory
     private $translator;
     private $universityRepository;
     private $countryRepository;
+    /** @var IAuthenticator */
+    private $authenticator;
 
 
     /**
      * ProfileFormFactory constructor.
-     * @param DefaultFormRenderer $renderer
-     * @param UserRepository $userRepository
+     * @param DefaultFormRenderer  $renderer
+     * @param UserRepository       $userRepository
      * @param UniversityRepository $universityRepository
-     * @param CountryRepository $countryRepository
-     * @param Translator $translator
+     * @param CountryRepository    $countryRepository
+     * @param Translator           $translator
+     * @param IAuthenticator       $authenticator
      */
     public function __construct(DefaultFormRenderer $renderer,
                                 UserRepository $userRepository,
                                 UniversityRepository $universityRepository,
                                 CountryRepository $countryRepository,
-                                Translator $translator)
+                                Translator $translator, IAuthenticator $authenticator)
     {
         $this->renderer = $renderer;
         $this->userRepository = $userRepository;
         $this->translator = $translator;
         $this->universityRepository = $universityRepository;
         $this->countryRepository = $countryRepository;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -99,7 +106,7 @@ class ProfileFormFactory
 
         $form->addSelect('faculty_id', 'Faculty:', $faculties["long"])
             ->setPrompt("Faculty")
-            ->setDefaultValue($user["faculty_id"])
+            // ->setDefaultValue($user["faculty_id"])
             ->setRequired("What's your faculty?");
 
         $form->addSelect('gender', 'Gender:', $sex)
@@ -282,5 +289,54 @@ class ProfileFormFactory
         };
 
         return $form;
+    }
+
+    /**
+     * Creates for to change password for current user
+     * @param $onSuccess callable called after successfully changed password
+     * @return Form
+     */
+    public function createPasswordChangeForm($onSuccess)
+    {
+        $f = $this->renderer->create();
+
+        $f
+            ->addPassword('password', 'Current password')
+            ->setRequired()
+            ->addRule(
+                function (TextInput $value) {
+                    $user = $this->userRepository->getData();
+                    try {
+                        $this->authenticator->authenticate([$user->id, $value->getValue()]);
+                        return true;
+                    } catch (AuthenticationException $e) {
+                        return false;
+                    }
+                },
+                'Wrong current password.'
+            );
+
+        $newPassword = $f
+            ->addPassword('new_password', 'New password')
+            ->addRule(Form::MIN_LENGTH, "at least %d characters", 4)
+            ->setRequired();
+
+        $f
+            ->addPassword('new_password_again', 'New password again')
+            ->setRequired()
+            ->addRule(Form::MIN_LENGTH, "at least %d characters", 4)
+            ->addRule(Form::EQUAL, 'Passwords do not match.', $newPassword);
+
+        $f->addSubmit('send', "Change password");
+
+        $f->onSuccess[] = function (Form $form, $values) {
+            $user = $this->userRepository->getData();
+            $this->userRepository->changePassword($user->id, $values['new_password']);
+        };
+
+        $f->onSuccess[] = $onSuccess;
+
+        return $f;
+
     }
 }
