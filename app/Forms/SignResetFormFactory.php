@@ -17,7 +17,7 @@ class SignResetFormFactory
 {
     use Nette\SmartObject;
 
-    const PASSWORD_MIN_LENGTH = 4;
+    const PASSWORD_MIN_LENGTH = 6;
     const MIN_LENGTH = ':minLength';
 
     private $renderer;

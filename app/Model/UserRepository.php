@@ -348,7 +348,7 @@ class UserRepository extends User
         }
     }
 
-    function setStatus($status, $user)
+    public function setStatus($status, $user)
     {
         $this->database->table("user")
             ->where("user_id", $user)
@@ -357,7 +357,7 @@ class UserRepository extends User
             ]);
     }
 
-    function refreshIdentity()
+    public function refreshIdentity()
     {
         $id = $this->getId();
         if ($id != false) {

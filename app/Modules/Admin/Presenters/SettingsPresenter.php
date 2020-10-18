@@ -35,11 +35,11 @@ class SettingsPresenter extends BasePresenter
      * SettingsPresenter constructor.
      * @param UploadImageFactory $uploadImageFactory
      * @param ProfileFormFactory $profileFormFactory
-     * @param AdminGridFactory $adminGridFactory
-     * @param AdminRepository $adminRepository
-     * @param PluginRepository $pluginRepository
-     * @param EditorGridFactory $editorGridFactory
-     * @param EditorRepository $editorRepository
+     * @param AdminGridFactory   $adminGridFactory
+     * @param AdminRepository    $adminRepository
+     * @param PluginRepository   $pluginRepository
+     * @param EditorGridFactory  $editorGridFactory
+     * @param EditorRepository   $editorRepository
      */
     public function __construct(UploadImageFactory $uploadImageFactory,
                                 ProfileFormFactory $profileFormFactory,
@@ -242,7 +242,10 @@ class SettingsPresenter extends BasePresenter
         }
     }
 
-    function renderDefault() {}
+    function renderDefault()
+    {
+    }
+
     /**
      * Create component for edit profile - logged user (form)
      * @return Form
@@ -256,6 +259,18 @@ class SettingsPresenter extends BasePresenter
     }
 
     /**
+     * Create form for changing password of current user.
+     * @return Form
+     */
+    protected function createComponentChangePasswordForm()
+    {
+        return $this->profileFormFactory->createPasswordChangeForm(function () {
+            $this->flashMessage("Your password has been successfully changed.", "green");
+            $this->redirect('this');
+        });
+    }
+
+    /**
      * Create component for edit profile - anyone (form)
      * @return Form
      */
@@ -263,7 +278,7 @@ class SettingsPresenter extends BasePresenter
     {
         $id = $this->userRepository->getIdBySignature($this->getParameter('signature'));
 
-        return $this->profileFormFactory->createEditProfile($id,function () {
+        return $this->profileFormFactory->createEditProfile($id, function () {
             $this->flashMessage("Your information has been successfully saved.", "green");
             $this->redirect('this');
         });
@@ -292,7 +307,7 @@ class SettingsPresenter extends BasePresenter
     {
         $signature = $this->getParameter('signature');
         return $this->uploadImageFactory->uploadImage($signature, function () {
-            if(!$this->isAjax()){
+            if (!$this->isAjax()) {
                 $this->redirect('this');
             } else {
                 $this->redrawControl("sidemenu");
