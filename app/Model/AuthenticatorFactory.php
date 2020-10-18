@@ -122,7 +122,7 @@ class AuthenticatorFactory implements Nette\Security\IAuthenticator
 
             $this->database->table("data_user")->insert([
                 "user_id" => $email,
-                "registered" => $date
+                "registered" => new DateTime()
             ]);
 
             $this->database->table("role_assignment")->insert([
