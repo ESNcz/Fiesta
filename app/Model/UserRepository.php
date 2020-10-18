@@ -441,20 +441,4 @@ class UserRepository extends User
 
         return file_exists($path) ? $path : NULL;
     }
-
-    /**
-     * Changes password to user defined by id (email).
-     * @param $id string user ID to change
-     * @param $newPassword string new password
-     */
-    public function changePassword($id, $newPassword)
-    {
-        $this->database
-            ->table('user')
-            ->where('user_id', $id)
-            ->update([
-                'password' => Passwords::hash($newPassword)
-            ]);
-
-    }
 }

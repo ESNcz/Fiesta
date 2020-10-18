@@ -331,7 +331,7 @@ class ProfileFormFactory
 
         $f->onSuccess[] = function (Form $form, $values) {
             $user = $this->userRepository->getData();
-            $this->userRepository->changePassword($user->id, $values['new_password']);
+            $this->userRepository->setNewPassword($user->id, $values['new_password']);
         };
 
         $f->onSuccess[] = $onSuccess;
