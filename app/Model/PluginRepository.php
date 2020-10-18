@@ -442,7 +442,10 @@ class PluginRepository extends Repository
     {
         $result = $this->database->table("event")
             ->where("university", $university)
-            ->where("event_date >= NOW()")->order("event_date DESC");
+            ->where("event_date >= NOW()")
+            ->order("event_date DESC")
+            ->select('event.*, count(:event_list.data_user) guest_count, (price_with_esn = 0 AND price_without_esn = 0) for_free')
+            ->group('id');
         return $result;
     }
 

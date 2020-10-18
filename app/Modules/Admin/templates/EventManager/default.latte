@@ -40,12 +40,29 @@
                                                     </a>
                                                 </div>
                                                 <div class="panel-body">
-                                                    <h4 class="panel-title"
-                                                        style="margin-bottom: 0.25em;">{$upcomingEvent->title}</h4>
-                                                    <span class="date"><i
-                                                                class="far fa-calendar-alt"></i>{$upcomingEvent->event_date|date:'%d. %m. %Y %R'}</span>
-                                                    <span class="place"><i
-                                                                class="fas fa-map-marker"></i>{$upcomingEvent->location}</span>
+                                                    <h4 class="panel-title" style="margin-bottom: 0.25em;">
+                                                        {$upcomingEvent->title}
+                                                    </h4>
+                                                    <span class="date">
+                                                        <i class="far fa-calendar-alt"></i>
+                                                        {$upcomingEvent->event_date|date:'%d. %m. %Y %R'}
+                                                    </span>
+                                                    <span class="place">
+                                                        <i class="fas fa-map-marker"></i>
+                                                        {$upcomingEvent->location}
+                                                    </span>
+                                                    <span class="place">
+                                                        <i class="fas fa-user"></i>
+                                                        {$upcomingEvent->guest_count}
+                                                    </span>
+                                                    <span class="place">
+                                                        <i class="fas fa-money-bill-alt"></i>
+                                                        {if $upcomingEvent->for_free}
+                                                            for free
+                                                        {else}
+                                                            {$upcomingEvent->price_with_esn}/{$upcomingEvent->price_without_esn}CZK
+                                                        {/if}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div><!-- END column -->

@@ -164,7 +164,6 @@ class EventManagerPresenter extends BasePresenter
         $this->template->upcomingEvents = $upcomingEvents->page($page, 5, $lastPage);
         $pagination = new Paginator($page, $lastPage);
 
-        $this->template->user_vote = $upcomingEvents;
         $this->template->page = $page;
         $this->template->steps = $pagination->getSteps();
         $this->template->lastPage = $lastPage;
@@ -179,11 +178,9 @@ class EventManagerPresenter extends BasePresenter
         $this->template->upcomingEvents = $upcomingEvents->page($page, 5, $lastPage);
         $pagination = new Paginator($page, $lastPage);
 
-        $this->template->user_vote = $upcomingEvents;
         $this->template->page = $page;
         $this->template->steps = $pagination->getSteps();
         $this->template->lastPage = $lastPage;
-
     }
 
     /**
