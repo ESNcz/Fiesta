@@ -3,6 +3,8 @@
 namespace App\Grid;
 
 use Nette\Database\Context;
+use Nette\Database\Table\ActiveRow;
+use Nette\Utils\DateTime;
 use Ublaboo\DataGrid\Column\ColumnText;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -82,27 +84,35 @@ class MyDataGrid extends DataGrid
 
     function showExportCsv()
     {
-        $column_name = new ColumnText($this, 'name', 'data_user.name', 'Name');
-        $column_surname = (new ColumnText($this, 'surname', 'data_user.surname', 'Surname'));
-        $column_birthday = (new ColumnText($this, 'birthday', 'data_user.birthday', 'Birthday'));
-        $column_country = (new ColumnText($this, 'country', 'data_user.country_id', 'Country'));
-        $column_email = (new ColumnText($this, 'email', 'user.user_id', 'Email'));
-        $column_registered = (new ColumnText($this, 'registered', 'data_user.registered', 'Registered'));
+        $name = new ColumnText($this, 'name', 'data_user.name', 'Name');
+        $surname = (new ColumnText($this, 'surname', 'data_user.surname', 'Surname'));
+        $birthday = (new ColumnText($this, 'birthday', 'data_user.birthday', 'Birthday'));
+        $country = (new ColumnText($this, 'country', 'data_user.country_id', 'Country'));
+        $email = (new ColumnText($this, 'email', 'user.user_id', 'Email'));
+        $registered = (new ColumnText($this, 'registered', 'data_user.registered', 'Registered'));
 
+        $birthday->setRenderer(function (ActiveRow $row) {
+            /** @var DateTime|NULL $value */
+            $value = $row->ref('data_user')->birthday;
+            if (!$value) return '';
+
+            $date = $value->format('Y-m-d');
+            return $date != '1970-01-01' ? $date : NULL;
+        });
 
         $this->addExportCsvFiltered('Csv export', "fiesta.csv", "UTF-8", ";", true)
             ->setTitle('Csv export')
             ->setColumns([
-                $column_name,
-                $column_surname,
-                $column_birthday,
-                $column_email,
-                $column_country,
-                $column_registered
+                $name,
+                $surname,
+                $birthday,
+                $email,
+                $country,
+                $registered
             ]);
     }
 
-    function showEditableStatus(callable $onSuccess)
+    public function showEditableStatus(callable $onSuccess)
     {
 
         $this->addColumnStatus('status', 'Status', "user.status:data_user")
