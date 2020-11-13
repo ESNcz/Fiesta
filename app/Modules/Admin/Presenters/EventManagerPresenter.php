@@ -190,7 +190,7 @@ class EventManagerPresenter extends BasePresenter
     {
         $this->template->eventListUserRecord = $this->pluginRepository->isUserRegisteredForEvent($event, $this->userRepository->getId());
         $this->template->event = $event = $this->pluginRepository->getEvent($event);
-        $this->template->isEventForFree = $event->price_with_esn == 0 && $event->price_without_esn;
+        $this->template->isEventForFree = $event->price_with_esn == 0 && $event->price_without_esn == 0;
         $this->template->attenders = $this->pluginRepository->getCountAttenders($event);
     }
 
