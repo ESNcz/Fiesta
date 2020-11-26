@@ -20,17 +20,20 @@ class StatusPresenter extends BasePresenter
 {
     /**
      * @var Context
+     * @inject
      */
-    private $db;
+    public $db;
 
-    /**
-     * StatusPresenter constructor.
-     *
-     * @param Context $db
-     */
-    public function __construct(Context $db)
+    public function startup()
     {
-        $this->db = $db;
+        parent::startup();
+
+        $status = $this->getUser()->getIdentity()->status;
+
+        // banned, enabled, pending (`enabled` is actually `disabled`, but tech dept ¯\_(ツ)_/¯
+        if ($status !== $this->action)
+            $this->redirect(":Admin:Homepage:default");
+
     }
 
     function handleReactivateProfile()
