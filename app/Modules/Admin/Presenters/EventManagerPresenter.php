@@ -46,10 +46,7 @@ class EventManagerPresenter extends BasePresenter
         $this->eventFormFactory = $eventFormFactory;
     }
 
-    /**
-     * @param $name
-     */
-    public function createComponentGuestList($name)
+    public function createComponentGuestList()
     {
         $id = $this->getParameter('event');
 
@@ -61,8 +58,22 @@ class EventManagerPresenter extends BasePresenter
             $status->onChange[] = [$this, 'changeUserInEventStatus'];
         } catch (DataGridColumnNotFoundException $e) {
         }
+        return $grid;
+    }
 
-        $this->addComponent($grid, $name);
+    public function createComponentRegisteredList()
+    {
+        $id = $this->getParameter('event');
+
+        $grid = $this->eventGridFactory->createRegisteredListGrid($id);
+
+        try {
+            /** @var ColumnStatus $status */
+            $status = $grid->getColumn('status');
+            $status->onChange[] = [$this, 'changeUserInEventStatus'];
+        } catch (DataGridColumnNotFoundException $e) {
+        }
+        return $grid;
     }
 
     /**
@@ -88,11 +99,14 @@ class EventManagerPresenter extends BasePresenter
         $result = $this->pluginRepository->registerForEvent($this->getParameter('event'), $this->userRepository->getId());
 
         switch ($result) {
+            case "alreadyPaid":
+                $this->flashMessage("Cannot remove your registration from already paid event.", "red");
+                break;
             case "registered":
                 $this->flashMessage("Your join to the event.", "info");
                 break;
             case "deleted":
-                $this->flashMessage("Your leaved from the event.", "info");
+                $this->flashMessage("Your left from the event.", "info");
                 break;
             case "outOfLimit":
                 $this->flashMessage("Out of limit", "red");
@@ -109,15 +123,13 @@ class EventManagerPresenter extends BasePresenter
      */
     public function handleDeleteUser($id, $name)
     {
-
         $this->pluginRepository->deleteUserFromEvent($id, $this->getParameter('event'));
         $this->flashMessage("User $name was deleted from guest list", 'info');
 
         if ($this->isAjax()) {
             $this->redrawControl('flashes');
             $this->redrawControl('registrationButton');
-            $this->redrawControl('attendCounter');
-            $this['guestList']->reload();
+            $this->redrawControl('eventLists');
         } else {
             $this->redirect('this');
         }
@@ -152,7 +164,6 @@ class EventManagerPresenter extends BasePresenter
         $this->template->upcomingEvents = $upcomingEvents->page($page, 5, $lastPage);
         $pagination = new Paginator($page, $lastPage);
 
-        $this->template->user_vote = $upcomingEvents;
         $this->template->page = $page;
         $this->template->steps = $pagination->getSteps();
         $this->template->lastPage = $lastPage;
@@ -167,11 +178,9 @@ class EventManagerPresenter extends BasePresenter
         $this->template->upcomingEvents = $upcomingEvents->page($page, 5, $lastPage);
         $pagination = new Paginator($page, $lastPage);
 
-        $this->template->user_vote = $upcomingEvents;
         $this->template->page = $page;
         $this->template->steps = $pagination->getSteps();
         $this->template->lastPage = $lastPage;
-
     }
 
     /**
@@ -179,8 +188,9 @@ class EventManagerPresenter extends BasePresenter
      */
     function renderView($event)
     {
-        $this->template->isUserRegisteredForEvent = $this->pluginRepository->isUserRegisteredForEvent($event, $this->userRepository->getId());
-        $this->template->event = $this->pluginRepository->getEvent($event);
+        $this->template->eventListUserRecord = $this->pluginRepository->isUserRegisteredForEvent($event, $this->userRepository->getId());
+        $this->template->event = $event = $this->pluginRepository->getEvent($event);
+        $this->template->isEventForFree = $event->price_with_esn == 0 && $event->price_without_esn == 0;
         $this->template->attenders = $this->pluginRepository->getCountAttenders($event);
     }
 
@@ -240,7 +250,7 @@ class EventManagerPresenter extends BasePresenter
 
         if ($this->isAjax()) {
             $this->redrawControl('flashes');
-            $this['guestList']->redrawItem($userId);
+            $this->redrawControl('eventLists');
         } else {
             $this->redirect('this');
         }

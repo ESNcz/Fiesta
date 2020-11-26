@@ -1,7 +1,6 @@
 {block content}
     <div class="wrap">
         <section class="app-content">
-
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="widget">
@@ -74,15 +73,15 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-5">
-                                    {if $event->price_with_esn === 0 && $event->price_without_esn == 0}
+                                    {if $isEventForFree}
                                         <h4>Event is totally free</h4>
                                     {else}
                                         <h4>Price</h4>
-                                        {if $event->price_with_esn !== 0}
+                                        {if $event->price_with_esn}
                                             <h5>{$event->price_with_esn} CZK with ESNCard</h5>
                                         {/if}
 
-                                        {if $event->price_without_esn !== 0}
+                                        {if $event->price_without_esn}
                                             <h5>{$event->price_without_esn} CZK without ESNCard</h5>
                                         {/if}
                                     {/if}
@@ -92,13 +91,19 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     {if $event->registration_end === "yes"}
-                                        {if $event->registration_start < date("Y-m-d")}
+                                        {if $event->registration_start <= date("Y-m-d")}
                                             {snippet registrationButton}
-                                                {if $isUserRegisteredForEvent}
+                                                {if $eventListUserRecord && $eventListUserRecord->status == 'paid'}
+                                                    <button type="button" class="btn p-v-xl btn-success" disabled>
+                                                        Paid
+                                                    </button>
+
+                                                {elseif $eventListUserRecord}
                                                     <a n:href="registerForEvent!">
                                                         <button type="button" class="btn p-v-xl btn-danger">Unregister
                                                         </button>
                                                     </a>
+
                                                 {else}
                                                     <a n:href="registerForEvent!">
                                                         <button type="button" class="btn p-v-xl btn-primary">Register
@@ -136,25 +141,39 @@
                             </div>
                         </div>
                     {/if}
-
-                    <div class="widget">
-                        <div class="widget-header p-h-lg p-v-md">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h2 class="widget-title">Guest List</h2>
-                                    {snippet attendCounter}
+                    {snippet eventLists}
+                    {if $isEventForFree}
+                        <div class="widget">
+                            <div class="widget-header p-h-lg p-v-md">
+                                <h2 class="widget-title">Guest List</h2>
+                                <span>{$attenders}{if $event->capacity !== 0}/{$event->capacity}{/if} attender{if $attenders > 1}s{/if}</span>
+                            </div>
+                            {control guestList}
+                        </div>
+                    {else}
+                        <div class="row no-gutter">
+                            <div class="col-md-6">
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h2 class="widget-title">Guest List</h2>
                                         <span>{$attenders}{if $event->capacity !== 0}/{$event->capacity}{/if} attender{if $attenders > 1}s{/if}</span>
-                                    {/snippet}
+                                    </div>
+                                    {control guestList}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="widget">
+                                    <div class="widget-header p-h-lg p-v-md">
+                                        <h2 class="widget-title">Waiting for payment</h2>
+                                    </div>
+                                    {control registeredList}
                                 </div>
                             </div>
                         </div>
-                        {control guestList}
-                    </div>
+                    {/if}
+                    {/snippet}
                 </div>
-
-            </div><!-- END column -->
-    </div><!-- .row -->
-
-    </section><!-- #dash-content -->
+            </div>
+        </section>
     </div>
 {/block}

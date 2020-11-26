@@ -239,26 +239,26 @@ class PluginRepository extends Repository
 
     public function takeBuddyRequestWithoutLimit($member, $international, $university)
     {
-            try {
-                $this->database->beginTransaction();
-                $request = $this->database->table("buddy_request")->where("id", $international);
+        try {
+            $this->database->beginTransaction();
+            $request = $this->database->table("buddy_request")->where("id", $international);
 
-                $request->update([
-                    'take' => true
-                ]);
+            $request->update([
+                'take' => true
+            ]);
 
-                $user = $request->select("data_user")->fetch();
-                $this->database->table("buddy_match")->insert([
-                    'member' => $member,
-                    'international' => $user["data_user"],
-                    'university' => $university,
-                ]);
+            $user = $request->select("data_user")->fetch();
+            $this->database->table("buddy_match")->insert([
+                'member' => $member,
+                'international' => $user["data_user"],
+                'university' => $university,
+            ]);
 
-                $this->database->commit();
-            } catch (ConstraintViolationException $e) {
-                $this->database->rollBack();
-                throw new DuplicateException;
-            }
+            $this->database->commit();
+        } catch (ConstraintViolationException $e) {
+            $this->database->rollBack();
+            throw new DuplicateException;
+        }
 
         return $user;
     }
@@ -442,7 +442,10 @@ class PluginRepository extends Repository
     {
         $result = $this->database->table("event")
             ->where("university", $university)
-            ->where("event_date >= NOW()")->order("event_date DESC");
+            ->where("event_date >= NOW()")
+            ->order("event_date DESC")
+            ->select('event.*, count(:event_list.data_user) guest_count, (price_with_esn = 0 AND price_without_esn = 0) for_free')
+            ->group('id');
         return $result;
     }
 
@@ -549,7 +552,9 @@ class PluginRepository extends Repository
         $attenders = $this->getCountAttenders($event);
         $capacity = $this->getCapacityOfEvent($event);
 
-        if ($result) {
+        if ($result && $result->status == 'paid') {
+            return "alreadyPaid";
+        } else if ($result) {
             $result->delete();
             return "deleted";
         } else {
@@ -589,17 +594,32 @@ class PluginRepository extends Repository
      */
     public function getCountAttenders($id)
     {
-        $result = $this->getGuestList($id)->count("data_user");
-        return $result;
+        return $this->getGuestList($id)->count("data_user");
     }
 
     /**
-     * @param $id
+     * Returns list of users able to attend event - with paid fee in case of paid event
+     * or all users for events for free.
+     * @param $id int
      * @return Selection
      */
     public function getGuestList($id)
     {
-        return $this->database->table("event_list")->where("event", $id);
+        if ($this->isEventFree($id)) {
+            return $this->database->table("event_list")->where("event", $id);
+        } else {
+            return $this->database->table("event_list")->where("event", $id)->where('status', 'paid');
+        }
+    }
+
+    /**
+     * Returns list of users that do not pay for event yet.
+     * @param $id int
+     * @return Selection
+     */
+    public function getRegisteredList($id)
+    {
+        return $this->database->table("event_list")->where("event", $id)->where('status', 'unpaid');
     }
 
     /**
@@ -685,7 +705,7 @@ class PluginRepository extends Repository
     {
         $this->database
             ->table("links")
-            ->where("url",$url)
+            ->where("url", $url)
             ->where("university", $university)
             ->delete();
     }

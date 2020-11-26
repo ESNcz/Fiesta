@@ -34,7 +34,7 @@
 .datagrid-transparent .row-grid-bottom .col-pagination {
   font-size: 14px;
   display: inline-block;
-  width: 50%;
+  width: 40%;
 }
 
 
@@ -61,7 +61,7 @@
 .datagrid-transparent .row-grid-bottom .col-items {
   font-size: 14px;
   display: inline-block;
-  width: 25%;
+  width: 35%;
   float: left;
   margin: 20px 0;
 }
@@ -522,7 +522,7 @@
 .datagrid .row-grid-bottom .col-items {
   font-size: 14px;
   display: inline-block;
-  width: 25%;
+  width: 35%;
   float: left;
   margin: 20px 0;
 }
@@ -530,7 +530,7 @@
 .datagrid .row-grid-bottom .col-pagination {
   font-size: 14px;
   display: inline-block;
-  width: 50%;
+  width: 40%;
 }
 
 .datagrid .row-grid-bottom .col-per-page {
