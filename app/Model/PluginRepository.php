@@ -136,6 +136,7 @@ class PluginRepository extends Repository
     {
         return $this->database->table("buddy_request")
             ->where("data_user.user.university", $university)
+            ->where("data_user.user.status", 'active')
             ->where('take', false);
     }
 
