@@ -16,10 +16,9 @@
                     </ul>
                     <div class="panel-body">
                         {snippet counter}
-                            <p>Your limit:
-                                <small class="media-meta text-primary">{$settings["limit"] - $alreadyTaken}
-                                    /{$settings["limit"]}</small>
-                                .
+                            <p>
+                                Connected <small class="media-meta text-primary">{$alreadyTaken}</small>,
+                                limit: <small class="media-meta text-primary">{$settings["limit"]}</small>
                             </p>
                             {if isset($pickupRequest)}
                                 <div class="datagrid panel panel-info">
