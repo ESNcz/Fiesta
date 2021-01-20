@@ -155,6 +155,11 @@ class PickUpSystemGridFactory extends Grid
 
         $this->showInternationalProfile($grid);
         $this->showMemberProfile($grid);
+        $grid
+            ->addColumnDateTime('created', 'Paired')
+            ->setSortable(true)
+            ->setFilterDateRange();
+        $grid->default_sort = ['created' => 'DESC'];
 
         $grid->showDeleteRequest(function ($id) use ($onSuccess) {
             $this->pluginRepository->deletePickUpMatch($id);
