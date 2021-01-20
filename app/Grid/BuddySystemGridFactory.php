@@ -148,9 +148,13 @@ class BuddySystemGridFactory extends Grid
         $grid->setColumnsHideable();
         $grid->setDataSource($connections);
 
-
         $this->showInternationalProfile($grid);
         $this->showMemberProfile($grid);
+        $grid
+            ->addColumnDateTime('created', 'Paired')
+            ->setSortable(true)
+            ->setFilterDateRange();
+        $grid->default_sort = ['created' => 'DESC'];
 
         $grid->showDeleteRequest(function ($id) use ($onSuccess) {
             $this->pluginRepository->deleteBuddyMatch($id);
