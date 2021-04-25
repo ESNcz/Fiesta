@@ -131,15 +131,15 @@ class UserRepository extends User
             return null;
         }
 
-        $result = $user->ref("university", "university");
-        return $result;
+        return $user->ref("university", "university");
     }
 
     /**
-     * @return FALSE|ActiveRow
+     * @return string[]
      */
     public function getRoles()
     {
+        if (!$this->getId()) return [$this->guestRole];
         return $this->getRolesById($this->getId());
     }
 
@@ -147,7 +147,7 @@ class UserRepository extends User
      * Get roles
      *
      * @param $id
-     * @return FALSE|ActiveRow
+     * @return string[]
      */
     public function getRolesById($id)
     {
