@@ -1,3 +1,6 @@
+# Project is no longer supported - new solution available
+This project has been discontinued in favor of [Fiesta+](https://github.com/esnvutbrno/fiesta-plus).
+
 # Fiesta system
 The goal of this project is to develop a new information system for the non-profit organization called Erasmus Student Network (ESN). ESN is a Europe-wide international student organization coordinating student exchange programs. It implements solutions that encourage the higher level integration of new international students. 
 
