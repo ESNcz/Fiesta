@@ -34,7 +34,7 @@
 		"dg/adminer-custom": "^1.9",
 		"ublaboo/datagrid": "^5.7",
 		"kdyby/translation": "^2.5",
-		"firebase/php-jwt": "^5.0",
+		"firebase/php-jwt": "^6.0",
 		"sendgrid/sendgrid": "^7.2",
 		"adamstipak/nette-rest-route": "^4.0"
 	},
